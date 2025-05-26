@@ -32,25 +32,23 @@ function App() {
     }, [menuVisible])
 
     // Hide menu if mouse moves to center of page
-    let lastFadeTime = 0
-
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
-            const y = e.clientY
-            const windowHeight = window.innerHeight
-            const now = Date.now()
+            const { clientX: x, clientY: y } = e
+            const { innerWidth, innerHeight } = window
 
-            const centerTop = windowHeight * 0.45
-            const centerBottom = windowHeight * 0.55
+            const zoneSize = 250 // px
 
-            if (
-                y > centerTop &&
-                y < centerBottom &&
-                menuVisible &&
-                !menuClosing &&
-                now - lastFadeTime > 1000
-            ) {
-                lastFadeTime = now
+            const centerX = innerWidth / 2
+            const centerY = innerHeight / 2
+
+            const inZone =
+                x > centerX - zoneSize / 2 &&
+                x < centerX + zoneSize / 2 &&
+                y > centerY - zoneSize / 2 &&
+                y < centerY + zoneSize / 2
+
+            if (inZone && menuVisible && !menuClosing) {
                 setMenuClosing(true)
                 setTimeout(() => {
                     setMenuVisible(false)
