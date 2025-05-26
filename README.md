@@ -54,7 +54,7 @@ To get the SCOPE Simulator up and running on your local machine:
     ```
 2.  **Navigate into the project directory:**
     ```bash
-    cd scope-simulator
+    cd scope
     ```
 3.  **Install dependencies:**
     ```bash
