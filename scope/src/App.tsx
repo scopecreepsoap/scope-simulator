@@ -1,35 +1,124 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import styles from './styles/App.module.css'
+import { MenuOverlay } from './components/MenuOverlay'
+import { QUESTIONS } from './data/questions'
+import { QuestionArea } from './components/QuestionArea'
+import {DiagramRenderer} from "./components/DiagramRenderer.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [menuVisible, setMenuVisible] = useState(false)
+    const [menuClosing, setMenuClosing] = useState(false)
+    const [showDiagram, setShowDiagram] = useState(false)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.code === 'Space') {
+                event.preventDefault()
+                if (menuVisible) {
+                    setMenuClosing(true)
+                    setTimeout(() => {
+                        setMenuVisible(false)
+                        setMenuClosing(false)
+                    }, 250)
+                } else {
+                    setMenuVisible(true)
+                }
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [menuVisible])
+
+    // Hide menu if mouse moves to center of page
+    let lastFadeTime = 0
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            const y = e.clientY
+            const windowHeight = window.innerHeight
+            const now = Date.now()
+
+            const centerTop = windowHeight * 0.45
+            const centerBottom = windowHeight * 0.55
+
+            if (
+                y > centerTop &&
+                y < centerBottom &&
+                menuVisible &&
+                !menuClosing &&
+                now - lastFadeTime > 1000
+            ) {
+                lastFadeTime = now
+                setMenuClosing(true)
+                setTimeout(() => {
+                    setMenuVisible(false)
+                    setMenuClosing(false)
+                }, 250)
+            }
+        }
+
+        if (menuVisible) {
+            window.addEventListener('mousemove', handleMouseMove)
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove)
+        }
+    }, [menuVisible, menuClosing])
+
+
+    console.log('QUESTIONS:', QUESTIONS)
+    console.log(QUESTIONS[currentPage - 1])
+
+    const handleBack = () => {
+        if (showDiagram) {
+            setShowDiagram(false) // go back to question
+        } else {
+            setCurrentPage((prev) => Math.max(1, prev - 1))
+            setShowDiagram(true) // go to diagram of previous question
+        }
+    }
+
+    const handleNext = () => {
+        if (!showDiagram) {
+            setShowDiagram(true) // go to diagram for current question
+        } else if (currentPage < QUESTIONS.length) {
+            setCurrentPage((prev) => prev + 1) // go to next question
+            setShowDiagram(false)
+        }
+    }
+
+    const handleInfo = () => console.log('Info button clicked!')
+    const handleExit = () => console.log('Exit button clicked!')
+
+    return (
+        <div className={styles.appContainer}>
+            <div className={styles.mainContent}>
+                {!showDiagram ? (
+                    <QuestionArea
+                        question={QUESTIONS[currentPage - 1]}
+                        index={currentPage - 1}
+                    />
+                ) : (
+                    <DiagramRenderer
+                        diagramKey={QUESTIONS[currentPage - 1].diagram}
+                    />
+                )}
+            </div>
+            {menuVisible && (
+                <div className={`${styles.menuOverlay} ${menuClosing ? styles.fadeOut : ''}`}>
+                    <MenuOverlay
+                        onBack={handleBack}
+                        onNext={handleNext}
+                        onInfo={handleInfo}
+                        onExit={handleExit}
+                    />
+                </div>
+            )}
+        </div>
+    )
 }
 
 export default App
