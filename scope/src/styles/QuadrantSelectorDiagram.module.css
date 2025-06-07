@@ -125,7 +125,7 @@
     background: radial-gradient(
             ellipse at center,
             rgba(160, 230, 255, 0.3),
-            rgba(0, 40, 150, 0.1)
+            rgba(0, 40, 150, 0.05)
     );
 }
 
