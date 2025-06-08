@@ -11,6 +11,10 @@ export const QUESTIONS: QuestionConfig[] = [
         diagram: 'quadrant-selector'
     },
     {
+        prompt: 'What button on a dialog do you associate with saving or accepting a modification?',
+        diagram: 'save-action-selector'
+    },
+    {
         prompt: 'TEMP: Which part of this screen would you click to go back?'
     }
 ]

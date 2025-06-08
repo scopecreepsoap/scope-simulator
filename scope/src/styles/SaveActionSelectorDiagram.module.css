@@ -1,0 +1,72 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.dialogBox {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background: #d1ecf8;
+    border-radius: 20px;
+    padding: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bar {
+    width: 80%;
+    height: 48px;
+    background: linear-gradient(to right, #B8F3FE, #5D92AB);
+    margin-top: 40px;
+}
+
+.buttonRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem 2rem;
+}
+
+.button {
+    position: relative;
+    width: 45%;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #50e6c1, #00cfff);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 0;
+}
+
+.button.hover::before,
+.button.selected::before {
+    opacity: 1;
+}
+
+.button > * {
+    position: relative;
+    z-index: 1;
+}
+
+.selected {
+    box-shadow: 0 0 20px 20px rgba(213, 215, 255, 0.5);
+}
