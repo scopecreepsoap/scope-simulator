@@ -1,7 +1,31 @@
 @font-face {
-  font-family: 'Twentieth Century';
-  src: url('./assets/Twentieth-Century.ttf') format('truetype');
-  font-weight: normal;
+  font-family: 'PP Neue Montreal';
+  src: url('./assets/PPNeueMontreal-Thin.otf') format('opentype');
+  font-weight: 100; /* Thin */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('./assets/PPNeueMontreal-Book.otf') format('opentype');
+  font-weight: 400; /* Book */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('./assets/PPNeueMontreal-Italic.otf') format('opentype');
+  font-weight: 400; /* Normal, italic */
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('./assets/PPNeueMontreal-Medium.otf') format('opentype');
+  font-weight: 500; /* Medium */
   font-style: normal;
   font-display: swap;
 }
@@ -16,7 +40,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Twentieth Century', Roboto, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: 'PP Neue Montreal', Roboto, "Open Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;

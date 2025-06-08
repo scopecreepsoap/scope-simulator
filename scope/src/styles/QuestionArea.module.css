@@ -16,6 +16,7 @@
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--text-medium);
+    opacity: 0.6;
 }
 
 .prompt {
@@ -28,11 +29,13 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
     overflow: hidden;
+    letter-spacing: 1.5px;
 }
 
 .instruction {
     position: absolute;
     bottom: 80px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: var(--text-medium);
+    opacity: 0.6;
 }

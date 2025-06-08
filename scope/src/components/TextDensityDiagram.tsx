@@ -68,7 +68,7 @@ export const TextDensityDiagram: React.FC = () => {
                         checked={showText}
                         onChange={(e) => setShowText(e.target.checked)}
                     />
-                    Show Lorem Ipsum
+                    Show Placeholder Text
                 </label>
             </div>
         </div>
