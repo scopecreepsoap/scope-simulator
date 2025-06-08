@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
 import { QUESTIONS } from './data/questions'
 import { QuestionArea } from './components/QuestionArea'
-import {DiagramRenderer} from "./components/DiagramRenderer.tsx";
+import { DiagramRenderer } from './components/DiagramRenderer.tsx'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function App() {
     const [currentPage, setCurrentPage] = useState(1)
@@ -11,6 +12,25 @@ function App() {
     const [menuClosing, setMenuClosing] = useState(false)
     const [showDiagram, setShowDiagram] = useState(false)
 
+    const handleBack = useCallback(() => {
+        if (showDiagram) {
+            setShowDiagram(false) // go back to question
+        } else {
+            setCurrentPage((prev) => Math.max(1, prev - 1))
+            setShowDiagram(true) // go to diagram of previous question
+        }
+    }, [showDiagram])
+
+    const handleNext = useCallback(() => {
+        if (!showDiagram) {
+            setShowDiagram(true) // go to diagram for current question
+        } else if (currentPage < QUESTIONS.length) {
+            setCurrentPage((prev) => prev + 1) // go to next question
+            setShowDiagram(false)
+        }
+    }, [currentPage, showDiagram])
+
+    // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.code === 'Space') {
@@ -24,12 +44,16 @@ function App() {
                 } else {
                     setMenuVisible(true)
                 }
+            } else if (event.code === 'ArrowLeft') {
+                handleBack()
+            } else if (event.code === 'ArrowRight') {
+                handleNext()
             }
         }
 
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [menuVisible])
+    }, [menuVisible, handleBack, handleNext])
 
     // Hide menu if mouse moves to center of page
     useEffect(() => {
@@ -66,44 +90,42 @@ function App() {
         }
     }, [menuVisible, menuClosing])
 
-
-    console.log('QUESTIONS:', QUESTIONS)
-    console.log(QUESTIONS[currentPage - 1])
-
-    const handleBack = () => {
-        if (showDiagram) {
-            setShowDiagram(false) // go back to question
-        } else {
-            setCurrentPage((prev) => Math.max(1, prev - 1))
-            setShowDiagram(true) // go to diagram of previous question
-        }
-    }
-
-    const handleNext = () => {
-        if (!showDiagram) {
-            setShowDiagram(true) // go to diagram for current question
-        } else if (currentPage < QUESTIONS.length) {
-            setCurrentPage((prev) => prev + 1) // go to next question
-            setShowDiagram(false)
-        }
-    }
-
     const handleInfo = () => console.log('Info button clicked!')
     const handleExit = () => console.log('Exit button clicked!')
+
+    // Unique key to identify AnimatePresence component
+    const transitionKey = `${currentPage}-${showDiagram}`
 
     return (
         <div className={styles.appContainer}>
             <div className={styles.mainContent}>
-                {!showDiagram ? (
-                    <QuestionArea
-                        question={QUESTIONS[currentPage - 1]}
-                        index={currentPage - 1}
-                    />
-                ) : (
-                    <DiagramRenderer
-                        diagramKey={QUESTIONS[currentPage - 1].diagram}
-                    />
-                )}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={transitionKey}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        {!showDiagram ? (
+                            <QuestionArea
+                                question={QUESTIONS[currentPage - 1]}
+                                index={currentPage - 1}
+                            />
+                        ) : (
+                            <DiagramRenderer
+                                diagramKey={QUESTIONS[currentPage - 1].diagram}
+                            />
+                        )}
+                    </motion.div>
+                </AnimatePresence>
             </div>
             {menuVisible && (
                 <div className={`${styles.menuOverlay} ${menuClosing ? styles.fadeOut : ''}`}>
