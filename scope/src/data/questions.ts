@@ -15,6 +15,7 @@ export const QUESTIONS: QuestionConfig[] = [
         diagram: 'save-action-selector'
     },
     {
-        prompt: 'TEMP: Which part of this screen would you click to go back?'
+        prompt: 'Which part of this dialog would you click to go back?',
+        diagram: 'quadrant-selector'
     }
 ]
