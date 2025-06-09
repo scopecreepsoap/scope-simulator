@@ -7,7 +7,7 @@ export const QUESTIONS: QuestionConfig[] = [
         diagram: 'text-density'
     },
     {
-        prompt: 'Where would you close this interface or return to a previous view?',
+        prompt: 'Where would you close this dialog or return to a previous view?',
         diagram: 'quadrant-selector'
     },
     {

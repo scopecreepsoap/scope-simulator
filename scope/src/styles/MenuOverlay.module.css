@@ -37,6 +37,7 @@
     color: #2f59a7;
     font-weight: 500;
     transition: all 0.2s ease;
+    letter-spacing: 0.5px;
 }
 
 .navItem:hover {
