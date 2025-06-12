@@ -70,3 +70,11 @@
 .selected {
     box-shadow: 0 0 20px 20px rgba(213, 215, 255, 0.5);
 }
+
+.icon {
+    position: absolute;
+    z-index: 2;
+    font-size: 84px !important;
+    color: #0070ff;
+    pointer-events: none;
+}

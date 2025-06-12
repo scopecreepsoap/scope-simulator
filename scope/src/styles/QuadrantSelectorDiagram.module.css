@@ -73,7 +73,7 @@
 .icon {
     position: absolute;
     z-index: 2;
-    font-size: 96px !important;
+    font-size: 84px !important;
     color: #0070ff;
     pointer-events: none;
     transform: translate(-50%, -50%);

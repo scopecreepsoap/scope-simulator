@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import TaskAltIcon from '@mui/icons-material/TaskAlt'
 import styles from '../styles/SaveActionSelectorDiagram.module.css'
 
 export const SaveActionSelectorDiagram: React.FC = () => {
@@ -25,7 +26,9 @@ export const SaveActionSelectorDiagram: React.FC = () => {
                         onMouseEnter={() => setHovered('left')}
                         onMouseLeave={() => setHovered(null)}
                         onClick={() => handleClick('left')}
-                    />
+                    >
+                        {selected === 'left' && <TaskAltIcon className={styles.icon} />}
+                    </div>
                     <div
                         className={`${styles.button} ${styles.rightButton} ${
                             hovered === 'right' ? styles.hover : ''
@@ -33,7 +36,9 @@ export const SaveActionSelectorDiagram: React.FC = () => {
                         onMouseEnter={() => setHovered('right')}
                         onMouseLeave={() => setHovered(null)}
                         onClick={() => handleClick('right')}
-                    />
+                    >
+                        {selected === 'right' && <TaskAltIcon className={styles.icon} />}
+                    </div>
                 </div>
             </div>
         </div>
