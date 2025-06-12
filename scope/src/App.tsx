@@ -55,39 +55,45 @@ function App() {
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [menuVisible, handleBack, handleNext])
 
+    // Show menu if mouse moves to corners of page
     // Hide menu if mouse moves to center of page
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             const { clientX: x, clientY: y } = e
             const { innerWidth, innerHeight } = window
 
-            const zoneSize = 250 // px
+            const zoneSize = 100 // px
 
             const centerX = innerWidth / 2
             const centerY = innerHeight / 2
 
-            const inZone =
-                x > centerX - zoneSize / 2 &&
-                x < centerX + zoneSize / 2 &&
-                y > centerY - zoneSize / 2 &&
-                y < centerY + zoneSize / 2
+            const inCenterZone =
+                x > centerX - zoneSize &&
+                x < centerX + zoneSize &&
+                y > centerY - zoneSize &&
+                y < centerY + zoneSize
 
-            if (inZone && menuVisible && !menuClosing) {
+            const inCornerZone =
+                (x < zoneSize && y < zoneSize) || // top-left
+                (x > innerWidth - zoneSize && y < zoneSize) || // top-right
+                (x < zoneSize && y > innerHeight - zoneSize) || // bottom-left
+                (x > innerWidth - zoneSize && y > innerHeight - zoneSize) // bottom-right
+
+            if (inCenterZone && menuVisible && !menuClosing) {
                 setMenuClosing(true)
                 setTimeout(() => {
                     setMenuVisible(false)
                     setMenuClosing(false)
                 }, 250)
             }
+
+            if (inCornerZone && !menuVisible && !menuClosing) {
+                setMenuVisible(true)
+            }
         }
 
-        if (menuVisible) {
-            window.addEventListener('mousemove', handleMouseMove)
-        }
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove)
-        }
+        window.addEventListener('mousemove', handleMouseMove)
+        return () => window.removeEventListener('mousemove', handleMouseMove)
     }, [menuVisible, menuClosing])
 
     const handleInfo = () => console.log('Info button clicked!')
