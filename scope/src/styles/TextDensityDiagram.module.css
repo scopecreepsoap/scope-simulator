@@ -65,8 +65,8 @@
 }
 
 .verticalSlider {
-    writing-mode: bt-lr;
-    -webkit-appearance: slider-vertical;
+    writing-mode: vertical-lr;
+    direction: rtl;
     width: 1px;
     height: 200px;
 }

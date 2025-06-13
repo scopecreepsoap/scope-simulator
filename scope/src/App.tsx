@@ -3,7 +3,7 @@ import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
 import { QUESTIONS } from './data/questions'
 import { QuestionArea } from './components/QuestionArea'
-import { DiagramRenderer } from './components/DiagramRenderer.tsx'
+import { DiagramRenderer } from './components/DiagramRenderer'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function App() {
