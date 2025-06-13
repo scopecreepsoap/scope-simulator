@@ -13,6 +13,10 @@ function App() {
     const [showDiagram, setShowDiagram] = useState(false)
 
     const handleBack = useCallback(() => {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur() // avoid issue with slider adjusting
+        }
+
         if (showDiagram) {
             setShowDiagram(false) // go back to question
         } else {
@@ -22,6 +26,10 @@ function App() {
     }, [showDiagram])
 
     const handleNext = useCallback(() => {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur() // avoid issue with slider adjusting
+        }
+
         if (!showDiagram) {
             setShowDiagram(true) // go to diagram for current question
         } else if (currentPage < QUESTIONS.length) {
@@ -33,6 +41,15 @@ function App() {
     // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            const active = document.activeElement
+            const isArrowKey = event.code === 'ArrowLeft' || event.code === 'ArrowRight'
+
+            // Prevent arrow key presses from accidentally adjusting slider
+            if (active instanceof HTMLInputElement && active.type === 'range' && isArrowKey) {
+                event.preventDefault()
+                active.blur()
+            }
+
             if (event.code === 'Space') {
                 event.preventDefault()
                 if (menuVisible) {
