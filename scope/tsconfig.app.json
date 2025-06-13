@@ -15,7 +15,10 @@
     "noEmit": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "rootDir": "./src",
     "jsx": "react-jsx",
 
     /* Linting */

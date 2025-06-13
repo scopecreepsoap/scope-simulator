@@ -14,6 +14,10 @@
     "composite": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "outDir": "./dist-node",
+    "declaration": true,
+    "declarationDir": "./dist-node/types",
+    "rootDir": ".",
 
     /* Linting */
     "strict": true,
