@@ -77,4 +77,5 @@
     font-size: 84px !important;
     color: #0070ff;
     pointer-events: none;
+    transform: translate(-50%, -50%);
 }

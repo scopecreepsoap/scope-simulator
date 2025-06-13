@@ -105,4 +105,5 @@
     font-size: 54px !important;
     color: #0070ff;
     pointer-events: none;
+    transform: translate(-50%, -50%);
 }

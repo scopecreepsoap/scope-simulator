@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import styles from '../styles/QuadrantSelectorDiagram.module.css'
 import HighlightAltIcon from '@mui/icons-material/HighlightAlt'
 
@@ -94,10 +95,25 @@ export const QuadrantSelectorDiagram: React.FC = () => {
                         } : {}}
                     >
                         {selected === index && iconPos && (
-                            <HighlightAltIcon
+                            <motion.div
                                 className={styles.icon}
-                                style={{ left: `${iconPos.x}px`, top: `${iconPos.y}px` }}
-                            />
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                                style={{
+                                    left: `${iconPos.x}px`,
+                                    top: `${iconPos.y}px`,
+                                    position: 'absolute',
+                                    zIndex: 2,
+                                    fontSize: '84px',
+                                    color: '#0070ff',
+                                    pointerEvents: 'none',
+                                    transform: 'translate(-50%, -50%)',
+                                }}
+                            >
+                                <HighlightAltIcon fontSize="inherit" />
+                            </motion.div>
                         )}
                     </div>
                 ))}
