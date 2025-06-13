@@ -27,14 +27,20 @@ export const QuadrantSelectorDiagram: React.FC = () => {
         const rawX = e.clientX - rect.left
         const rawY = e.clientY - rect.top
 
-        const padding = 48
+        const iconHalfSize = 42
+        const buffer = 2
+
+        const leftClamp = iconHalfSize + buffer
+        const topClamp = iconHalfSize + buffer
+        const rightClamp = rect.width - iconHalfSize - buffer
+        const bottomClamp = rect.height - iconHalfSize - buffer
+
         let x = rawX
         let y = rawY
 
         if (index === 4) {
-            // Center oval clamping
-            const radiusX = rect.width / 2 - padding
-            const radiusY = rect.height / 2 - padding
+            const radiusX = rect.width / 2 - iconHalfSize - buffer
+            const radiusY = rect.height / 2 - iconHalfSize - buffer
             const centerX = rect.width / 2
             const centerY = rect.height / 2
 
@@ -48,9 +54,8 @@ export const QuadrantSelectorDiagram: React.FC = () => {
             x = centerX + clampedX * Math.cos(angle)
             y = centerY + clampedY * Math.sin(angle)
         } else {
-            // Standard square clamping
-            x = Math.max(padding, Math.min(rect.width - padding, rawX))
-            y = Math.max(padding, Math.min(rect.height - padding, rawY))
+            x = Math.max(leftClamp, Math.min(rightClamp, rawX))
+            y = Math.max(topClamp, Math.min(bottomClamp, rawY))
         }
 
         if (
