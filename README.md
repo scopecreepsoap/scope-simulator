@@ -67,3 +67,12 @@ Start the local development server to view the application in your browser:
 
 ```bash
 npm run dev
+```
+
+---
+
+### 📘 License
+
+**SCOPE** is distributed under the [MIT License](LICENSE). Contributions welcome.
+
+Designed to support open UX research and shared exploration within the design and HCI community.
