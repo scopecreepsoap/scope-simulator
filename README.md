@@ -28,12 +28,8 @@ In the realm of UX, understanding how layout, content density, and interactive e
 * **Dynamic Slider Interaction (Abstract):** A vertical "slider" component that visually manipulates the spacing/size of content blocks (abstract shapes or placeholder text initially) to simulate varying content density.
 
 ### Planned Enhancements:
-* **Rich Content Manipulation:** Integrate real `Lorem ipsum` text with configurable font properties (size, line height, letter spacing) that dynamically adjust with the slider.
-* **Diverse Scenario Types:** Implement multiple question types focusing on different UX challenges (e.g., finding specific UI elements, interpreting complex layouts).
-* **Interactive Response Mechanisms:** Beyond the slider, introduce other interaction types (e.g., click targets, drag-and-drop elements for specific questions).
 * **Research Data Collection (Opt-in):** Implement functionality to anonymously log user interactions (e.g., slider positions, time on task, selected answers) for research purposes (with clear user consent).
 * **Custom Scenario Configuration:** Allow researchers to easily define and load their own test scenarios via JSON files.
-* **Enhanced Animations & Transitions:** Polished visual feedback for interactions and navigation.
 * **Accessibility:** Ensure keyboard navigation and screen reader compatibility.
 
 ## 🚀 Getting Started
@@ -68,6 +64,19 @@ Start the local development server to view the application in your browser:
 ```bash
 npm run dev
 ```
+
+---
+
+### 🙌 Credits
+
+**SCOPE** was designed and developed by **Sriram Bhat** as part of an independent research effort to explore cognitive bias and interface perception in traffic operations.
+
+This work was shaped by early research collaborations and insightful contributions from:
+
+- **Gustavo Chavez** – initial white paper collaborator and co-lead on the internal research direction
+- **Lynne Randolph** – for recommending the NASA TLX as a measurement framework
+- **Dr. Katelyn Fry-Hilderbrand** – for introducing the MATB-II framework and discussions on cognitive load
+- **Dr. Ajay Gopikumar** – for expert guidance in UX and cognitive load theory throughout development
 
 ---
 
