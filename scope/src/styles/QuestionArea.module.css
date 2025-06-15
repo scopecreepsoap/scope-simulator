@@ -13,6 +13,7 @@
 .index {
     position: absolute;
     top: 80px;
+    left: 50%;
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--text-medium);

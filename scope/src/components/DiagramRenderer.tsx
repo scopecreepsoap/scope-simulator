@@ -4,12 +4,14 @@ import {QuadrantSelectorDiagram} from "./QuadrantSelectorDiagram";
 import {SaveActionSelectorDiagram} from "./SaveActionSelectorDiagram";
 import {SaveActionSelectorL2Diagram} from "./SaveActionSelectorL2Diagram";
 import {MenuSettingsSelectorDiagram} from "./MenuSettingsSelectorDiagram";
+import styles from '../styles/QuestionArea.module.css'
 
 interface DiagramRendererProps {
     diagramKey?: string
+    index?: number
 }
 
-export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKey }) => {
+export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKey, index }) => {
     const renderDiagram = () => {
         switch (diagramKey) {
             case 'text-density':
@@ -28,7 +30,12 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKey }) 
     }
 
     return (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            {typeof index === 'number' && (
+                <div className={styles.index} style={{ color: 'transparent', left: '50%', textShadow: '1px 1px 0 #1c2c4a, -1px -1px 0 midnightblue' }}>
+                    {index + 1}
+                </div>
+            )}
             {renderDiagram()}
         </div>
     )

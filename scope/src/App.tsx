@@ -50,6 +50,8 @@ function App() {
                 active.blur()
             }
 
+            const key = event.key.toLowerCase()
+
             if (event.code === 'Space') {
                 event.preventDefault()
                 if (menuVisible) {
@@ -61,9 +63,9 @@ function App() {
                 } else {
                     setMenuVisible(true)
                 }
-            } else if (event.code === 'ArrowLeft') {
+            } else if (event.code === 'ArrowLeft' || key === 'a') {
                 handleBack()
-            } else if (event.code === 'ArrowRight') {
+            } else if (event.code === 'ArrowRight' || key === 'd') {
                 handleNext()
             }
         }
@@ -145,6 +147,7 @@ function App() {
                         ) : (
                             <DiagramRenderer
                                 diagramKey={QUESTIONS[currentPage - 1].diagram}
+                                index={currentPage - 1}
                             />
                         )}
                     </motion.div>
