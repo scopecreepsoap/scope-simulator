@@ -2,6 +2,8 @@
 
 **S.C.O.P.E.:** **S**imulation for **C**ognitive **O**bservation of **P**erception & **E**xperience
 
+<img src="./scope/src/assets/target-window.png" alt="SCOPE Target Window" width="85%"/>
+
 ## 🌟 Project Overview
 
 The SCOPE Simulator is an interactive, web-based tool designed to explore and test fundamental principles of User Experience (UX), particularly focusing on **user intuition, visual perception of layouts, and interaction patterns**.

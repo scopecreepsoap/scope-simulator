@@ -28,16 +28,18 @@
 .icon {
     font-size: 100px !important;
     transform: translateY(1px);
-    color: #2f59a7;
+    color: #1245A3;
     transition: all 0.2s ease;
 }
 
 .label {
     font-size: 32px;
-    color: #2f59a7;
-    font-weight: 500;
+    color: #1245A3;
+    font-weight: 400;
+    opacity: 0.5;
     transition: all 0.2s ease;
     letter-spacing: 0.5px;
+    padding: 0 1.5rem;
 }
 
 .navItem:hover {
