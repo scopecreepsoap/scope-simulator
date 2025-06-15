@@ -68,7 +68,6 @@
 }
 
 .hoverable:hover {
-    filter: brightness(1.15);
     cursor: pointer;
 }
 
@@ -91,7 +90,7 @@
 }
 .segment5 {
     width: 35%;
-    background: #4f85f5;
+    background: linear-gradient(to right, #60EAFF, #4C67EF);
 }
 .segment6 {
     width: 12%;
