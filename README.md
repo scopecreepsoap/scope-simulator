@@ -75,7 +75,7 @@ This work was shaped by early research collaborations and insightful contributio
 - **Gustavo Chavez** – initial white paper collaborator and co-lead on the internal research direction
 - **Lynne Randolph** – for recommending the NASA TLX as a measurement framework
 - **Dr. Katelyn Fry-Hilderbrand** – for introducing the MATB-II framework and discussions on cognitive load
-- **Dr. Ajay Gopikumar** – for expert guidance in UX and cognitive load theory throughout development
+- **Dr. Gopika Ajaykumar** – for expert guidance in UX and cognitive load theory throughout development
 
 ---
 
