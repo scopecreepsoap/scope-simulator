@@ -1,0 +1,161 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.dialogBox {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background: #d1ecf8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* CENTERED ICON */
+.icon {
+    position: absolute;
+    z-index: 2;
+    font-size: 84px !important;
+    color: #0070ff;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* BASIC “HALF” CELLS */
+.half {
+    flex: 1;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.halfHover {
+    background: rgba(80, 200, 120, 0.35);
+}
+
+.halfSelected {
+    background: rgba(80, 200, 120, 0.6);
+}
+
+/* TOP & BOTTOM BAR */
+.topBar,
+.bottomBar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: flex;
+    z-index: 1;
+}
+
+.topBar {
+    top: 0;
+    height: 32px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.bottomBar {
+    bottom: 0;
+    height: 32px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* SEGMENTS */
+.segment {
+    transition: background 0.3s ease;
+}
+
+.hoverable:hover {
+    filter: brightness(1.15);
+    cursor: pointer;
+}
+
+/* Top segments (5 total) */
+.segment1 {
+    width: 10%;
+    background: #51e6fa;
+}
+.segment2 {
+    width: 15%;
+    background: #aaf2ff;
+}
+.segment3 {
+    width: 20%;
+    background: #85e4f6;
+}
+.segment4 {
+    width: 25%;
+    background: #66c8f4;
+}
+.segment5 {
+    width: 35%;
+    background: #4f85f5;
+}
+
+/* Bottom segments (3 pieces) */
+.bottomLeftSegment {
+    width: 10%;
+    background: #51e6fa;
+}
+.bottomMiddleSegment {
+    width: 80%;
+    background: linear-gradient(to right, #4C67EF, #60EAFF);
+}
+.bottomRightSegment {
+    width: 10%;
+    background: #B8FBFB;
+}
+
+/* DROPDOWN PANELS */
+.dropdownPanelTop {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #b6dfff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 20px rgba(213, 215, 255, 0.5);
+}
+
+.dropdownPanelBottom {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #b6dfff;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 20px rgba(213, 215, 255, 0.5);
+}
+
+/* TOP dropdown sizes */
+.dropdownTop1 {
+    width: 120px;
+    height: 80px;
+}
+.dropdownTop2 {
+    width: 140px;
+    height: 100px;
+}
+.dropdownTop3 {
+    width: 160px;
+    height: 80px;
+}
+.dropdownTop4 {
+    width: 180px;
+    height: 120px;
+}
+
+/* BOTTOM dropdown (same for left & right) */
+.dropdownBottom {
+    width: 140px;
+    height: 100px;
+}
