@@ -16,16 +16,14 @@
 }
 
 /* CENTERED ICON */
-.icon {
+.halfIcon {
     position: absolute;
-    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 84px !important;
     color: #0070ff;
     pointer-events: none;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* BASIC “HALF” CELLS */
@@ -38,11 +36,11 @@
 }
 
 .halfHover {
-    background: rgba(80, 200, 120, 0.35);
+    background: linear-gradient(to right, #50e6c1, #00cfff);
 }
 
 .halfSelected {
-    background: rgba(80, 200, 120, 0.6);
+    background: linear-gradient(to right, #50e6c1, #00cfff);
 }
 
 /* TOP & BOTTOM BAR */
@@ -81,7 +79,7 @@
 
 /* Top segments (5 total) */
 .segment1 {
-    width: 10%;
+    width: 11%;
     background: #51e6fa;
 }
 .segment2 {
@@ -100,8 +98,11 @@
     width: 35%;
     background: #4f85f5;
 }
+.segment6 {
+    width: 12%;
+    background: #51e6fa;
+}
 
-/* Bottom segments (3 pieces) */
 .bottomLeftSegment {
     width: 10%;
     background: #51e6fa;
@@ -138,24 +139,26 @@
 
 /* TOP dropdown sizes */
 .dropdownTop1 {
-    width: 120px;
-    height: 80px;
+    width: 110px;
+    height: 130px;
 }
 .dropdownTop2 {
-    width: 140px;
-    height: 100px;
+    width: 130px;
+    height: 160px;
 }
 .dropdownTop3 {
-    width: 160px;
-    height: 80px;
+    width: 150px;
+    height: 180px;
 }
 .dropdownTop4 {
-    width: 180px;
+    width: 160px;
     height: 120px;
 }
-
-/* BOTTOM dropdown (same for left & right) */
+.dropdownTop6 {
+    width: 110px;
+    height: 130px;
+}
 .dropdownBottom {
-    width: 140px;
+    width: 110px;
     height: 100px;
 }

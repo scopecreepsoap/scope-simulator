@@ -45,8 +45,7 @@ To get the SCOPE Simulator up and running on your local machine:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/scope-simulator.git](https://github.com/your-username/scope-simulator.git)
-    # (Replace your-username with your actual GitHub username when you create the repo)
+    git clone https://github.com/scopecreepsoap/scope-simulator.git
     ```
 2.  **Navigate into the project directory:**
     ```bash
