@@ -23,7 +23,7 @@ export const QUESTIONS: QuestionConfig[] = [
         diagram: 'save-action-selector-l2'
     },
     {
-        prompt: 'Where would you expect to access Settings or Preferences in this interface?',
+        prompt: 'Where would you expect to access Settings in this interface?',
         diagram: 'menu-settings-selector'
     }
 ]
