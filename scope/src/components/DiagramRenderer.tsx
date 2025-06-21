@@ -7,13 +7,13 @@ import {MenuSettingsSelectorDiagram} from "./MenuSettingsSelectorDiagram";
 import styles from '../styles/QuestionArea.module.css'
 
 interface DiagramRendererProps {
-    diagramKey?: string
+    diagramKeys?: string[]
     index?: number
 }
 
-export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKey, index }) => {
-    const renderDiagram = () => {
-        switch (diagramKey) {
+export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, index }) => {
+    const renderDiagram = (key: string) => {
+        switch (key) {
             case 'text-density':
                 return <TextDensityDiagram />
             case 'quadrant-selector':
@@ -25,7 +25,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKey, in
             case 'menu-settings-selector':
                 return <MenuSettingsSelectorDiagram />
             default:
-                return <p style={{ color: 'var(--text-medium)' }}>No diagram found for "{diagramKey}"</p>
+                return <p style={{ color: 'var(--text-medium)' }}>No diagram found for "{key}"</p>
         }
     }
 
@@ -36,7 +36,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKey, in
                     {index + 1}
                 </div>
             )}
-            {renderDiagram()}
+            {diagramKeys?.map((key) => renderDiagram(key))}
         </div>
     )
 }

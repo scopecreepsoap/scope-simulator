@@ -4,7 +4,7 @@ import styles from '../styles/QuestionArea.module.css'
 export interface QuestionConfig {
     prompt: string
     instruction?: string
-    diagram?: string
+    diagram: string[]
 }
 
 interface QuestionAreaProps {

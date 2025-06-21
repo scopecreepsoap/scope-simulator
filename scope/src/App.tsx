@@ -150,7 +150,7 @@ function App() {
                             />
                         ) : (
                             <DiagramRenderer
-                                diagramKey={QUESTIONS[currentPage - 1].diagram}
+                                diagramKeys={QUESTIONS[currentPage - 1].diagram}
                                 index={currentPage - 1}
                             />
                         )}

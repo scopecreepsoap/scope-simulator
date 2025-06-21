@@ -4,26 +4,26 @@ export const QUESTIONS: QuestionConfig[] = [
     {
         prompt: 'When does this layout become most readable?',
         instruction: 'Drag slider up or down',
-        diagram: 'text-density'
+        diagram: ['text-density']
     },
     {
         prompt: 'Where would you close this dialog or return to a previous view?',
-        diagram: 'quadrant-selector'
+        diagram: ['quadrant-selector']
     },
     {
         prompt: 'What button on a dialog do you associate with saving or accepting a modification?',
-        diagram: 'save-action-selector'
+        diagram: ['save-action-selector']
     },
     {
         prompt: 'Which part of this dialog would you click to go back?',
-        diagram: 'quadrant-selector'
+        diagram: ['quadrant-selector']
     },
     {
         prompt: 'What button on a dialog do you associate with saving or accepting a modification?',
-        diagram: 'save-action-selector-l2'
+        diagram: ['save-action-selector-l2']
     },
     {
         prompt: 'Where would you expect to access Settings in this interface?',
-        diagram: 'menu-settings-selector'
+        diagram: ['menu-settings-selector']
     }
 ]
