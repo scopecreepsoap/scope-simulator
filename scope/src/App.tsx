@@ -11,6 +11,7 @@ function App() {
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuClosing, setMenuClosing] = useState(false)
     const [showDiagram, setShowDiagram] = useState(false)
+    const [manualOpenTime, setManualOpenTime] = useState(0)
 
     const handleBack = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
@@ -62,6 +63,7 @@ function App() {
                     }, 250)
                 } else {
                     setMenuVisible(true)
+                    setManualOpenTime(Date.now())
                 }
             } else if (event.code === 'ArrowLeft' || key === 'a') {
                 handleBack()
@@ -82,7 +84,7 @@ function App() {
             const { innerWidth, innerHeight } = window
 
             // Pixels (px)
-            const centerZoneSize = 600
+            const centerZoneSize = 500
             const cornerZoneSize = 100
 
             const centerX = innerWidth / 2
@@ -100,7 +102,7 @@ function App() {
                 (x < cornerZoneSize && y > innerHeight - cornerZoneSize) || // bottom-left
                 (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize) // bottom-right
 
-            if (inCenterZone && menuVisible && !menuClosing) {
+            if (inCenterZone && menuVisible && !menuClosing && Date.now() - manualOpenTime > 1500) {
                 setMenuClosing(true)
                 setTimeout(() => {
                     setMenuVisible(false)
