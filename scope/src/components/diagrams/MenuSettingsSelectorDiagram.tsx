@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SettingsIcon from '@mui/icons-material/Settings'
-import styles from '../styles/MenuSettingsSelectorDiagram.module.css'
+import styles from '../../styles/MenuSettingsSelectorDiagram.module.css'
 
 export const MenuSettingsSelectorDiagram: React.FC = () => {
     const [hoveredSegment, setHoveredSegment] = useState<string | null>(null)

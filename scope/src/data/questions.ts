@@ -1,4 +1,4 @@
-import type {QuestionConfig} from '../components/QuestionArea'
+import type {QuestionConfig} from '../types/QuestionConfig'
 
 export const QUESTIONS: QuestionConfig[] = [
     {

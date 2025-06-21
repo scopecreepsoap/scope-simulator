@@ -1,9 +1,9 @@
 import React from 'react'
-import { TextDensityDiagram } from './TextDensityDiagram'
-import {QuadrantSelectorDiagram} from "./QuadrantSelectorDiagram";
-import {SaveActionSelectorDiagram} from "./SaveActionSelectorDiagram";
-import {SaveActionSelectorL2Diagram} from "./SaveActionSelectorL2Diagram";
-import {MenuSettingsSelectorDiagram} from "./MenuSettingsSelectorDiagram";
+import { TextDensityDiagram } from './diagrams/TextDensityDiagram'
+import {QuadrantSelectorDiagram} from "./diagrams/QuadrantSelectorDiagram";
+import {SaveActionSelectorDiagram} from "./diagrams/SaveActionSelectorDiagram";
+import {SaveActionSelectorL2Diagram} from "./diagrams/SaveActionSelectorL2Diagram";
+import {MenuSettingsSelectorDiagram} from "./diagrams/MenuSettingsSelectorDiagram";
 import styles from '../styles/QuestionArea.module.css'
 
 interface DiagramRendererProps {
@@ -25,7 +25,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, i
             case 'menu-settings-selector':
                 return <MenuSettingsSelectorDiagram />
             default:
-                return <p style={{ color: 'var(--text-medium)' }}>No diagram found for "{key}"</p>
+                return <p style={{ color: 'var(--text-medium)' }}>No Diagram Found"</p>
         }
     }
 

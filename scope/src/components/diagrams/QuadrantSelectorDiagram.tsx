@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import styles from '../styles/QuadrantSelectorDiagram.module.css'
+import styles from '../../styles/QuadrantSelectorDiagram.module.css'
 import HighlightAltIcon from '@mui/icons-material/HighlightAlt'
 
 interface Position {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import styles from '../styles/SaveActionSelectorDiagram.module.css'
+import styles from '../../styles/SaveActionSelectorDiagram.module.css'
 
 export const SaveActionSelectorDiagram: React.FC = () => {
     const [selected, setSelected] = useState<'left' | 'right' | null>(null)

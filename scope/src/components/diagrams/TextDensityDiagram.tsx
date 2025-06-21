@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import styles from '../styles/TextDensityDiagram.module.css'
+import styles from '../../styles/TextDensityDiagram.module.css'
 import { loremIpsum } from 'lorem-ipsum'
 
 const MIN_SPACING = 8
