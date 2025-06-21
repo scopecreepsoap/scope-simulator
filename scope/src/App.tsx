@@ -164,6 +164,8 @@ function App() {
                         onNext={handleNext}
                         onInfo={handleInfo}
                         onExit={handleExit}
+                        currentPage={currentPage}
+                        showDiagram={showDiagram}
                     />
                 </div>
             )}

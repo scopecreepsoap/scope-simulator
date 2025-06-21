@@ -1,7 +1,14 @@
 import React from 'react'
 import styles from '../styles/MenuInfo.module.css'
+import {ProgressTracker} from "./ProgressTracker";
+import { QUESTIONS } from '../data/questions'
 
-export const MenuInfo: React.FC = () => (
+interface MenuInfoProps {
+    currentPage: number
+    showDiagram: boolean
+}
+
+export const MenuInfo: React.FC<MenuInfoProps> = ({currentPage,showDiagram} ) => (
     <div className={styles.menuContent}>
         <h1 className={styles.menuTitle}>Menu</h1>
 
@@ -41,7 +48,12 @@ export const MenuInfo: React.FC = () => (
         <div className={styles.divider} />
         <div className={styles.progressBlock}>
             <div className={styles.sectionLabel}>Current SCOPE Progress</div>
-            <div className={styles.progressPlaceholder}></div>
+
+            <ProgressTracker
+                totalQuestions={QUESTIONS.length}
+                totalDiagrams={QUESTIONS.reduce((acc, q) => acc + q.diagram.length, 0)}
+                currentIndex={(currentPage - 1) * 2 + (showDiagram ? 1 : 0)}
+            />
         </div>
     </div>
 )

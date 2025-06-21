@@ -1,0 +1,34 @@
+.trackerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: center;
+    width: fit-content;
+    margin-top: 12px;
+    margin-left: 2rem;
+}
+
+.row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+}
+
+.dot {
+    font-size: 28px;
+    color: #79cfff;
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+}
+
+.active {
+    opacity: 1;
+}
+
+.arrowIcon,
+.endIcon {
+    font-size: 28px;
+    color: #79cfff;
+    opacity: 0.3;
+}

@@ -11,6 +11,8 @@ interface MenuOverlayProps {
     onNext: () => void
     onInfo: () => void
     onExit: () => void
+    currentPage: number
+    showDiagram: boolean
 }
 
 export const MenuOverlay: React.FC<MenuOverlayProps> = ({
@@ -18,6 +20,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                                                             onNext,
                                                             onInfo,
                                                             onExit,
+                                                            currentPage, showDiagram
                                                         }) => (
     <div className={styles.menuOverlay}>
         <div className={styles.row}>
@@ -30,7 +33,10 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <ArrowForwardIcon className={styles.icon} />
             </div>
         </div>
-        <MenuInfo />
+        <MenuInfo
+            currentPage={currentPage}
+            showDiagram={showDiagram}
+        />
         <div className={styles.row}>
             <div className={styles.navItem} onClick={onInfo}>
                 <InfoOutlinedIcon className={styles.icon} />
