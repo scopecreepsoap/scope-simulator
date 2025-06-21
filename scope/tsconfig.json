@@ -9,7 +9,7 @@
     "lib": ["DOM", "DOM.Iterable", "ES2020"],
     "moduleResolution": "node",
     "jsx": "react-jsx",
-    "types": ["vite/client", "csstype"],
+    "types": ["vite/client", "csstype", "vitest"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   }
