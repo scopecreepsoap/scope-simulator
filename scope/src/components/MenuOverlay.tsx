@@ -4,6 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import CloseIcon from '@mui/icons-material/Close'
+import {MenuInfo} from "./MenuInfo";
 
 interface MenuOverlayProps {
     onBack: () => void
@@ -29,6 +30,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <ArrowForwardIcon className={styles.icon} />
             </div>
         </div>
+        <MenuInfo />
         <div className={styles.row}>
             <div className={styles.navItem} onClick={onInfo}>
                 <InfoOutlinedIcon className={styles.icon} />
