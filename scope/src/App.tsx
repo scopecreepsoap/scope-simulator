@@ -81,22 +81,24 @@ function App() {
             const { clientX: x, clientY: y } = e
             const { innerWidth, innerHeight } = window
 
-            const zoneSize = 100 // px
+            // Pixels (px)
+            const centerZoneSize = 600
+            const cornerZoneSize = 100
 
             const centerX = innerWidth / 2
             const centerY = innerHeight / 2
 
             const inCenterZone =
-                x > centerX - zoneSize &&
-                x < centerX + zoneSize &&
-                y > centerY - zoneSize &&
-                y < centerY + zoneSize
+                x > centerX - centerZoneSize / 2 &&
+                x < centerX + centerZoneSize / 2 &&
+                y > centerY - centerZoneSize / 2 &&
+                y < centerY + centerZoneSize / 2
 
             const inCornerZone =
-                (x < zoneSize && y < zoneSize) || // top-left
-                (x > innerWidth - zoneSize && y < zoneSize) || // top-right
-                (x < zoneSize && y > innerHeight - zoneSize) || // bottom-left
-                (x > innerWidth - zoneSize && y > innerHeight - zoneSize) // bottom-right
+                (x < cornerZoneSize && y < cornerZoneSize) || // top-left
+                (x > innerWidth - cornerZoneSize && y < cornerZoneSize) || // top-right
+                (x < cornerZoneSize && y > innerHeight - cornerZoneSize) || // bottom-left
+                (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize) // bottom-right
 
             if (inCenterZone && menuVisible && !menuClosing) {
                 setMenuClosing(true)
