@@ -1,11 +1,6 @@
 import React from 'react'
 import styles from '../styles/QuestionArea.module.css'
-
-export interface QuestionConfig {
-    prompt: string
-    instruction?: string
-    diagram: string[]
-}
+import type {QuestionConfig} from "../types/QuestionConfig";
 
 interface QuestionAreaProps {
     question: QuestionConfig

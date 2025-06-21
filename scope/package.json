@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "check:limits": "vitest run tests/dataLimit.test.ts"
+    "check:limits": "vitest run __tests__/dataLimit.test.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

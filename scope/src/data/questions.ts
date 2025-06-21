@@ -11,16 +11,12 @@ export const QUESTIONS: QuestionConfig[] = [
         diagram: ['quadrant-selector']
     },
     {
-        prompt: 'What button on a dialog do you associate with saving or accepting a modification?',
-        diagram: ['save-action-selector']
+        prompt: 'What button on a dialog do you associate with Save?',
+        diagram: ['save-action-selector','save-action-selector-l2']
     },
     {
         prompt: 'Which part of this dialog would you click to go back?',
         diagram: ['quadrant-selector']
-    },
-    {
-        prompt: 'What button on a dialog do you associate with saving or accepting a modification?',
-        diagram: ['save-action-selector-l2']
     },
     {
         prompt: 'Where would you expect to access Settings in this interface?',

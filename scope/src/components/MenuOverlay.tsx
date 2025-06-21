@@ -11,8 +11,7 @@ interface MenuOverlayProps {
     onNext: () => void
     onInfo: () => void
     onExit: () => void
-    currentPage: number
-    showDiagram: boolean
+    stepIndex: number
 }
 
 export const MenuOverlay: React.FC<MenuOverlayProps> = ({
@@ -20,28 +19,32 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                                                             onNext,
                                                             onInfo,
                                                             onExit,
-                                                            currentPage, showDiagram
+                                                            stepIndex,
                                                         }) => (
     <div className={styles.menuOverlay}>
         <div className={styles.row}>
+            {/* BACK */}
             <div className={styles.navItem} onClick={onBack}>
                 <ArrowBackIcon className={styles.icon} />
                 <span className={styles.label}>Back</span>
             </div>
+            {/* NEXT */}
             <div className={styles.navItem} onClick={onNext}>
                 <span className={styles.label}>Next</span>
                 <ArrowForwardIcon className={styles.icon} />
             </div>
         </div>
-        <MenuInfo
-            currentPage={currentPage}
-            showDiagram={showDiagram}
-        />
+
+        {/* MENU INFO & PROGRESS */}
+        <MenuInfo stepIndex={stepIndex} />
+
         <div className={styles.row}>
+            {/* INFO */}
             <div className={styles.navItem} onClick={onInfo}>
                 <InfoOutlinedIcon className={styles.icon} />
                 <span className={styles.label}>Info</span>
             </div>
+            {/* EXIT */}
             <div className={styles.navItem} onClick={onExit}>
                 <span className={styles.label}>Exit</span>
                 <CloseIcon className={styles.icon} />

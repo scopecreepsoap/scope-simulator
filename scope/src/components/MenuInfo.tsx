@@ -4,14 +4,16 @@ import {ProgressTracker} from "./ProgressTracker";
 import { QUESTIONS } from '../data/questions'
 
 interface MenuInfoProps {
-    currentPage: number
-    showDiagram: boolean
+    stepIndex: number
 }
 
-export const MenuInfo: React.FC<MenuInfoProps> = ({currentPage,showDiagram} ) => (
+export const MenuInfo: React.FC<MenuInfoProps> = ({ stepIndex } ) => (
     <div className={styles.menuContent}>
+
+        {/* TITLE */}
         <h1 className={styles.menuTitle}>Menu</h1>
 
+        {/* KEYBOARD INFO */}
         <div className={styles.section}>
             <div className={styles.sectionLabel}>Keyboard</div>
             <div className={styles.keyRow}>
@@ -32,6 +34,7 @@ export const MenuInfo: React.FC<MenuInfoProps> = ({currentPage,showDiagram} ) =>
             </div>
         </div>
 
+        {/* MOUSE INFO */}
         <div className={styles.section}>
             <div className={styles.sectionLabel}>Mouse</div>
             <div className={styles.keyRow}>
@@ -46,13 +49,14 @@ export const MenuInfo: React.FC<MenuInfoProps> = ({currentPage,showDiagram} ) =>
             </div>
         </div>
         <div className={styles.divider} />
+
+        {/* PROGRESS INDICATOR */}
         <div className={styles.progressBlock}>
             <div className={styles.sectionLabel}>Current SCOPE Progress</div>
-
             <ProgressTracker
                 totalQuestions={QUESTIONS.length}
                 totalDiagrams={QUESTIONS.reduce((acc, q) => acc + q.diagram.length, 0)}
-                currentIndex={(currentPage - 1) * 2 + (showDiagram ? 1 : 0)}
+                currentIndex={stepIndex}
             />
         </div>
     </div>

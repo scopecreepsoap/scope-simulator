@@ -1,43 +1,48 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
 import { QUESTIONS } from './data/questions'
 import { QuestionArea } from './components/QuestionArea'
 import { DiagramRenderer } from './components/DiagramRenderer'
 import { motion, AnimatePresence } from 'framer-motion'
+import type {QuestionConfig} from "./types/QuestionConfig";
 
 function App() {
-    const [currentPage, setCurrentPage] = useState(1)
+    const [stepIndex, setStepIndex] = useState(0)
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuClosing, setMenuClosing] = useState(false)
-    const [showDiagram, setShowDiagram] = useState(false)
     const [manualOpenTime, setManualOpenTime] = useState(0)
+
+    type Step =
+        | { type: 'prompt'; question: QuestionConfig; questionIndex: number }
+        | { type: 'diagram'; diagramKey: string; questionIndex: number }
+
+    const steps: Step[] = useMemo(() => {
+        return QUESTIONS.flatMap((q, qIndex) => [
+            { type: 'prompt', question: q, questionIndex: qIndex },
+            ...q.diagram.map((d: string) => ({
+                type: 'diagram',
+                diagramKey: d,
+                questionIndex: qIndex
+            }))
+        ])
+    }, [])
+
+    const currentStep = steps[stepIndex]
 
     const handleBack = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur() // avoid issue with slider adjusting
         }
-
-        if (showDiagram) {
-            setShowDiagram(false) // go back to question
-        } else {
-            setCurrentPage((prev) => Math.max(1, prev - 1))
-            setShowDiagram(true) // go to diagram of previous question
-        }
-    }, [showDiagram])
+        setStepIndex((prev) => Math.max(0, prev - 1))
+    }, [])
 
     const handleNext = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
-            document.activeElement.blur() // avoid issue with slider adjusting
+            document.activeElement.blur()
         }
-
-        if (!showDiagram) {
-            setShowDiagram(true) // go to diagram for current question
-        } else if (currentPage < QUESTIONS.length) {
-            setCurrentPage((prev) => prev + 1) // go to next question
-            setShowDiagram(false)
-        }
-    }, [currentPage, showDiagram])
+        setStepIndex((prev) => Math.min(steps.length - 1, prev + 1))
+    }, [steps.length])
 
     // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
     useEffect(() => {
@@ -123,7 +128,7 @@ function App() {
     const handleExit = () => console.log('Exit button clicked!')
 
     // Unique key to identify AnimatePresence component
-    const transitionKey = `${currentPage}-${showDiagram}`
+    const transitionKey = `${stepIndex}`
 
     return (
         <div className={styles.appContainer}>
@@ -143,15 +148,15 @@ function App() {
                             alignItems: 'center',
                         }}
                     >
-                        {!showDiagram ? (
+                        {currentStep.type === 'prompt' ? (
                             <QuestionArea
-                                question={QUESTIONS[currentPage - 1]}
-                                index={currentPage - 1}
+                                question={currentStep.question}
+                                index={currentStep.questionIndex}
                             />
                         ) : (
                             <DiagramRenderer
-                                diagramKeys={QUESTIONS[currentPage - 1].diagram}
-                                index={currentPage - 1}
+                                diagramKeys={[currentStep.diagramKey]}
+                                index={currentStep.questionIndex}
                             />
                         )}
                     </motion.div>
@@ -164,8 +169,7 @@ function App() {
                         onNext={handleNext}
                         onInfo={handleInfo}
                         onExit={handleExit}
-                        currentPage={currentPage}
-                        showDiagram={showDiagram}
+                        stepIndex={stepIndex}
                     />
                 </div>
             )}
