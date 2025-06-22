@@ -20,7 +20,7 @@ function App() {
     const steps: Step[] = useMemo(() => {
         return QUESTIONS.flatMap((q, qIndex) => [
             { type: 'prompt', question: q, questionIndex: qIndex },
-            ...q.diagram.map((d: string) => ({
+            ...q.diagram.map((d: string): Step => ({
                 type: 'diagram',
                 diagramKey: d,
                 questionIndex: qIndex

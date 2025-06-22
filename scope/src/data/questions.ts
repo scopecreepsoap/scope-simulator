@@ -21,5 +21,9 @@ export const QUESTIONS: QuestionConfig[] = [
     {
         prompt: 'Where would you expect to access Settings in this interface?',
         diagram: ['menu-settings-selector']
-    }
+    },
+    {
+        prompt: 'Nulla laoreet urna nec ipsum eleifend feugiat?',
+        diagram: ['no-diagram-found']
+    },
 ]

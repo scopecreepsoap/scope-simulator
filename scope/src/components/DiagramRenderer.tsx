@@ -4,6 +4,7 @@ import {QuadrantSelectorDiagram} from "./diagrams/QuadrantSelectorDiagram";
 import {SaveActionSelectorDiagram} from "./diagrams/SaveActionSelectorDiagram";
 import {SaveActionSelectorL2Diagram} from "./diagrams/SaveActionSelectorL2Diagram";
 import {MenuSettingsSelectorDiagram} from "./diagrams/MenuSettingsSelectorDiagram";
+import {NoDiagramFound} from "./diagrams/NoDiagramFound";
 import styles from '../styles/QuestionArea.module.css'
 
 interface DiagramRendererProps {
@@ -25,7 +26,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, i
             case 'menu-settings-selector':
                 return <MenuSettingsSelectorDiagram />
             default:
-                return <p style={{ color: 'var(--text-medium)' }}>No Diagram Found"</p>
+                return <NoDiagramFound />
         }
     }
 

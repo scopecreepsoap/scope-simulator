@@ -39,4 +39,5 @@
     font-size: 1.6rem;
     color: var(--text-medium);
     opacity: 0.6;
+    white-space: nowrap;
 }
