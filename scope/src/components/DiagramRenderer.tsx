@@ -37,7 +37,11 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, i
                     {index + 1}
                 </div>
             )}
-            {diagramKeys?.map((key) => renderDiagram(key))}
+            {diagramKeys?.map((key, i) => (
+                <React.Fragment key={`${key}-${i}`}>
+                    {renderDiagram(key)}
+                </React.Fragment>
+            ))}
         </div>
     )
 }
