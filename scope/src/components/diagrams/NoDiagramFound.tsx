@@ -1,14 +1,12 @@
 import React from 'react'
-import BrokenImageIcon from '@mui/icons-material/BrokenImage'
 import styles from '../../styles/NoDiagramFound.module.css'
+import noDiagramImg from '../../assets/no-diagram.png'
 
-export const NoDiagramFound: React.FC = () => {
-    return (
-        <div className={styles.wrapper}>
-            <div className={styles.content}>
-                <BrokenImageIcon className={styles.icon} />
-                <div className={styles.instruction}>No Diagram Found</div>
-            </div>
+export const NoDiagramFound: React.FC = () => (
+    <div className={styles.wrapper}>
+        <div className={styles.content}>
+            <img src={noDiagramImg} alt="No Diagram Found" />
+            <div className={styles.instruction}>No Diagram Found</div>
         </div>
-    )
-}
+    </div>
+)
