@@ -1,4 +1,6 @@
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import {useEffect, useState, useCallback, useMemo, useRef} from 'react'
+import { Toaster, toast } from 'react-hot-toast'
+
 import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
 import { QUESTIONS } from './data/questions'
@@ -12,6 +14,9 @@ function App() {
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuClosing, setMenuClosing] = useState(false)
     const [manualOpenTime, setManualOpenTime] = useState(0)
+
+    const transitionKey = `${stepIndex}` // Unique key to identify AnimatePresence component
+    const hasShownToast = useRef(false)
 
     type Step =
         | { type: 'prompt'; question: QuestionConfig; questionIndex: number }
@@ -30,19 +35,27 @@ function App() {
 
     const currentStep = steps[stepIndex]
 
+    /**
+     * 🔵 MENU CONTROLS
+    */
     const handleBack = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur() // avoid issue with slider adjusting
         }
         setStepIndex((prev) => Math.max(0, prev - 1))
     }, [])
-
     const handleNext = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur()
         }
         setStepIndex((prev) => Math.min(steps.length - 1, prev + 1))
     }, [steps.length])
+    const handleInfo = () => console.log('Info button clicked!')
+    const handleExit = () => console.log('Exit button clicked!')
+
+    /**
+     * 🔴 APP LOGIC
+     */
 
     // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
     useEffect(() => {
@@ -124,14 +137,44 @@ function App() {
         return () => window.removeEventListener('mousemove', handleMouseMove)
     }, [menuVisible, menuClosing])
 
-    const handleInfo = () => console.log('Info button clicked!')
-    const handleExit = () => console.log('Exit button clicked!')
+    // Notification -> 'Press Spacebar for Menu'
+    useEffect(() => {
+        if (!hasShownToast.current) {
+            toast('Press Spacebar to view Menu')
+            hasShownToast.current = true
+        }
+    }, [])
 
-    // Unique key to identify AnimatePresence component
-    const transitionKey = `${stepIndex}`
-
+    /**
+     * 🟢 RENDER UI
+     */
     return (
         <div className={styles.appContainer}>
+
+            {/* NOTIFICATIONS */}
+            <Toaster
+                position="top-center"
+                toastOptions={{
+                    duration: 3000,
+                    style: {
+                        background: 'transparent',
+                        color: '#79cfff',
+                        fontWeight: '500',
+                        fontSize: '16px',
+                        letterSpacing: '0.03em',
+                        padding: '14px 20px',
+                        borderRadius: '10px',
+                        textAlign: 'center',
+                        boxShadow: `
+                            1px 1px 0 midnightblue,
+                            10px 10px 50px rgba(0, 0, 155, 0.7)
+                        `,
+                        border: '0',
+                    }
+                }}
+            />
+
+            {/* SCOPE APP */}
             <div className={styles.mainContent}>
                 <AnimatePresence mode="wait">
                     <motion.div
