@@ -7,10 +7,10 @@ export class ScopeManager {
     startTime: number
     level: number
 
-    constructor(allQuestions: QuestionConfig[], level: number, timeLimit: number) {
+    constructor(allQuestions: QuestionConfig[], level: number, timeLimit: number, selectedQuestions?: QuestionConfig[]) {
         this.level = level
         this.timeLimit = timeLimit
-        this.questions = allQuestions.filter(q => q.level === level)
+        this.questions = selectedQuestions ?? allQuestions.filter(q => q.level === level)
         this.startTime = Date.now()
     }
 

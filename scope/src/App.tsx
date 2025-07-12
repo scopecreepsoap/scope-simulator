@@ -11,6 +11,7 @@ import type {QuestionConfig} from "./types/QuestionConfig";
 
 import { ScopeHome } from './components/ScopeHome'
 import { ScopeManager } from './components/ScopeManager'
+import strings from './data/strings'
 
 function App() {
     const [stepIndex, setStepIndex] = useState(0)
@@ -163,7 +164,7 @@ function App() {
     // Notification -> 'Press Spacebar for Menu'
     useEffect(() => {
         if (!hasShownToast.current) {
-            toast('Press Spacebar to view Menu')
+            toast(strings.notifications.pressSpace)
             hasShownToast.current = true
         }
     }, [])

@@ -32,4 +32,15 @@ export const QUESTIONS: QuestionConfig[] = [
         diagram: ['no-diagram-found'],
         level: 1
     },
+    // Following questions are included only to enable 2m of SCOPE time
+    {
+        prompt: 'Duis aute irure dolor in reprehenderit?',
+        diagram: ['no-diagram-found'],
+        level: 2
+    },
+    {
+        prompt: 'Excepteur sint occaecat cupidatat non proident?',
+        diagram: ['no-diagram-found'],
+        level: 2
+    },
 ]
