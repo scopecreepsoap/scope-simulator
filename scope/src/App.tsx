@@ -9,11 +9,21 @@ import { DiagramRenderer } from './components/DiagramRenderer'
 import { motion, AnimatePresence } from 'framer-motion'
 import type {QuestionConfig} from "./types/QuestionConfig";
 
+import { ScopeHome } from './components/ScopeHome'
+import { ScopeManager } from './components/ScopeManager'
+
 function App() {
     const [stepIndex, setStepIndex] = useState(0)
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuClosing, setMenuClosing] = useState(false)
     const [manualOpenTime, setManualOpenTime] = useState(0)
+
+    // 🟣 SCOPE MANAGER STATE
+    const [scopeManager, setScopeManager] = useState<ScopeManager | null>(null)
+    // Start handler invoked by ScopeHome
+    const handleStart = (manager: ScopeManager) => {
+        setScopeManager(manager)
+    }
 
     const transitionKey = `${stepIndex}` // Unique key to identify AnimatePresence component
     const hasShownToast = useRef(false)
@@ -31,13 +41,13 @@ function App() {
                 questionIndex: qIndex
             }))
         ])
-    }, [])
+    }, [QUESTIONS])
 
     const currentStep = steps[stepIndex]
 
     /**
      * 🔵 MENU CONTROLS
-    */
+     */
     const handleBack = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur() // avoid issue with slider adjusting
@@ -51,7 +61,11 @@ function App() {
         setStepIndex((prev) => Math.min(steps.length - 1, prev + 1))
     }, [steps.length])
     const handleInfo = () => console.log('Info button clicked!')
-    const handleExit = () => console.log('Exit button clicked!')
+
+    // Go to start menu
+    const handleExit = () => {
+        setScopeManager(null);
+    };
 
     /**
      * 🔴 APP LOGIC
@@ -64,7 +78,11 @@ function App() {
             const isArrowKey = event.code === 'ArrowLeft' || event.code === 'ArrowRight'
 
             // Prevent arrow key presses from accidentally adjusting slider
-            if (active instanceof HTMLInputElement && active.type === 'range' && isArrowKey) {
+            if (
+                active instanceof HTMLInputElement &&
+                active.type === 'range' &&
+                isArrowKey
+            ) {
                 event.preventDefault()
                 active.blur()
             }
@@ -120,7 +138,12 @@ function App() {
                 (x < cornerZoneSize && y > innerHeight - cornerZoneSize) || // bottom-left
                 (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize) // bottom-right
 
-            if (inCenterZone && menuVisible && !menuClosing && Date.now() - manualOpenTime > 1500) {
+            if (
+                inCenterZone &&
+                menuVisible &&
+                !menuClosing &&
+                Date.now() - manualOpenTime > 1500
+            ) {
                 setMenuClosing(true)
                 setTimeout(() => {
                     setMenuVisible(false)
@@ -145,6 +168,11 @@ function App() {
         }
     }, [])
 
+    // 🟣 START SCREEN: show menu before exam begins
+    if (!scopeManager) {
+        return <ScopeHome onStart={handleStart} />
+    }
+
     /**
      * 🟢 RENDER UI
      */
@@ -165,12 +193,10 @@ function App() {
                         padding: '14px 20px',
                         borderRadius: '10px',
                         textAlign: 'center',
-                        boxShadow: `
-                            1px 1px 0 midnightblue,
-                            10px 10px 50px rgba(0, 0, 155, 0.7)
-                        `,
+                        boxShadow:
+                            '1px 1px 0 midnightblue, 10px 10px 50px rgba(0, 0, 155, 0.7)',
                         border: '0',
-                    }
+                    },
                 }}
             />
 
