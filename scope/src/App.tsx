@@ -1,76 +1,77 @@
-import {useEffect, useState, useCallback, useMemo, useRef} from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
-
+import { motion, AnimatePresence } from 'framer-motion'
 import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
-import { QUESTIONS } from './data/questions'
 import { QuestionArea } from './components/QuestionArea'
 import { DiagramRenderer } from './components/DiagramRenderer'
-import { motion, AnimatePresence } from 'framer-motion'
-import type {QuestionConfig} from "./types/QuestionConfig";
-
 import { ScopeHome } from './components/ScopeHome'
-import { ScopeManager } from './components/ScopeManager'
 import strings from './data/strings'
+import { useScopeStore } from './stores/scopeStore'
 
 function App() {
-    const [stepIndex, setStepIndex] = useState(0)
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuClosing, setMenuClosing] = useState(false)
     const [manualOpenTime, setManualOpenTime] = useState(0)
-
-    // 🟣 SCOPE MANAGER STATE
-    const [scopeManager, setScopeManager] = useState<ScopeManager | null>(null)
-    // Start handler invoked by ScopeHome
-    const handleStart = (manager: ScopeManager) => {
-        setScopeManager(manager)
-    }
-
-    const transitionKey = `${stepIndex}` // Unique key to identify AnimatePresence component
     const hasShownToast = useRef(false)
 
-    type Step =
-        | { type: 'prompt'; question: QuestionConfig; questionIndex: number }
-        | { type: 'diagram'; diagramKey: string; questionIndex: number }
+    const {
+        appStatus,
+        testSteps,
+        currentIndex,
+        nextQuestion,
+        previousQuestion,
+        returnToHome,
+    } = useScopeStore()
 
-    const steps: Step[] = useMemo(() => {
-        return QUESTIONS.flatMap((q, qIndex) => [
-            { type: 'prompt', question: q, questionIndex: qIndex },
-            ...q.diagram.map((d: string): Step => ({
-                type: 'diagram',
-                diagramKey: d,
-                questionIndex: qIndex
-            }))
-        ])
-    }, [QUESTIONS])
-
-    const currentStep = steps[stepIndex]
 
     /**
      * 🔵 MENU CONTROLS
      */
     const handleBack = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
-            document.activeElement.blur() // avoid issue with slider adjusting
+            document.activeElement.blur()
         }
-        setStepIndex((prev) => Math.max(0, prev - 1))
-    }, [])
+        previousQuestion()
+    }, [previousQuestion])
+
     const handleNext = useCallback(() => {
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur()
         }
-        setStepIndex((prev) => Math.min(steps.length - 1, prev + 1))
-    }, [steps.length])
-    const handleInfo = () => console.log('Info button clicked!')
+        nextQuestion()
+    }, [nextQuestion])
 
-    // Go to start menu
-    const handleExit = () => {
-        setScopeManager(null);
-    };
+    const handleInfo = () => console.log('Info button clicked!')
+    const handleExit = () => returnToHome()
 
     /**
      * 🔴 APP LOGIC
      */
+
+    // Run test timer
+    useEffect(() => {
+        let timerInterval: number
+
+        if (appStatus === 'running') {
+            const { startTime, timeLimit, endTest } = useScopeStore.getState()
+
+            timerInterval = window.setInterval(() => {
+                const elapsedTime = (Date.now() - startTime) / 1000
+                const newRemainingTime = Math.max(timeLimit - elapsedTime, 0)
+
+                if (newRemainingTime <= 0) {
+                    toast('Time is up!')
+                    clearInterval(timerInterval)
+                    endTest()
+                }
+            }, 1000)
+        }
+
+        return () => {
+            clearInterval(timerInterval)
+        }
+    }, [appStatus])
 
     // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
     useEffect(() => {
@@ -159,7 +160,8 @@ function App() {
 
         window.addEventListener('mousemove', handleMouseMove)
         return () => window.removeEventListener('mousemove', handleMouseMove)
-    }, [menuVisible, menuClosing])
+    }, [menuVisible, menuClosing, manualOpenTime])
+
 
     // Notification -> 'Press Spacebar for Menu'
     useEffect(() => {
@@ -169,9 +171,37 @@ function App() {
         }
     }, [])
 
-    // 🟣 START SCREEN: show menu before exam begins
-    if (!scopeManager) {
-        return <ScopeHome onStart={handleStart} />
+    if (appStatus === 'configuring') {
+        return <ScopeHome />
+    }
+
+    if (appStatus === 'ready') {
+        const { beginTest } = useScopeStore.getState()
+        return (
+            <div className={styles.appContainer}>
+                <button onClick={beginTest} className={styles.beginButton}>
+                    Begin Test
+                </button>
+            </div>
+        )
+    }
+
+    if (appStatus === 'finished') {
+        return (
+            <div className={styles.appContainer}>
+                <h1>SCOPE Complete</h1>
+                <button onClick={handleExit} className={styles.beginButton}>
+                    Return Home
+                </button>
+            </div>
+        )
+    }
+
+    const currentStep = testSteps[currentIndex]
+    const transitionKey = `${currentIndex}`
+
+    if (!currentStep) {
+        return null
     }
 
     /**
@@ -218,14 +248,14 @@ function App() {
                             alignItems: 'center',
                         }}
                     >
-                        {currentStep.type === 'prompt' ? (
-                            <QuestionArea
-                                question={currentStep.question}
+                        {currentStep.type === 'diagram' ? (
+                            <DiagramRenderer
+                                diagramKeys={[currentStep.diagramKey]}
                                 index={currentStep.questionIndex}
                             />
                         ) : (
-                            <DiagramRenderer
-                                diagramKeys={[currentStep.diagramKey]}
+                            <QuestionArea
+                                question={currentStep.data}
                                 index={currentStep.questionIndex}
                             />
                         )}
@@ -233,13 +263,17 @@ function App() {
                 </AnimatePresence>
             </div>
             {menuVisible && (
-                <div className={`${styles.menuOverlay} ${menuClosing ? styles.fadeOut : ''}`}>
+                <div
+                    className={`${styles.menuOverlay} ${
+                        menuClosing ? styles.fadeOut : ''
+                    }`}
+                >
                     <MenuOverlay
                         onBack={handleBack}
                         onNext={handleNext}
                         onInfo={handleInfo}
                         onExit={handleExit}
-                        stepIndex={stepIndex}
+                        stepIndex={currentIndex}
                     />
                 </div>
             )}

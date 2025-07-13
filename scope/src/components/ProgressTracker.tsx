@@ -3,13 +3,12 @@ import styles from '../styles/ProgressTracker.module.css'
 import CircleIcon from '@mui/icons-material/Circle'
 
 interface ProgressTrackerProps {
-    totalQuestions: number
-    totalDiagrams: number
+    totalSteps: number
     currentIndex: number // 0-based linear index (prompt = 0, diagram = 1, ...)
 }
 
-export const ProgressTracker: React.FC<ProgressTrackerProps> = ({ totalQuestions, totalDiagrams, currentIndex }) => {
-    const totalDots = totalQuestions + totalDiagrams
+export const ProgressTracker: React.FC<ProgressTrackerProps> = ({ totalSteps, currentIndex }) => {
+    const totalDots = totalSteps
 
     const elements: React.ReactNode[] = []
     for (let i = 0; i < totalDots; i++) {
