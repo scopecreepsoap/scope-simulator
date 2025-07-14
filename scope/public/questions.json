@@ -1,0 +1,50 @@
+[
+  {
+    "level": 2,
+    "prompt": "When does this layout become most readable?",
+    "diagram": ["text-density"],
+    "instruction": "Drag slider up or down"
+  },
+  {
+    "level": 1,
+    "prompt": "Where would you click to close this dialog?",
+    "diagram": ["quadrant-selector"],
+    "canary": true
+  },
+  {
+    "level": 1,
+    "prompt": "What button on a dialog do you associate with Save?",
+    "diagram": ["save-action-selector"]
+  },
+  {
+    "level": 1,
+    "prompt": "Which part of this dialog would you click to go back?",
+    "diagram": ["quadrant-selector"],
+    "canary": true
+  },
+  {
+    "level": 2,
+    "prompt": "Where would you expect to access Settings in this interface?",
+    "diagram": ["menu-settings-selector"]
+  },
+  {
+    "level": 1,
+    "prompt": "What button on a dialog do you associate with Save?",
+    "diagram": ["save-action-selector-l2"]
+  },
+  {
+    "level": 1,
+    "prompt": "Nulla laoreet urna nec ipsum eleifend feugiat?",
+    "diagram": ["no-diagram-found"]
+  },
+  {
+    "level": 2,
+    "prompt": "Duis aute irure dolor in reprehenderit?",
+    "diagram": ["no-diagram-found"]
+  },
+  {
+    "level": 2,
+    "prompt": "Excepteur sint occaecat cupidatat non proident?",
+    "diagram": ["no-diagram-found"]
+  }
+]
