@@ -1,0 +1,79 @@
+[
+  {
+    "level": 2,
+    "prompt": "When does this layout become most readable?",
+    "diagram": ["text-density"],
+    "instruction": "Drag slider up or down"
+  },
+  {
+    "level": 1,
+    "prompt": "Where would you click to close this dialog?",
+    "diagram": ["quadrant-selector"],
+    "canary": true,
+    "canaryIntent": "close"
+  },
+  {
+    "level": 1,
+    "prompt": "What button on a dialog do you associate with Save?",
+    "diagram": ["save-action-selector"]
+  },
+  {
+    "level": 1,
+    "prompt": "Which part of this dialog would you click to go back?",
+    "diagram": ["quadrant-selector"],
+    "canary": true,
+    "canaryIntent": "back"
+  },
+  {
+    "level": 2,
+    "prompt": "Where would you expect to access Settings in this interface?",
+    "diagram": ["menu-settings-selector"]
+  },
+  {
+    "level": 1,
+    "prompt": "What button on a dialog do you associate with Save?",
+    "diagram": ["save-action-selector-l2"]
+  },
+  {
+    "level": 1,
+    "prompt": "This question has no diagram.",
+    "diagram": ["no-diagram-found"],
+    "instruction": "Please continue ahead"
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click on the home page to sign up for the service?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click on the home page to contact the company?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click to learn more about pricing?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click to learn more about the company?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click to see job opportunities?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click if you're already a customer wanting to log in?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  }
+]

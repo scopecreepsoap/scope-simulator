@@ -1,0 +1,30 @@
+.aboutContainer {
+    color: #fff;
+    max-width: 1000px;
+    width: 100%;
+    text-align: left;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    color: #BBFFF9;
+}
+
+.paragraph {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.link {
+    color: #3097FF;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #3097FF;
+    text-decoration: underline;
+}

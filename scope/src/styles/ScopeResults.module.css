@@ -1,0 +1,129 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #fff;
+    font-family: 'PP Neue Montreal', sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #3097FF;
+}
+
+.questionBlock {
+    margin-bottom: 4rem;
+}
+
+.promptIndex {
+    grid-area: index;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.promptText {
+    grid-area: prompt;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    opacity: 0.5;
+}
+
+.resultsGrid {
+    display: grid;
+    grid-template-columns: auto 1.5fr 1fr;
+    grid-template-areas:
+        "index prompt answer"
+        "index diagram notes";
+    gap: 1.5rem 2rem;
+    align-items: stretch;
+}
+
+.diagramCell {
+    grid-area: diagram;
+    border-radius: 20px;
+    padding: 1.5rem;
+    min-height: 300px;
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.diagramWrapper {
+    pointer-events: none;
+}
+
+.answerRow {
+    grid-area: answer;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.notesCell {
+    grid-area: notes;
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 0;
+    min-height: 150px;
+    font-style: italic;
+    color: #9cb3d9;
+}
+
+.optionsRow {
+    display: inline-flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(48, 151, 255, 0.25);
+    font-size: 1.2rem;
+    color: #9cb3d9;
+}
+
+.footerLink {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.footerLink:hover {
+    color: #fff;
+}
+
+.notesTextarea {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 1.2rem;
+    resize: none;
+    overflow-y: auto;
+}
+
+.notesTextarea:focus {
+    outline: none;
+    font-style: normal;
+}
+
