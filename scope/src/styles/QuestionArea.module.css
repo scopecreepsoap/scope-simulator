@@ -1,0 +1,43 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.index {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-medium);
+    opacity: 0.6;
+}
+
+.prompt {
+    font-size: 3.2rem;
+    font-weight: bold;
+    line-height: 1.4;
+    max-width: 860px;
+    color: var(--text-light);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    letter-spacing: 1.5px;
+}
+
+.instruction {
+    position: absolute;
+    bottom: 80px;
+    font-size: 1.6rem;
+    color: var(--text-medium);
+    opacity: 0.6;
+    white-space: nowrap;
+}
