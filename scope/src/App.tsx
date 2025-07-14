@@ -1,35 +1,284 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState, useCallback, useRef } from 'react'
+import { Toaster, toast } from 'react-hot-toast'
+import { motion, AnimatePresence } from 'framer-motion'
+import styles from './styles/App.module.css'
+import { MenuOverlay } from './components/MenuOverlay'
+import { QuestionArea } from './components/QuestionArea'
+import { DiagramRenderer } from './components/DiagramRenderer'
+import { ScopeHome } from './components/ScopeHome'
+import strings from './data/strings'
+import { useScopeStore } from './stores/scopeStore'
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [menuVisible, setMenuVisible] = useState(false)
+    const [menuClosing, setMenuClosing] = useState(false)
+    const [manualOpenTime, setManualOpenTime] = useState(0)
+    const hasShownToast = useRef(false)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const {
+        appStatus,
+        testSteps,
+        currentIndex,
+        nextQuestion,
+        previousQuestion,
+        returnToHome,
+    } = useScopeStore()
+
+
+    /**
+     * 🔵 MENU CONTROLS
+     */
+    const handleBack = useCallback(() => {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur()
+        }
+        previousQuestion()
+    }, [previousQuestion])
+
+    const handleNext = useCallback(() => {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur()
+        }
+        nextQuestion()
+    }, [nextQuestion])
+
+    const handleInfo = () => console.log('Info button clicked!')
+    const handleExit = () => returnToHome()
+
+    /**
+     * 🔴 APP LOGIC
+     */
+
+    // Run test timer
+    useEffect(() => {
+        let timerInterval: number
+
+        if (appStatus === 'running') {
+            const { startTime, timeLimit, endTest } = useScopeStore.getState()
+
+            timerInterval = window.setInterval(() => {
+                const elapsedTime = (Date.now() - startTime) / 1000
+                const newRemainingTime = Math.max(timeLimit - elapsedTime, 0)
+
+                if (newRemainingTime <= 0) {
+                    toast('Time is up!')
+                    clearInterval(timerInterval)
+                    endTest()
+                }
+            }, 1000)
+        }
+
+        return () => {
+            clearInterval(timerInterval)
+        }
+    }, [appStatus])
+
+    // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            const active = document.activeElement
+            const isArrowKey = event.code === 'ArrowLeft' || event.code === 'ArrowRight'
+
+            // Prevent arrow key presses from accidentally adjusting slider
+            if (
+                active instanceof HTMLInputElement &&
+                active.type === 'range' &&
+                isArrowKey
+            ) {
+                event.preventDefault()
+                active.blur()
+            }
+
+            const key = event.key.toLowerCase()
+
+            if (event.code === 'Space') {
+                event.preventDefault()
+                if (menuVisible) {
+                    setMenuClosing(true)
+                    setTimeout(() => {
+                        setMenuVisible(false)
+                        setMenuClosing(false)
+                    }, 250)
+                } else {
+                    setMenuVisible(true)
+                    setManualOpenTime(Date.now())
+                }
+            } else if (event.code === 'ArrowLeft' || key === 'a') {
+                handleBack()
+            } else if (event.code === 'ArrowRight' || key === 'd') {
+                handleNext()
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [menuVisible, handleBack, handleNext])
+
+    // Show menu if mouse moves to corners of page
+    // Hide menu if mouse moves to center of page
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            const { clientX: x, clientY: y } = e
+            const { innerWidth, innerHeight } = window
+
+            // Pixels (px)
+            const centerZoneSize = 500
+            const cornerZoneSize = 100
+
+            const centerX = innerWidth / 2
+            const centerY = innerHeight / 2
+
+            const inCenterZone =
+                x > centerX - centerZoneSize / 2 &&
+                x < centerX + centerZoneSize / 2 &&
+                y > centerY - centerZoneSize / 2 &&
+                y < centerY + centerZoneSize / 2
+
+            const inCornerZone =
+                (x < cornerZoneSize && y < cornerZoneSize) || // top-left
+                (x > innerWidth - cornerZoneSize && y < cornerZoneSize) || // top-right
+                (x < cornerZoneSize && y > innerHeight - cornerZoneSize) || // bottom-left
+                (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize) // bottom-right
+
+            if (
+                inCenterZone &&
+                menuVisible &&
+                !menuClosing &&
+                Date.now() - manualOpenTime > 1500
+            ) {
+                setMenuClosing(true)
+                setTimeout(() => {
+                    setMenuVisible(false)
+                    setMenuClosing(false)
+                }, 250)
+            }
+
+            if (inCornerZone && !menuVisible && !menuClosing) {
+                setMenuVisible(true)
+            }
+        }
+
+        window.addEventListener('mousemove', handleMouseMove)
+        return () => window.removeEventListener('mousemove', handleMouseMove)
+    }, [menuVisible, menuClosing, manualOpenTime])
+
+
+    // Notification -> 'Press Spacebar for Menu'
+    useEffect(() => {
+        if (!hasShownToast.current) {
+            toast(strings.notifications.pressSpace)
+            hasShownToast.current = true
+        }
+    }, [])
+
+    if (appStatus === 'configuring') {
+        return <ScopeHome />
+    }
+
+    if (appStatus === 'ready') {
+        const { beginTest } = useScopeStore.getState()
+        return (
+            <div className={styles.appContainer}>
+                <button onClick={beginTest} className={styles.beginButton}>
+                    Begin Test
+                </button>
+            </div>
+        )
+    }
+
+    if (appStatus === 'finished') {
+        return (
+            <div className={styles.appContainer}>
+                <h1>SCOPE Complete</h1>
+                <button onClick={handleExit} className={styles.beginButton}>
+                    Return Home
+                </button>
+            </div>
+        )
+    }
+
+    const currentStep = testSteps[currentIndex]
+    const transitionKey = `${currentIndex}`
+
+    if (!currentStep) {
+        return null
+    }
+
+    /**
+     * 🟢 RENDER UI
+     */
+    return (
+        <div className={styles.appContainer}>
+
+            {/* NOTIFICATIONS */}
+            <Toaster
+                position="top-center"
+                toastOptions={{
+                    duration: 3000,
+                    style: {
+                        background: 'transparent',
+                        color: '#79cfff',
+                        fontWeight: '500',
+                        fontSize: '16px',
+                        letterSpacing: '0.03em',
+                        padding: '14px 20px',
+                        borderRadius: '10px',
+                        textAlign: 'center',
+                        boxShadow:
+                            '1px 1px 0 midnightblue, 10px 10px 50px rgba(0, 0, 155, 0.7)',
+                        border: '0',
+                    },
+                }}
+            />
+
+            {/* SCOPE APP */}
+            <div className={styles.mainContent}>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={transitionKey}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        {currentStep.type === 'diagram' ? (
+                            <DiagramRenderer
+                                diagramKeys={[currentStep.diagramKey]}
+                                index={currentStep.questionIndex}
+                            />
+                        ) : (
+                            <QuestionArea
+                                question={currentStep.data}
+                                index={currentStep.questionIndex}
+                            />
+                        )}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+            {menuVisible && (
+                <div
+                    className={`${styles.menuOverlay} ${
+                        menuClosing ? styles.fadeOut : ''
+                    }`}
+                >
+                    <MenuOverlay
+                        onBack={handleBack}
+                        onNext={handleNext}
+                        onInfo={handleInfo}
+                        onExit={handleExit}
+                        stepIndex={currentIndex}
+                    />
+                </div>
+            )}
+        </div>
+    )
 }
 
 export default App

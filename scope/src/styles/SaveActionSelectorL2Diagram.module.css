@@ -1,0 +1,109 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.dialogBox {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background: #d1ecf8;
+    border-radius: 20px;
+    padding: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.formArea {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.inputRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.labelShape {
+    width: 55%;
+    height: 16px;
+    background: linear-gradient(to right, #B8F3FE, #5D92AB);
+}
+
+.inputShape {
+    width: 80%;
+    height: 36px;
+    background: linear-gradient(to right, #C9F8FF, #96E3FF);
+    mix-blend-mode: hard-light;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    overflow: hidden;
+    border: none;
+    box-sizing: border-box;
+}
+
+.buttonRow {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 0 2rem 2rem;
+    margin-top: 1rem;
+}
+
+.button {
+    position: relative;
+    width: 25%;
+    height: 65px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #50e6c1, #00cfff);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 0;
+}
+
+.button.hover::before,
+.button.selected::before {
+    opacity: 1;
+}
+
+.button > * {
+    position: relative;
+    z-index: 1;
+}
+
+.selected {
+    box-shadow: 0 0 20px 20px rgba(213, 215, 255, 0.5);
+}
+
+.icon {
+    position: absolute;
+    z-index: 2;
+    font-size: 54px !important;
+    color: #0070ff;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
