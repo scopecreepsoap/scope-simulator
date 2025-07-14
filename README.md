@@ -2,6 +2,8 @@
 
 **S.C.O.P.E.:** **S**imulation for **C**ognitive **O**bservation of **P**erception & **E**xperience
 
+<img src="./scope/src/assets/target-window.png" alt="SCOPE Target Window" width="85%"/>
+
 ## 🌟 Project Overview
 
 The SCOPE Simulator is an interactive, web-based tool designed to explore and test fundamental principles of User Experience (UX), particularly focusing on **user intuition, visual perception of layouts, and interaction patterns**.
@@ -20,22 +22,11 @@ In the realm of UX, understanding how layout, content density, and interactive e
 
 ## ✨ Features (Current & Planned)
 
-### Current (Initial MVP Focus):
-* Full-screen, immersive dark-themed interface.
-* Core navigation elements (Previous/Next, Info, Exit).
-* Central content area for interactive questions.
-* Spacebar-triggered overlay menu for global navigation.
-* **Dynamic Slider Interaction (Abstract):** A vertical "slider" component that visually manipulates the spacing/size of content blocks (abstract shapes or placeholder text initially) to simulate varying content density.
-
-### Planned Enhancements:
-* **Rich Content Manipulation:** Integrate real `Lorem ipsum` text with configurable font properties (size, line height, letter spacing) that dynamically adjust with the slider.
-* **Diverse Scenario Types:** Implement multiple question types focusing on different UX challenges (e.g., finding specific UI elements, interpreting complex layouts).
-* **Interactive Response Mechanisms:** Beyond the slider, introduce other interaction types (e.g., click targets, drag-and-drop elements for specific questions).
-* **Research Data Collection (Opt-in):** Implement functionality to anonymously log user interactions (e.g., slider positions, time on task, selected answers) for research purposes (with clear user consent).
-* **Custom Scenario Configuration:** Allow researchers to easily define and load their own test scenarios via JSON files.
-* **Enhanced Animations & Transitions:** Polished visual feedback for interactions and navigation.
-* **Accessibility:** Ensure keyboard navigation and screen reader compatibility.
-
+* **Extensible Plugin System:** The simulator is built on a modular architecture where each interactive diagram is a self-contained plugin. This allows for the rapid development and integration of new test scenarios.
+* **JSON-Based Question Configuration:** Test questions, diagrams, and contextual data are all defined in `public/questions.json`, making it simple to modify, add, or reorder test flows.
+* **Abstract Design Philosophy:** Utilizes simplified, abstract shapes and layouts in its diagrams to isolate and test core UX principles without the distraction of realistic content.
+* **Immersive Interface:** A full-screen, dark-themed UI minimizes distractions and focuses the user on the interactive challenge.
+* **Future Roadmap:** Key planned enhancements include an AI-powered results summary, a system for loading external test configurations, and opt-in research data collection. For a complete overview of future features and project direction, please see the [`ROADMAP.md`](ROADMAP.md) file.
 ## 🚀 Getting Started
 
 To get the SCOPE Simulator up and running on your local machine:
@@ -49,12 +40,11 @@ To get the SCOPE Simulator up and running on your local machine:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/scope-simulator.git](https://github.com/your-username/scope-simulator.git)
-    # (Replace your-username with your actual GitHub username when you create the repo)
+    git clone https://github.com/scopecreepsoap/scope-simulator.git
     ```
 2.  **Navigate into the project directory:**
     ```bash
-    cd scope-simulator
+    cd scope
     ```
 3.  **Install dependencies:**
     ```bash
@@ -67,3 +57,32 @@ Start the local development server to view the application in your browser:
 
 ```bash
 npm run dev
+```
+
+---
+
+### 🙌 Credits
+
+**SCOPE** was designed and developed by **Sriram Bhat** as part of an independent research effort to explore cognitive bias and interface perception in traffic operations.
+
+This work was shaped by early research collaborations and insightful contributions from:
+
+- **Gustavo Chavez** – initial white paper collaborator and co-lead on the internal research direction
+- **Dr. Katelyn Fry-Hilderbrand** – for introducing the MATB-II framework and discussions on cognitive load
+- **Dr. Gopika Ajaykumar** – for expert guidance in UX and cognitive load theory throughout development
+
+---
+
+## 🤝 Contributing
+
+Contributions are highly encouraged. The project's plugin architecture is designed to make it easy for developers to add new diagrams and test scenarios.
+
+Before you begin, please review the detailed **[`CONTRIBUTING.md`](CONTRIBUTING.md)** file for guidelines on the development process, coding standards, and plugin structure. For specific instructions on how to structure question objects in the JSON file, see the **[`README.md` in the `public` directory](public/README.md)**.
+
+---
+
+### 📘 License
+
+**SCOPE** is distributed under the [MIT License](LICENSE). Contributions welcome.
+
+Designed to support open UX research and shared exploration within the design and HCI community.
