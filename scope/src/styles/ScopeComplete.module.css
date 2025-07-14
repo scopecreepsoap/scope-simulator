@@ -1,0 +1,55 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(10, 17, 80);
+    will-change: opacity;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    gap: 3rem;
+    width: 100%;
+    max-width: 878px;
+}
+
+.title {
+    font-size: 4rem;
+    color: #3097FF;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 10rem;
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.clipboardIcon {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    color: rgba(201, 209, 217, 0.4);
+}
+
+.buttonRow {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-top: 8rem;
+}
+
+.optionsRow {
+    display: flex;
+    gap: 3rem;
+    margin: 6rem 0 0 2rem;
+    width: 100%;
+}

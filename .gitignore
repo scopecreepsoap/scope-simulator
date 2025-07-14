@@ -1,0 +1,6 @@
+# Claude
+.claude/settings.local.json
+
+# Fonts
+/scope/src/assets/*.woff
+/scope/src/assets/*.woff2

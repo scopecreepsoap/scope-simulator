@@ -1,0 +1,56 @@
+.container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.card {
+    width: 75%;
+    max-width: 250px;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    min-height: 60px;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.dropzone {
+    border: 2px dashed #1c2a7c;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    margin-left: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-color: rgba(20, 34, 104, 0.5);
+    min-height: 68px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropzone:hover,
+.dropzone.dragging {
+    border-color: #21d4fd;
+    background-color: rgba(33, 212, 253, 0.1);
+}
+
+.fileInput {
+    display: none;
+}
+
+.dragging {
+    border-color: #21d4fd;
+}
+
+.placeholderCard {
+    background: #142268;
+    cursor: default !important;
+}

@@ -1,0 +1,113 @@
+.menuContent {
+    position: absolute;
+    top: 65px;
+    left: 55%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    text-align: left;
+}
+
+.menuTitle {
+    color: #BBFFF9;
+    font-weight: 500;
+    font-size: 36px;
+    border-bottom: 1px solid #BBFFF9;
+    width: fit-content;
+    margin-bottom: 32px;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.sectionLabel {
+    color: #66d9ef;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 1.4rem;
+}
+
+.divider {
+    width: 80%;
+    height: 0.05rem;
+    background-color: #CBF4FF;
+    opacity: 0.25;
+    margin: 32px 0;
+    mix-blend-mode: overlay;
+}
+
+.keyRow {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-left: 32px;
+}
+
+.keyGroup {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.key {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #fff;
+    font-size: 16px;
+    border: 1px solid #79cfff;
+}
+
+.spacekey {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #fff;
+    width: 4rem;
+    font-size: 16px;
+    border: 1px solid #79cfff;
+    text-align: center;
+}
+
+.instruction {
+    color: #79cfff;
+    font-size: 16px;
+    margin-left: 1.4rem;
+}
+
+.action {
+    font-weight: 500;
+    color: #fff;
+    left: 0;
+    font-size: 16px;
+    width: 8rem;
+}
+
+.mouseAction {
+    font-weight: 500;
+    color: #fff;
+    left: 0;
+    font-size: 16px;
+    width: 7.2rem;
+}
+
+.mouseInstruction {
+    color: #79cfff;
+    font-size: 16px;
+}
+
+.progressBlock {
+    margin-top: 24px;
+}
+
+.progressPlaceholder {
+    height: 20px;
+    width: 80%;
+    border: 2px dashed #79cfff;
+    opacity: 0.25;
+    border-radius: 100px;
+}
