@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TimerIcon from '@mui/icons-material/Timer'
 import WatchIcon from '@mui/icons-material/Watch'
 import HourglassTopIcon from '@mui/icons-material/HourglassTop'
@@ -20,8 +20,15 @@ export const ScopeHome: React.FC = () => {
         selectedLevel,
         setSelectedTime,
         setSelectedLevel,
-        startTest,
+        prepareTest,
     } = useScopeStore()
+
+    // Show 'Begin SCOPE' screen
+    useEffect(() => {
+        if (selectedTime !== null && selectedLevel !== null) {
+            prepareTest()
+        }
+    }, [selectedTime, selectedLevel, prepareTest])
 
     function canSupportTime(minutes: number, questions: QuestionConfig[]) {
         const totalAvailableSec = questions.reduce((sum, q) => {
@@ -32,8 +39,6 @@ export const ScopeHome: React.FC = () => {
 
         return totalAvailableSec >= requiredSec
     }
-
-    const isStartDisabled = selectedTime === null || selectedLevel === null
 
     return (
         <div className={styles.container}>
@@ -207,16 +212,6 @@ export const ScopeHome: React.FC = () => {
                             )
                         })}
                     </div>
-                </div>
-
-                <div className={styles.startSection}>
-                    <button
-                        className={styles.startButton}
-                        disabled={isStartDisabled}
-                        onClick={startTest}
-                    >
-                        Start SCOPE
-                    </button>
                 </div>
             </div>
         </div>

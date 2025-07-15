@@ -24,7 +24,7 @@ interface ScopeState {
 interface ScopeActions {
     setSelectedTime: (time: number | null) => void
     setSelectedLevel: (level: number | null) => void
-    startTest: () => void
+    prepareTest: () => void
     beginTest: () => void
     previousQuestion: () => void
     nextQuestion: () => void
@@ -50,7 +50,11 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     setSelectedTime: (time) => set({ selectedTime: time }),
     setSelectedLevel: (level) => set({ selectedLevel: level }),
 
-    startTest: () => {
+    /**
+     * Prepares the test by generating the question list based on user selections
+     * and putting the app into the 'ready' state.
+     */
+    prepareTest: () => {
         const { selectedLevel, selectedTime } = get()
         if (!selectedLevel || !selectedTime) return
 
@@ -103,7 +107,6 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             }
         })
 
-        // Finalize test parameters
         set({
             testSteps: finalTestSteps,
             timeLimit: totalTimeInSeconds,
@@ -112,6 +115,9 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
         })
     },
 
+    /**
+     * Starts the test timer and transitions the app to the 'running' state.
+     */
     beginTest: () => {
         set({
             startTime: Date.now(),

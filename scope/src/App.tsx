@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
 import { QuestionArea } from './components/QuestionArea'
@@ -8,13 +8,14 @@ import { DiagramRenderer } from './components/DiagramRenderer'
 import { ScopeHome } from './components/ScopeHome'
 import strings from './data/strings'
 import { useScopeStore } from './stores/scopeStore'
+import { BeginScope } from './components/BeginScope'
+import { ScopeComplete } from './components/ScopeComplete'
 
 function App() {
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuClosing, setMenuClosing] = useState(false)
     const [manualOpenTime, setManualOpenTime] = useState(0)
     const hasShownToast = useRef(false)
-
     const {
         appStatus,
         testSteps,
@@ -45,6 +46,7 @@ function App() {
     const handleInfo = () => console.log('Info button clicked!')
     const handleExit = () => returnToHome()
 
+
     /**
      * 🔴 APP LOGIC
      */
@@ -61,7 +63,7 @@ function App() {
                 const newRemainingTime = Math.max(timeLimit - elapsedTime, 0)
 
                 if (newRemainingTime <= 0) {
-                    toast('Time is up!')
+                    toast('SCOPE Complete')
                     clearInterval(timerInterval)
                     endTest()
                 }
@@ -80,11 +82,7 @@ function App() {
             const isArrowKey = event.code === 'ArrowLeft' || event.code === 'ArrowRight'
 
             // Prevent arrow key presses from accidentally adjusting slider
-            if (
-                active instanceof HTMLInputElement &&
-                active.type === 'range' &&
-                isArrowKey
-            ) {
+            if (active instanceof HTMLInputElement && active.type === 'range' && isArrowKey) {
                 event.preventDefault()
                 active.blur()
             }
@@ -103,13 +101,15 @@ function App() {
                     setMenuVisible(true)
                     setManualOpenTime(Date.now())
                 }
-            } else if (event.code === 'ArrowLeft' || key === 'a') {
-                handleBack()
-            } else if (event.code === 'ArrowRight' || key === 'd') {
-                handleNext()
+            }
+            if (useScopeStore.getState().appStatus === 'running') {
+                if (event.code === 'ArrowLeft' || key === 'a') {
+                    handleBack()
+                } else if (event.code === 'ArrowRight' || key === 'd') {
+                    handleNext()
+                }
             }
         }
-
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [menuVisible, handleBack, handleNext])
@@ -127,25 +127,15 @@ function App() {
 
             const centerX = innerWidth / 2
             const centerY = innerHeight / 2
-
-            const inCenterZone =
-                x > centerX - centerZoneSize / 2 &&
-                x < centerX + centerZoneSize / 2 &&
-                y > centerY - centerZoneSize / 2 &&
+            const inCenterZone = x > centerX - centerZoneSize / 2 &&
+                x < centerX + centerZoneSize / 2 && y > centerY - centerZoneSize / 2 &&
                 y < centerY + centerZoneSize / 2
+            const inCornerZone = (x < cornerZoneSize && y < cornerZoneSize) ||
+                (x > innerWidth - cornerZoneSize && y < cornerZoneSize) ||
+                (x < cornerZoneSize && y > innerHeight - cornerZoneSize) ||
+                (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize)
 
-            const inCornerZone =
-                (x < cornerZoneSize && y < cornerZoneSize) || // top-left
-                (x > innerWidth - cornerZoneSize && y < cornerZoneSize) || // top-right
-                (x < cornerZoneSize && y > innerHeight - cornerZoneSize) || // bottom-left
-                (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize) // bottom-right
-
-            if (
-                inCenterZone &&
-                menuVisible &&
-                !menuClosing &&
-                Date.now() - manualOpenTime > 1500
-            ) {
+            if (inCenterZone && menuVisible && !menuClosing && Date.now() - manualOpenTime > 1500) {
                 setMenuClosing(true)
                 setTimeout(() => {
                     setMenuVisible(false)
@@ -162,47 +152,17 @@ function App() {
         return () => window.removeEventListener('mousemove', handleMouseMove)
     }, [menuVisible, menuClosing, manualOpenTime])
 
-
     // Notification -> 'Press Spacebar for Menu'
     useEffect(() => {
-        if (!hasShownToast.current) {
+        if (!hasShownToast.current && appStatus === 'configuring') {
             toast(strings.notifications.pressSpace)
             hasShownToast.current = true
         }
-    }, [])
-
-    if (appStatus === 'configuring') {
-        return <ScopeHome />
-    }
-
-    if (appStatus === 'ready') {
-        const { beginTest } = useScopeStore.getState()
-        return (
-            <div className={styles.appContainer}>
-                <button onClick={beginTest} className={styles.beginButton}>
-                    Begin Test
-                </button>
-            </div>
-        )
-    }
-
-    if (appStatus === 'finished') {
-        return (
-            <div className={styles.appContainer}>
-                <h1>SCOPE Complete</h1>
-                <button onClick={handleExit} className={styles.beginButton}>
-                    Return Home
-                </button>
-            </div>
-        )
-    }
+    }, [appStatus])
 
     const currentStep = testSteps[currentIndex]
     const transitionKey = `${currentIndex}`
 
-    if (!currentStep) {
-        return null
-    }
 
     /**
      * 🟢 RENDER UI
@@ -231,22 +191,52 @@ function App() {
                 }}
             />
 
-            {/* SCOPE APP */}
-            <div className={styles.mainContent}>
-                <AnimatePresence mode="wait">
+            {/* SCOPE HOME */}
+            <motion.div
+                className={styles.screen}
+                animate={{
+                    filter:
+                        appStatus === 'ready' || appStatus === 'finished'
+                            ? 'blur(10px)'
+                            : 'blur(0px)',
+                    opacity: appStatus === 'configuring' ? 1 : 0,
+                    pointerEvents: appStatus === 'configuring' ? 'auto' : 'none',
+                }}
+                transition={{ duration: 0.3 }}
+            >
+                <ScopeHome />
+            </motion.div>
+
+            {/* BEGIN SCOPE */}
+            <motion.div
+                className={styles.screen}
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: appStatus === 'ready' ? 1 : 0,
+                    pointerEvents: appStatus === 'ready' ? 'auto' : 'none',
+                }}
+                transition={{ duration: 0.3 }}
+            >
+                <BeginScope />
+            </motion.div>
+
+            {/* SCOPE EXAM */}
+            <motion.div
+                className={`${styles.screen} ${styles.mainContent}`}
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: appStatus === 'running' ? 1 : 0,
+                    pointerEvents: appStatus === 'running' ? 'auto' : 'none',
+                }}
+            >
+                {currentStep && (
                     <motion.div
                         key={transitionKey}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
+                        className={styles.stepContainer}
                     >
                         {currentStep.type === 'diagram' ? (
                             <DiagramRenderer
@@ -260,8 +250,23 @@ function App() {
                             />
                         )}
                     </motion.div>
-                </AnimatePresence>
-            </div>
+                )}
+            </motion.div>
+
+            {/* SCOPE COMPLETE */}
+            <motion.div
+                className={styles.screen}
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: appStatus === 'finished' ? 1 : 0,
+                    pointerEvents: appStatus === 'finished' ? 'auto' : 'none',
+                }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+            >
+                <ScopeComplete />
+            </motion.div>
+
+            {/* MENU OVERLAY */}
             {menuVisible && (
                 <div
                     className={`${styles.menuOverlay} ${
