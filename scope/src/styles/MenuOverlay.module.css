@@ -1,14 +1,17 @@
-.menuOverlay {
+.overlayContainer {
     position: absolute;
     inset: 0;
     background-color: rgba(10, 17, 80, 0.5);
     backdrop-filter: blur(5px);
     z-index: 10;
-    animation: fadeIn 0.25s ease-out forwards;
+}
+
+.contentWrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 36px;
+    height: 90%;
 }
 
 .row {

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import styles from './styles/App.module.css'
 import { MenuOverlay } from './components/MenuOverlay'
 import { QuestionArea } from './components/QuestionArea'
@@ -13,8 +13,7 @@ import { ScopeComplete } from './components/ScopeComplete'
 
 function App() {
     const [menuVisible, setMenuVisible] = useState(false)
-    const [menuClosing, setMenuClosing] = useState(false)
-    const [manualOpenTime, setManualOpenTime] = useState(0)
+    const [isInfoVisible, setIsInfoVisible] = useState(false)
     const hasShownToast = useRef(false)
     const {
         appStatus,
@@ -43,7 +42,6 @@ function App() {
         nextQuestion()
     }, [nextQuestion])
 
-    const handleInfo = () => console.log('Info button clicked!')
     const handleExit = () => returnToHome()
 
 
@@ -91,17 +89,9 @@ function App() {
 
             if (event.code === 'Space') {
                 event.preventDefault()
-                if (menuVisible) {
-                    setMenuClosing(true)
-                    setTimeout(() => {
-                        setMenuVisible(false)
-                        setMenuClosing(false)
-                    }, 250)
-                } else {
-                    setMenuVisible(true)
-                    setManualOpenTime(Date.now())
-                }
+                setMenuVisible((prev) => !prev)
             }
+
             if (useScopeStore.getState().appStatus === 'running') {
                 if (event.code === 'ArrowLeft' || key === 'a') {
                     handleBack()
@@ -118,6 +108,9 @@ function App() {
     // Hide menu if mouse moves to center of page
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
+            // Exit early and do nothing if the info page is visible
+            if (isInfoVisible) return
+
             const { clientX: x, clientY: y } = e
             const { innerWidth, innerHeight } = window
 
@@ -127,30 +120,30 @@ function App() {
 
             const centerX = innerWidth / 2
             const centerY = innerHeight / 2
-            const inCenterZone = x > centerX - centerZoneSize / 2 &&
-                x < centerX + centerZoneSize / 2 && y > centerY - centerZoneSize / 2 &&
+            const inCenterZone =
+                x > centerX - centerZoneSize / 2 &&
+                x < centerX + centerZoneSize / 2 &&
+                y > centerY - centerZoneSize / 2 &&
                 y < centerY + centerZoneSize / 2
-            const inCornerZone = (x < cornerZoneSize && y < cornerZoneSize) ||
+
+            const inCornerZone =
+                (x < cornerZoneSize && y < cornerZoneSize) ||
                 (x > innerWidth - cornerZoneSize && y < cornerZoneSize) ||
                 (x < cornerZoneSize && y > innerHeight - cornerZoneSize) ||
                 (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize)
 
-            if (inCenterZone && menuVisible && !menuClosing && Date.now() - manualOpenTime > 1500) {
-                setMenuClosing(true)
-                setTimeout(() => {
-                    setMenuVisible(false)
-                    setMenuClosing(false)
-                }, 250)
+            if (inCenterZone && menuVisible) {
+                setMenuVisible(false)
             }
 
-            if (inCornerZone && !menuVisible && !menuClosing) {
+            if (inCornerZone && !menuVisible) {
                 setMenuVisible(true)
             }
         }
 
         window.addEventListener('mousemove', handleMouseMove)
         return () => window.removeEventListener('mousemove', handleMouseMove)
-    }, [menuVisible, menuClosing, manualOpenTime])
+    }, [menuVisible, isInfoVisible])
 
     // Notification -> 'Press Spacebar for Menu'
     useEffect(() => {
@@ -267,21 +260,26 @@ function App() {
             </motion.div>
 
             {/* MENU OVERLAY */}
-            {menuVisible && (
-                <div
-                    className={`${styles.menuOverlay} ${
-                        menuClosing ? styles.fadeOut : ''
-                    }`}
-                >
-                    <MenuOverlay
-                        onBack={handleBack}
-                        onNext={handleNext}
-                        onInfo={handleInfo}
-                        onExit={handleExit}
-                        stepIndex={currentIndex}
-                    />
-                </div>
-            )}
+            <AnimatePresence>
+                {menuVisible && (
+                    <motion.div
+                        className={styles.menuOverlay}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                    >
+                        <MenuOverlay
+                            onBack={handleBack}
+                            onNext={handleNext}
+                            onExit={handleExit}
+                            stepIndex={currentIndex}
+                            isInfoVisible={isInfoVisible}
+                            setIsInfoVisible={setIsInfoVisible}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
