@@ -51,6 +51,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px 24px;
+    width: 94%;
 }
 
 .checkboxWrapper {
@@ -109,17 +110,18 @@
 
 .resultsRow a {
     color: #3097FF;
-    font-size: 1.1rem; /* Slightly larger font size */
+    font-size: 1.4rem;
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
     padding-bottom: 4px;
-    border-bottom: 2px solid transparent; /* Prepare for hover effect */
+    border-bottom: 2px solid transparent;
     transition: border-color 0.2s ease-in-out;
+    margin-right: 6rem;
 }
 
 .resultsRow a:hover {
-    border-bottom-color: #3097FF; /* Underline on hover */
+    border-bottom-color: #3097FF;
 }
 .buttonRow {
     display: flex;

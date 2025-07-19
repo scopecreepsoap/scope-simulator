@@ -85,7 +85,7 @@ export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
                 <div className={styles.section}>
                     <div className={styles.resultsRow}>
                         <label className={styles.label}>Question(s) Answered</label>
-                        <a href="#">View Results <LaunchIcon sx={{ fontSize: 16, verticalAlign: 'text-bottom', marginLeft: '4px' }}/></a>
+                        <a href="#">View Results <LaunchIcon sx={{ fontSize: 24, verticalAlign: 'text-bottom', marginLeft: '4px' }}/></a>
                     </div>
                 </div>
 
