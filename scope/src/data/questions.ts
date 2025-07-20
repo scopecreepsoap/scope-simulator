@@ -8,12 +8,13 @@ export const QUESTIONS: QuestionConfig[] = [
         level: 2
     },
     {
-        prompt: 'Where would you close this dialog or return to a previous view?',
+        prompt: 'Where would you click to close this dialog?',
         diagram: ['quadrant-selector'],
         level: 1
     },
     {
         prompt: 'What button on a dialog do you associate with Save?',
+        instruction: 'This question uses multiple diagrams',
         diagram: ['save-action-selector','save-action-selector-l2'],
         level: 1
     },
