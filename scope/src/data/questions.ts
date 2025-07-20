@@ -11,6 +11,7 @@ export const QUESTIONS: QuestionConfig[] = [
         level: 1,
         prompt: 'Where would you click to close this dialog?',
         diagram: ['quadrant-selector'],
+        canary: true
     },
     {
         level: 1,
@@ -22,6 +23,7 @@ export const QUESTIONS: QuestionConfig[] = [
         level: 1,
         prompt: 'Which part of this dialog would you click to go back?',
         diagram: ['quadrant-selector'],
+        canary: true
     },
     {
         level: 2,

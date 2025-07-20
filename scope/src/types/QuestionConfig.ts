@@ -3,4 +3,5 @@ export interface QuestionConfig {
     prompt: string
     diagram: string[]
     instruction?: string
+    canary?: boolean
 }
