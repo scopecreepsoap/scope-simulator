@@ -19,6 +19,7 @@ interface ScopeState {
     currentIndex: number
     startTime: number
     timeLimit: number
+    fullscreenDisabled: boolean
 }
 
 interface ScopeActions {
@@ -30,6 +31,7 @@ interface ScopeActions {
     nextQuestion: () => void
     endTest: () => void
     returnToHome: () => void
+    toggleFullscreenDisabled: () => void
 }
 
 const ESTIMATED_TIMES: { [key: number]: number } = {
@@ -46,6 +48,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     currentIndex: 0,
     startTime: 0,
     timeLimit: 0,
+    fullscreenDisabled: false,
 
     setSelectedTime: (time) => set({ selectedTime: time }),
     setSelectedLevel: (level) => set({ selectedLevel: level }),
@@ -140,6 +143,9 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     },
     endTest: () => set({ appStatus: 'finished' }),
     returnToHome: () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen()
+        }
         set({
             appStatus: 'configuring',
             selectedTime: null,
@@ -147,4 +153,8 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             testSteps: [],
         })
     },
+
+    toggleFullscreenDisabled: () =>
+        set((state) => ({ fullscreenDisabled: !state.fullscreenDisabled })),
+
 }))

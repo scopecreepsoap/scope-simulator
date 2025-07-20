@@ -32,21 +32,6 @@ export const ScopeComplete: React.FC = () => {
 
                 <div className={styles.optionsRow}>
 
-                    {/* SAVE RESULTS */}
-                    <div className={scopeHomeStyles.option}>
-                        <div
-                            className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`}
-                            onClick={handleSave}
-                        >
-                            <DownloadIcon
-                                sx={{ fontSize: 60, color: '#163AC2' }}
-                            />
-                        </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            Save Results
-                        </div>
-                    </div>
-
                     {/* RETURN HOME */}
                     <div className={scopeHomeStyles.option}>
                         <div
@@ -59,6 +44,21 @@ export const ScopeComplete: React.FC = () => {
                         </div>
                         <div className={scopeHomeStyles.cardLabel}>
                             Return Home
+                        </div>
+                    </div>
+
+                    {/* SAVE RESULTS */}
+                    <div className={scopeHomeStyles.option}>
+                        <div
+                            className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
+                            onClick={handleSave}
+                        >
+                            <DownloadIcon
+                                sx={{ fontSize: 60, color: '#21D1EB' }}
+                            />
+                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>
+                            Save Results
                         </div>
                     </div>
 

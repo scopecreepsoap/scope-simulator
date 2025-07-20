@@ -12,6 +12,7 @@ import { BeginScope } from './components/BeginScope'
 import { ScopeComplete } from './components/ScopeComplete'
 
 function App() {
+    const [manualOpenTime, setManualOpenTime] = useState(0)
     const [menuVisible, setMenuVisible] = useState(false)
     const [isInfoVisible, setIsInfoVisible] = useState(false)
     const hasShownToast = useRef(false)
@@ -89,7 +90,12 @@ function App() {
 
             if (event.code === 'Space') {
                 event.preventDefault()
-                setMenuVisible((prev) => !prev)
+                if (menuVisible) {
+                    setMenuVisible(false)
+                } else if (appStatus === 'running' || appStatus === 'ready') {
+                    setMenuVisible(true)
+                    setManualOpenTime(Date.now())
+                }
             }
 
             if (useScopeStore.getState().appStatus === 'running') {
@@ -102,7 +108,7 @@ function App() {
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [menuVisible, handleBack, handleNext])
+    }, [menuVisible, setMenuVisible, handleBack, handleNext, appStatus, setManualOpenTime])
 
     // Show menu if mouse moves to corners of page
     // Hide menu if mouse moves to center of page
@@ -133,23 +139,39 @@ function App() {
                 (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize)
 
             if (inCenterZone && menuVisible) {
-                setMenuVisible(false)
+                if (Date.now() - manualOpenTime > 1500) {
+                    setMenuVisible(false)
+                }
             }
 
-            if (inCornerZone && !menuVisible) {
+            if (inCornerZone && !menuVisible && (appStatus === 'running' || appStatus === 'ready')) {
                 setMenuVisible(true)
+                setManualOpenTime(Date.now())
             }
         }
 
         window.addEventListener('mousemove', handleMouseMove)
         return () => window.removeEventListener('mousemove', handleMouseMove)
-    }, [menuVisible, isInfoVisible])
+    }, [menuVisible, setMenuVisible, isInfoVisible, appStatus, manualOpenTime, setManualOpenTime])
 
     // Notification -> 'Press Spacebar for Menu'
     useEffect(() => {
-        if (!hasShownToast.current && appStatus === 'configuring') {
+        if (!hasShownToast.current && appStatus === 'ready') {
             toast(strings.notifications.pressSpace)
             hasShownToast.current = true
+        }
+    }, [appStatus])
+
+    // Go into fullscreen when test starts
+    useEffect(() => {
+        const { fullscreenDisabled } = useScopeStore.getState()
+
+        if (appStatus === 'running' && !fullscreenDisabled) {
+            document.documentElement.requestFullscreen().catch((err) => {
+                console.error(
+                    `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+                )
+            })
         }
     }, [appStatus])
 
