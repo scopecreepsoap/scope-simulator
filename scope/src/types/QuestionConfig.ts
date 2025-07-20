@@ -1,6 +1,6 @@
 export interface QuestionConfig {
-    prompt: string
-    instruction?: string
-    diagram: string[]
     level: number
+    prompt: string
+    diagram: string[]
+    instruction?: string
 }
