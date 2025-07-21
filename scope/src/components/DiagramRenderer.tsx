@@ -1,9 +1,9 @@
 import React from 'react'
-import { TextDensityDiagram } from './diagrams/TextDensityDiagram'
-import {QuadrantSelectorDiagram} from "./diagrams/QuadrantSelectorDiagram";
-import {SaveActionSelectorDiagram} from "./diagrams/SaveActionSelectorDiagram";
-import {SaveActionSelectorL2Diagram} from "./diagrams/SaveActionSelectorL2Diagram";
-import {MenuSettingsSelectorDiagram} from "./diagrams/MenuSettingsSelectorDiagram";
+import { TextDensityDiagram } from '../plugins/diagrams/text-density/TextDensityDiagram'
+import {QuadrantSelectorDiagram} from "../plugins/diagrams/quadrant-selector/QuadrantSelectorDiagram";
+import {SaveActionSelectorDiagram} from "../plugins/diagrams/save-action-selector/SaveActionSelectorDiagram";
+import {SaveActionSelectorL2Diagram} from "../plugins/diagrams/save-action-selector-l2/SaveActionSelectorL2Diagram";
+import {MenuSettingsSelectorDiagram} from "../plugins/diagrams/menu-settings-selector/MenuSettingsSelectorDiagram";
 import {NoDiagramFound} from "./diagrams/NoDiagramFound";
 import styles from '../styles/QuestionArea.module.css'
 

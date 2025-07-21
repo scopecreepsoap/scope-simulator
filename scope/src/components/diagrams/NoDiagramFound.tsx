@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../styles/NoDiagramFound.module.css'
+import styles from './NoDiagramFound.module.css'
 import noDiagramImg from '../../assets/no-diagram.png'
 
 export const NoDiagramFound: React.FC = () => (

@@ -62,7 +62,6 @@ function App() {
                 const newRemainingTime = Math.max(timeLimit - elapsedTime, 0)
 
                 if (newRemainingTime <= 0) {
-                    toast('SCOPE Complete')
                     clearInterval(timerInterval)
                     endTest()
                 }

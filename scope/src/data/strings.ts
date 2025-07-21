@@ -1,4 +1,4 @@
-// src/data/strings.ts
+// All application strings
 const strings = {
     tooltips: {
         contextualNotImplemented: 'Contextual (level 3) not implemented yet',
@@ -12,7 +12,6 @@ const strings = {
     },
     notifications: {
         pressSpace: 'Press Spacebar to view Menu',
-        examStart:  'Exam started!',
     },
     labels: {
         chooseScope: 'Choose SCOPE',

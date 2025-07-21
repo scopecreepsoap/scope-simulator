@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {motion} from "framer-motion";
 import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import styles from '../../styles/SaveActionSelectorL2Diagram.module.css'
+import styles from './SaveActionSelectorL2Diagram.module.css'
 
 
 export const SaveActionSelectorL2Diagram: React.FC = () => {
