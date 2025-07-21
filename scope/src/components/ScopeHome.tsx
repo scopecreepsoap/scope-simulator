@@ -7,7 +7,6 @@ import LooksTwoIcon from '@mui/icons-material/LooksTwo'
 import Looks3Icon from '@mui/icons-material/Looks3'
 import styles from '../styles/ScopeHome.module.css'
 import scopeIcon from '../assets/logo.png'
-import { QUESTIONS } from '../data/questions'
 import type { QuestionConfig } from '../types/QuestionConfig'
 import ScopeTooltip from './ScopeTooltip'
 import strings from '../data/strings'
@@ -21,6 +20,8 @@ export const ScopeHome: React.FC = () => {
         setSelectedTime,
         setSelectedLevel,
         prepareTest,
+        allQuestions,
+        loadQuestions,
     } = useScopeStore()
 
     // Show 'Begin SCOPE' screen
@@ -29,6 +30,11 @@ export const ScopeHome: React.FC = () => {
             prepareTest()
         }
     }, [selectedTime, selectedLevel, prepareTest])
+
+    // Load SCOPE questions
+    useEffect(() => {
+        loadQuestions()
+    }, [loadQuestions])
 
     function canSupportTime(minutes: number, questions: QuestionConfig[]) {
         const totalAvailableSec = questions.reduce((sum, q) => {
@@ -69,7 +75,7 @@ export const ScopeHome: React.FC = () => {
                     </div>
                     <div className={styles.optionsRow}>
                         {[1, 2, 3].map((min) => {
-                            const canUse = canSupportTime(min, QUESTIONS)
+                            const canUse = canSupportTime(min, allQuestions)
                             const disabled = !canUse
                             const tooltipTitle = disabled
                                 ? strings.tooltips.noDuration
@@ -144,7 +150,7 @@ export const ScopeHome: React.FC = () => {
                     </div>
                     <div className={styles.optionsRow}>
                         {[1, 2, 3].map((lvl) => {
-                            const hasLevelQuestions = QUESTIONS.some(
+                            const hasLevelQuestions = allQuestions.some(
                                 (q) => q.level === lvl
                             )
                             const disabled = !hasLevelQuestions

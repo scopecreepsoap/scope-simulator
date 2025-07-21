@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { QUESTIONS } from '../data/questions'
 import type { QuestionConfig } from '../types/QuestionConfig'
 
 export type TestStep =
@@ -13,6 +12,8 @@ export type TestStep =
 
 interface ScopeState {
     appStatus: 'configuring' | 'ready' | 'running' | 'finished'
+    allQuestions: QuestionConfig[]
+    questionsLoading: boolean
     selectedTime: number | null
     selectedLevel: number | null
     testSteps: TestStep[]
@@ -23,6 +24,7 @@ interface ScopeState {
 }
 
 interface ScopeActions {
+    loadQuestions: () => Promise<void>
     setSelectedTime: (time: number | null) => void
     setSelectedLevel: (level: number | null) => void
     prepareTest: () => void
@@ -42,6 +44,8 @@ const ESTIMATED_TIMES: { [key: number]: number } = {
 
 export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     appStatus: 'configuring',
+    allQuestions: [],
+    questionsLoading: false,
     selectedTime: null,
     selectedLevel: null,
     testSteps: [],
@@ -58,13 +62,13 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
      * and putting the app into the 'ready' state.
      */
     prepareTest: () => {
-        const { selectedLevel, selectedTime } = get()
-        if (!selectedLevel || !selectedTime) return
+        const { selectedLevel, selectedTime, allQuestions } = get()
+        if (!selectedLevel || !selectedTime || !allQuestions.length) return
 
         const totalTimeInSeconds = selectedTime * 60
         let timeUsed = 0
         const finalTestQuestions: QuestionConfig[] = []
-        const availableQuestions = structuredClone(QUESTIONS)
+        const availableQuestions = structuredClone(allQuestions)
         const questionsByLevel: { [key: number]: QuestionConfig[] } = { 1: [], 2: [], 3: [] }
         for (const q of availableQuestions) {
             questionsByLevel[q.level].push(q)
@@ -116,6 +120,21 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             currentIndex: 0,
             appStatus: 'ready',
         })
+    },
+
+    loadQuestions: async () => {
+        if (get().allQuestions.length > 0 || get().questionsLoading) return
+
+        set({ questionsLoading: true })
+        try {
+            const response = await fetch('/questions.json')
+            if (!response.ok) throw new Error('Failed to load questions.json')
+            const questions = await response.json()
+            set({ allQuestions: questions, questionsLoading: false })
+        } catch (error) {
+            console.error("Could not fetch or parse questions:", error)
+            set({ questionsLoading: false })
+        }
     },
 
     /**

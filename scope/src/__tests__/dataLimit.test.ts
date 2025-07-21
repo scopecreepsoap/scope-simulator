@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { QUESTIONS } from '../data/questions'
+import QUESTIONS from '../../public/questions.json'
 
 test('Question+diagram count must not exceed 64', () => {
     const totalSteps = QUESTIONS.reduce<number>(
