@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import styles from '../styles/ScopeComplete.module.css'
 import scopeHomeStyles from '../styles/ScopeHome.module.css'
 import { useScopeStore } from '../stores/scopeStore'
+import strings from "../data/strings";
 
 export const ScopeComplete: React.FC = () => {
     const { returnToHome } = useScopeStore()
@@ -28,7 +29,7 @@ export const ScopeComplete: React.FC = () => {
 
             {/* SCOPE COMPLETE */}
             <div className={styles.content}>
-                <h1 className={styles.title}>SCOPE Complete</h1>
+                <h1 className={styles.title}>{strings.scopeComplete.title}</h1>
 
                 <div className={styles.optionsRow}>
 
@@ -38,13 +39,9 @@ export const ScopeComplete: React.FC = () => {
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
                             onClick={returnToHome}
                         >
-                            <HomeIcon
-                                sx={{ fontSize: 60, color: '#21D1EB' }}
-                            />
+                            <HomeIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                         </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            Return Home
-                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>{strings.common.returnHome}</div>
                     </div>
 
                     {/* SAVE RESULTS */}
@@ -53,13 +50,9 @@ export const ScopeComplete: React.FC = () => {
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
                             onClick={handleSave}
                         >
-                            <DownloadIcon
-                                sx={{ fontSize: 60, color: '#21D1EB' }}
-                            />
+                            <DownloadIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                         </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            Save Results
-                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>{strings.scopeComplete.saveResults}</div>
                     </div>
 
                     {/* VIEW RESULTS */}
@@ -68,13 +61,9 @@ export const ScopeComplete: React.FC = () => {
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`}
                             onClick={handleView}
                         >
-                            <GradingIcon
-                                sx={{ fontSize: 60, color: '#163AC2' }}
-                            />
+                            <GradingIcon sx={{ fontSize: 60, color: '#163AC2' }} />
                         </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            View Results
-                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>{strings.common.viewResults}</div>
                     </div>
                 </div>
             </div>

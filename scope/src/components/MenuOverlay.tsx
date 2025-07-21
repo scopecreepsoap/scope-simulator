@@ -7,6 +7,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import CloseIcon from '@mui/icons-material/Close'
 import { MenuInfo } from './MenuInfo'
 import { InfoPage } from './InfoPage'
+import strings from "../data/strings";
 
 interface MenuOverlayProps {
     onBack: () => void
@@ -48,12 +49,12 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                             {/* BACK */}
                             <div className={styles.navItem} onClick={onBack}>
                                 <ArrowBackIcon className={styles.icon} />
-                                <span className={styles.label}>Back</span>
+                                <span className={styles.label}>{strings.common.back}</span>
                             </div>
 
                             {/* NEXT */}
                             <div className={styles.navItem} onClick={onNext}>
-                                <span className={styles.label}>Next</span>
+                                <span className={styles.label}>{strings.menu.next}</span>
                                 <ArrowForwardIcon className={styles.icon} />
                             </div>
                             
@@ -69,12 +70,12 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                                 onClick={() => setIsInfoVisible(true)}
                             >
                                 <InfoOutlinedIcon className={styles.icon} />
-                                <span className={styles.label}>Info</span>
+                                <span className={styles.label}>{strings.menu.info}</span>
                             </div>
 
                             {/* EXIT */}
                             <div className={styles.navItem} onClick={onExit}>
-                                <span className={styles.label}>Exit</span>
+                                <span className={styles.label}>{strings.menu.exit}</span>
                                 <CloseIcon className={styles.icon} />
                             </div>
 

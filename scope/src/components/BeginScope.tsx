@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import styles from '../styles/BeginScope.module.css'
 import scopeHomeStyles from '../styles/ScopeHome.module.css'
 import { useScopeStore } from '../stores/scopeStore'
+import strings from "../data/strings";
 
 export const BeginScope: React.FC = () => {
     const {
@@ -32,7 +33,7 @@ export const BeginScope: React.FC = () => {
 
             {/* SCOPE COMPLETE */}
             <div className={styles.content}>
-                <h1 className={styles.title}>SCOPE Ready</h1>
+                <h1 className={styles.title}>{strings.beginScope.title}</h1>
 
                 <div className={styles.optionsRow}>
 
@@ -42,13 +43,9 @@ export const BeginScope: React.FC = () => {
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
                             onClick={returnToHome}
                         >
-                            <HomeIcon
-                                sx={{ fontSize: 60, color: '#21D1EB' }}
-                            />
+                            <HomeIcon sx={{ fontSize: 60, color: '#21D1EB' }}/>
                         </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            Return Home
-                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>{strings.common.returnHome}</div>
                     </div>
 
                     {/* DISABLE FULLSCREEN */}
@@ -63,13 +60,9 @@ export const BeginScope: React.FC = () => {
                                 .join(' ')}
                             onClick={handleDisableFullScreen}
                         >
-                            <FullscreenIcon
-                                sx={{ fontSize: 60, color: '#21D1EB' }}
-                            />
+                            <FullscreenIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                         </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            Disable Fullscreen
-                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>{strings.beginScope.disableFullscreen}</div>
                     </div>
 
                     {/* BEGIN SCOPE */}
@@ -78,13 +71,9 @@ export const BeginScope: React.FC = () => {
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`}
                             onClick={beginTest}
                         >
-                            <PlayArrowIcon
-                                sx={{ fontSize: 60, color: '#163AC2' }}
-                            />
+                            <PlayArrowIcon sx={{ fontSize: 60, color: '#163AC2' }} />
                         </div>
-                        <div className={scopeHomeStyles.cardLabel}>
-                            Begin SCOPE
-                        </div>
+                        <div className={scopeHomeStyles.cardLabel}>{strings.beginScope.beginScope}</div>
                     </div>
                 </div>
             </div>

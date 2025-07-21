@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/DeleteForever'
 import DownloadIcon from '@mui/icons-material/Download'
 import LaunchIcon from '@mui/icons-material/Launch'
 import ScopeTooltip from './ScopeTooltip'
+import strings from "../data/strings";
 
 interface InfoPageProps {
     onBack: () => void
@@ -41,15 +42,15 @@ export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
             <div className={menuOverlayStyles.row}>
                 <div className={menuOverlayStyles.navItem} onClick={onBack}>
                     <ArrowBackIcon className={menuOverlayStyles.icon} />
-                    <span className={menuOverlayStyles.label}>Back</span>
+                    <span className={menuOverlayStyles.label}>{strings.common.back}</span>
                 </div>
             </div>
 
             <div className={styles.infoContent}>
-                <h1 className={menuInfoStyles.menuTitle}>Info</h1>
+                <h1 className={menuInfoStyles.menuTitle}>{strings.infoPage.title}</h1>
 
                 <div className={styles.section}>
-                    <label className={styles.label}>Name (Optional)</label>
+                    <label className={styles.label}>{strings.infoPage.nameLabel}</label>
                     <input
                         type="text"
                         className={styles.input}
@@ -59,47 +60,45 @@ export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
                 </div>
 
                 <div className={styles.section}>
-                    <label className={styles.label}>Preferred Platform(s)</label>
+                    <label className={styles.label}>{strings.infoPage.platformLabel}</label>
                     <div className={styles.checkboxGrid}>
-                        {/* Checkbox items remain the same */}
                         <div className={styles.checkboxWrapper}>
                             <input type="checkbox" id="desktop" name="desktop" checked={platforms.desktop} onChange={handleCheckboxChange} />
-                            <label htmlFor="desktop">Desktop</label>
+                            <label htmlFor="desktop">{strings.infoPage.desktop}</label>
                         </div>
                         <div className={styles.checkboxWrapper}>
                             <input type="checkbox" id="web" name="web" checked={platforms.web} onChange={handleCheckboxChange} />
-                            <label htmlFor="web">Web</label>
+                            <label htmlFor="web">{strings.infoPage.web}</label>
                         </div>
                         <div className={styles.checkboxWrapper}>
                             <input type="checkbox" id="mobile" name="mobile" checked={platforms.mobile} onChange={handleCheckboxChange} />
-                            <label htmlFor="mobile">Mobile</label>
+                            <label htmlFor="mobile">{strings.infoPage.mobile}</label>
                         </div>
                         <div className={styles.checkboxWrapper}>
                             <input type="checkbox" id="ar" name="ar" checked={platforms.ar} onChange={handleCheckboxChange} />
-                            <label htmlFor="ar">Augmented Reality</label>
+                            <label htmlFor="ar">{strings.infoPage.ar}</label>
                         </div>
                     </div>
                 </div>
 
-                {/* UPDATED: Restructured results section to match mockup */}
                 <div className={styles.section}>
                     <div className={styles.resultsRow}>
-                        <label className={styles.label}>Question(s) Answered</label>
-                        <a href="#">View Results <LaunchIcon sx={{ fontSize: 24, verticalAlign: 'text-bottom', marginLeft: '4px' }}/></a>
+                        <label className={styles.label}>{strings.infoPage.questionsAnswered}</label>
+                        <a href="#">{strings.common.viewResults} <LaunchIcon sx={{ fontSize: 24, verticalAlign: 'text-bottom', marginLeft: '4px' }}/></a>
                     </div>
                 </div>
 
                 <div className={menuInfoStyles.divider} />
 
                 <div className={styles.buttonRow}>
-                    <ScopeTooltip title="Reset Data">
+                    <ScopeTooltip title={strings.infoPage.resetDataTooltip}>
                         <div className={scopeHomeStyles.option}>
                             <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`} onClick={handleClear}>
                                 <DeleteIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                             </div>
                         </div>
                     </ScopeTooltip>
-                    <ScopeTooltip title="Download Results">
+                    <ScopeTooltip title={strings.infoPage.downloadResultsTooltip}>
                         <div className={scopeHomeStyles.option}>
                             <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`} onClick={handleSave}>
                                 <DownloadIcon sx={{ fontSize: 60, color: '#163AC2' }} />
