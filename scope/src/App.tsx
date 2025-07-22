@@ -138,7 +138,7 @@ function App() {
                 (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize)
 
             if (inCenterZone && menuVisible) {
-                if (Date.now() - manualOpenTime > 1500) {
+                if (Date.now() - manualOpenTime > 1000) {
                     setMenuVisible(false)
                 }
             }

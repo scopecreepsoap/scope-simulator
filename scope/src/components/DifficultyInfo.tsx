@@ -30,7 +30,7 @@ export function DifficultyInfo() {
             placement="right"
             arrow={false}
         >
-            <InfoIcon sx={{ verticalAlign: 'middle', color: '#21D1EB' }} />
+            <InfoIcon sx={{ verticalAlign: 'middle', color: 'rgba(255,183,0,0.75)' }} />
         </ScopeTooltip>
     );
 }

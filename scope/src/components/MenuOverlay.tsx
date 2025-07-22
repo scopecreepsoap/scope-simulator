@@ -33,7 +33,6 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                                                             isInfoVisible,
                                                             setIsInfoVisible,
                                                         }) => {
-    // The local useState hook has been removed.
 
     return (
         <div className={styles.overlayContainer}>
