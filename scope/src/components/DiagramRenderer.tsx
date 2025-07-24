@@ -1,11 +1,9 @@
 import React from 'react'
-import { TextDensityDiagram } from '../plugins/diagrams/text-density/TextDensityDiagram'
-import {QuadrantSelectorDiagram} from "../plugins/diagrams/quadrant-selector/QuadrantSelectorDiagram";
-import {SaveActionSelectorDiagram} from "../plugins/diagrams/save-action-selector/SaveActionSelectorDiagram";
-import {SaveActionSelectorL2Diagram} from "../plugins/diagrams/save-action-selector-l2/SaveActionSelectorL2Diagram";
-import {MenuSettingsSelectorDiagram} from "../plugins/diagrams/menu-settings-selector/MenuSettingsSelectorDiagram";
-import {NoDiagramFound} from "./diagrams/NoDiagramFound";
+import { useScopeStore } from '../stores/scopeStore'
 import styles from '../styles/QuestionArea.module.css'
+import diagramRegistry from '../plugins/registry'
+import { NoDiagramFound } from './diagrams/NoDiagramFound'
+import type { Answer } from '../types/plugin'
 
 interface DiagramRendererProps {
     diagramKeys?: string[]
@@ -13,21 +11,29 @@ interface DiagramRendererProps {
 }
 
 export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, index }) => {
+    const { recordAnswer, results, currentIndex } = useScopeStore()
+
     const renderDiagram = (key: string) => {
-        switch (key) {
-            case 'text-density':
-                return <TextDensityDiagram />
-            case 'quadrant-selector':
-                return <QuadrantSelectorDiagram />
-            case 'save-action-selector':
-                return <SaveActionSelectorDiagram />
-            case 'save-action-selector-l2':
-                return <SaveActionSelectorL2Diagram />
-            case 'menu-settings-selector':
-                return <MenuSettingsSelectorDiagram />
-            default:
-                return <NoDiagramFound />
+        const plugin = diagramRegistry.get(key)
+
+        if (!plugin) {
+            return <NoDiagramFound />
         }
+
+        const DiagramComponent = plugin.component
+        const currentAnswer = results[currentIndex]
+
+        const handleAnswerChange = (answer: Answer) => {
+            recordAnswer(currentIndex, answer)
+        }
+
+        return (
+            <DiagramComponent
+                mode="interactive"  // Show instruction and controller
+                initialValue={currentAnswer}
+                onAnswerChange={handleAnswerChange}
+            />
+        )
     }
 
     return (

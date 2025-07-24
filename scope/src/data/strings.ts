@@ -1,7 +1,6 @@
 // All application strings
 const strings = {
     tooltips: {
-        contextualNotImplemented: 'Contextual (level 3) not implemented yet',
         noDuration:                 'Not enough questions available',
         noDifficulty:               'No questions available',
         difficultyInfo: `
@@ -9,6 +8,7 @@ const strings = {
             Level 2 (Interpretive): Moderate questions that inform personal interpretation
             Level 3 (Contextual): Deeper questions that involve context analysis and reasoning
         `,
+        comingSoon: 'Coming Soon',
     },
     notifications: {
         pressSpace: 'Press Spacebar to view Menu',
@@ -50,6 +50,8 @@ const strings = {
     scopeComplete: {
         title: 'SCOPE Complete',
         saveResults: 'Save Results',
+        downloadResults: 'Download Results',
+        aiSummary: 'AI Summary',
     },
     infoPage: {
         title: 'Info',

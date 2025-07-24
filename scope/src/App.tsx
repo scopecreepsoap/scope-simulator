@@ -10,6 +10,7 @@ import strings from './data/strings'
 import { useScopeStore } from './stores/scopeStore'
 import { BeginScope } from './components/BeginScope'
 import { ScopeComplete } from './components/ScopeComplete'
+import {ScopeResults} from "./components/ScopeResults";
 
 function App() {
     const [manualOpenTime, setManualOpenTime] = useState(0)
@@ -76,6 +77,14 @@ function App() {
     // Click 'Spacebar' to show Menu, '←' to go Back, '→' to go Next
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            const target = event.target as HTMLElement
+
+            if (target.tagName === 'TEXTAREA' || (target.tagName === 'INPUT' && target.getAttribute('type')
+                !== 'range')
+            ) {
+                return; // Allow using space in UI fields
+            }
+
             const active = document.activeElement
             const isArrowKey = event.code === 'ArrowLeft' || event.code === 'ArrowRight'
 
@@ -278,6 +287,19 @@ function App() {
                 transition={{ duration: 0.3, delay: 0.2 }}
             >
                 <ScopeComplete />
+            </motion.div>
+
+            {/* VIEW RESULTS */}
+            <motion.div
+                className={styles.resultsScreen}
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: appStatus === 'review' ? 1 : 0,
+                    pointerEvents: appStatus === 'review' ? 'auto' : 'none',
+                }}
+                transition={{ duration: 0.3 }}
+            >
+                <ScopeResults />
             </motion.div>
 
             {/* MENU OVERLAY */}

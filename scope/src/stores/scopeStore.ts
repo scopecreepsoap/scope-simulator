@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { QuestionConfig } from '../types/QuestionConfig'
+import type { Answer } from '../types/plugin'
 
 export type TestStep =
     | { type: 'prompt'; data: QuestionConfig; questionIndex: number }
@@ -11,12 +12,13 @@ export type TestStep =
 }
 
 interface ScopeState {
-    appStatus: 'configuring' | 'ready' | 'running' | 'finished'
+    appStatus: 'configuring' | 'ready' | 'running' | 'finished' | 'review'
     allQuestions: QuestionConfig[]
     questionsLoading: boolean
     selectedTime: number | null
     selectedLevel: number | null
     testSteps: TestStep[]
+    results: Answer[]
     currentIndex: number
     startTime: number
     timeLimit: number
@@ -34,6 +36,8 @@ interface ScopeActions {
     endTest: () => void
     returnToHome: () => void
     toggleFullscreenDisabled: () => void
+    recordAnswer: (stepIndex: number, answer: Answer) => void
+    viewResults: () => void
 }
 
 const ESTIMATED_TIMES: { [key: number]: number } = {
@@ -49,10 +53,26 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     selectedTime: null,
     selectedLevel: null,
     testSteps: [],
+    results: [],
     currentIndex: 0,
     startTime: 0,
     timeLimit: 0,
     fullscreenDisabled: false,
+
+    loadQuestions: async () => {
+        if (get().allQuestions.length > 0 || get().questionsLoading) return
+
+        set({ questionsLoading: true })
+        try {
+            const response = await fetch('/questions.json')
+            if (!response.ok) throw new Error('Failed to load questions.json')
+            const questions = await response.json()
+            set({ allQuestions: questions, questionsLoading: false })
+        } catch (error) {
+            console.error('Could not fetch or parse questions:', error)
+            set({ questionsLoading: false })
+        }
+    },
 
     setSelectedTime: (time) => set({ selectedTime: time }),
     setSelectedLevel: (level) => set({ selectedLevel: level }),
@@ -116,25 +136,11 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
 
         set({
             testSteps: finalTestSteps,
+            results: Array(finalTestSteps.length).fill(null),
             timeLimit: totalTimeInSeconds,
             currentIndex: 0,
             appStatus: 'ready',
         })
-    },
-
-    loadQuestions: async () => {
-        if (get().allQuestions.length > 0 || get().questionsLoading) return
-
-        set({ questionsLoading: true })
-        try {
-            const response = await fetch('/questions.json')
-            if (!response.ok) throw new Error('Failed to load questions.json')
-            const questions = await response.json()
-            set({ allQuestions: questions, questionsLoading: false })
-        } catch (error) {
-            console.error("Could not fetch or parse questions:", error)
-            set({ questionsLoading: false })
-        }
     },
 
     /**
@@ -170,10 +176,22 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             selectedTime: null,
             selectedLevel: null,
             testSteps: [],
+            results: [],
         })
     },
 
     toggleFullscreenDisabled: () =>
         set((state) => ({ fullscreenDisabled: !state.fullscreenDisabled })),
+
+    recordAnswer: (stepIndex, newAnswerData) => {
+        set((state) => {
+            const newResults = [...state.results]
+            const existingAnswer = state.results[stepIndex] || {}
+            newResults[stepIndex] = { ...existingAnswer, ...newAnswerData }
+            return { results: newResults }
+        })
+    },
+
+    viewResults: () => set({ appStatus: 'review' }),
 
 }))
