@@ -1,11 +1,12 @@
 import type { FC } from 'react'
+import type {QuestionConfig} from "./QuestionConfig";
 
 export type Answer = { [key: string]: any } | null
 export type CanaryStatus = 'pass' | 'fail' | 'unsure' | 'n/a'
 
 export interface DiagramEvaluator {
     printAnswer: (answer: Answer) => string
-    canaryCheck?: (answer: Answer, questionPrompt: string) => CanaryStatus
+    canaryCheck?: (answer: Answer, questionPrompt: QuestionConfig) => CanaryStatus
 }
 
 export interface DiagramProps {

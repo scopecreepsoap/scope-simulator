@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
-import {motion} from "framer-motion";
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import TaskAltIcon from '@mui/icons-material/TaskAlt'
 import styles from './SaveActionSelectorL2Diagram.module.css'
+import type { DiagramProps } from '../../../types/plugin'
 
-
-export const SaveActionSelectorL2Diagram: React.FC = () => {
+export const SaveActionSelectorL2Diagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange, mode }) => {
     const [selected, setSelected] = useState<'left' | 'right' | null>(null)
     const [hovered, setHovered] = useState<'left' | 'right' | null>(null)
 
+    useEffect(() => {
+        setSelected(initialValue?.selection ?? null)
+    }, [initialValue])
+
+    const isInteractive = mode === 'interactive'
     const numInputs = 6
 
     const handleClick = (zone: 'left' | 'right') => {
-        setSelected(prev => (prev === zone ? null : zone))
+        if (!isInteractive) return
+        const newSelection = selected === zone ? null : zone
+        setSelected(newSelection)
+        onAnswerChange(newSelection ? { selection: newSelection } : null)
     }
 
     return (
@@ -29,8 +37,8 @@ export const SaveActionSelectorL2Diagram: React.FC = () => {
                 <div className={styles.buttonRow}>
                     <div
                         className={`${styles.button} ${hovered === 'left' ? styles.hover : ''} ${selected === 'left' ? styles.selected : ''}`}
-                        onMouseEnter={() => setHovered('left')}
-                        onMouseLeave={() => setHovered(null)}
+                        onMouseEnter={() => isInteractive && setHovered('left')}
+                        onMouseLeave={() => isInteractive && setHovered(null)}
                         onClick={() => handleClick('left')}
                     >
                         {selected === 'left' && (
@@ -46,8 +54,8 @@ export const SaveActionSelectorL2Diagram: React.FC = () => {
                     </div>
                     <div
                         className={`${styles.button} ${hovered === 'right' ? styles.hover : ''} ${selected === 'right' ? styles.selected : ''}`}
-                        onMouseEnter={() => setHovered('right')}
-                        onMouseLeave={() => setHovered(null)}
+                        onMouseEnter={() => isInteractive && setHovered('right')}
+                        onMouseLeave={() => isInteractive && setHovered(null)}
                         onClick={() => handleClick('right')}
                     >
                         {selected === 'right' && (

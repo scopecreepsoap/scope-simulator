@@ -1,12 +1,19 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SettingsIcon from '@mui/icons-material/Settings'
 import styles from './MenuSettingsSelectorDiagram.module.css'
+import type { DiagramProps } from '../../../types/plugin'
 
-export const MenuSettingsSelectorDiagram: React.FC = () => {
+export const MenuSettingsSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange, mode }) => {
     const [hoveredSegment, setHoveredSegment] = useState<string | null>(null)
     const [hoveredHalf, setHoveredHalf] = useState<{ seg: string; half: 'top' | 'bottom' } | null>(null)
     const [selection, setSelection] = useState<Record<string, 'top' | 'bottom'>>({})
+
+    useEffect(() => {
+        setSelection(initialValue?.selection ?? {})
+    }, [initialValue])
+
+    const isInteractive = mode === 'interactive'
 
     const top1Ref = useRef<HTMLDivElement>(null)
     const top2Ref = useRef<HTMLDivElement>(null)
@@ -17,10 +24,12 @@ export const MenuSettingsSelectorDiagram: React.FC = () => {
     const bottomRightRef = useRef<HTMLDivElement>(null)
 
     const enterSegment = (seg: string) => {
+        if (!isInteractive) return
         setHoveredSegment(seg)
         setHoveredHalf(null)
     }
     const leaveSegment = (seg?: string) => {
+        if (!isInteractive) return
         if (seg && selection[seg]) return
         setHoveredSegment(null)
         setHoveredHalf(null)
@@ -29,16 +38,14 @@ export const MenuSettingsSelectorDiagram: React.FC = () => {
     const leaveHalf = () => setHoveredHalf(null)
 
     const clickHalf = (which: 'top' | 'bottom', seg: string) => {
-        setSelection(prev => {
-            const isSame = prev[seg] === which
-            if (isSame) {
-                setHoveredSegment(null)
-                setHoveredHalf(null)
-                return {}
-            }
-            return { [seg]: which }
-        })
-        setHoveredHalf({ seg, half: which })
+        if (!isInteractive) return
+        const isSame = selection[seg] === which
+
+        if (isSame) {
+            onAnswerChange(null) // Deselecting
+        } else {
+            onAnswerChange({ selection: { [seg]: which } })
+        }
     }
 
     const offset = (ref: React.RefObject<HTMLDivElement | null>) =>
@@ -96,12 +103,12 @@ export const MenuSettingsSelectorDiagram: React.FC = () => {
         <div className={styles.wrapper}>
             <div className={styles.dialogBox}>
                 <div className={styles.topBar}>
-                    <div ref={top1Ref} className={`${styles.segment} ${styles.segment1} ${styles.hoverable}`} onMouseEnter={() => enterSegment('top1')} onMouseLeave={() => leaveSegment('top1')} />
-                    <div ref={top2Ref} className={`${styles.segment} ${styles.segment2} ${styles.hoverable}`} onMouseEnter={() => enterSegment('top2')} onMouseLeave={() => leaveSegment('top2')} />
-                    <div ref={top3Ref} className={`${styles.segment} ${styles.segment3} ${styles.hoverable}`} onMouseEnter={() => enterSegment('top3')} onMouseLeave={() => leaveSegment('top3')} />
-                    <div ref={top4Ref} className={`${styles.segment} ${styles.segment4} ${styles.hoverable}`} onMouseEnter={() => enterSegment('top4')} onMouseLeave={() => leaveSegment('top4')} />
+                    <div ref={top1Ref} className={`${styles.segment} ${styles.segment1} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('top1')} onMouseLeave={() => leaveSegment('top1')} />
+                    <div ref={top2Ref} className={`${styles.segment} ${styles.segment2} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('top2')} onMouseLeave={() => leaveSegment('top2')} />
+                    <div ref={top3Ref} className={`${styles.segment} ${styles.segment3} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('top3')} onMouseLeave={() => leaveSegment('top3')} />
+                    <div ref={top4Ref} className={`${styles.segment} ${styles.segment4} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('top4')} onMouseLeave={() => leaveSegment('top4')} />
                     <div className={`${styles.segment} ${styles.segment5}`} />
-                    <div ref={top6Ref} className={`${styles.segment} ${styles.segment6} ${styles.hoverable}`} onMouseEnter={() => enterSegment('top6')} onMouseLeave={() => leaveSegment('top6')} />
+                    <div ref={top6Ref} className={`${styles.segment} ${styles.segment6} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('top6')} onMouseLeave={() => leaveSegment('top6')} />
                 </div>
 
                 {renderDropdown('top1', 32, undefined, top1Left, undefined, `${styles.dropdownPanelTop} ${styles.dropdownTop1}`)}
@@ -111,9 +118,9 @@ export const MenuSettingsSelectorDiagram: React.FC = () => {
                 {renderDropdown('top6', 32, undefined, undefined, 0, `${styles.dropdownPanelTop} ${styles.dropdownTop6}`)}
 
                 <div className={styles.bottomBar}>
-                    <div ref={bottomLeftRef} className={`${styles.segment} ${styles.bottomLeftSegment} ${styles.hoverable}`} onMouseEnter={() => enterSegment('bottomLeft')} onMouseLeave={() => leaveSegment('bottomLeft')} />
+                    <div ref={bottomLeftRef} className={`${styles.segment} ${styles.bottomLeftSegment} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('bottomLeft')} onMouseLeave={() => leaveSegment('bottomLeft')} />
                     <div className={styles.bottomMiddleSegment} />
-                    <div ref={bottomRightRef} className={`${styles.segment} ${styles.bottomRightSegment} ${styles.hoverable}`} onMouseEnter={() => enterSegment('bottomRight')} onMouseLeave={() => leaveSegment('bottomRight')} />
+                    <div ref={bottomRightRef} className={`${styles.segment} ${styles.bottomRightSegment} ${isInteractive ? styles.hoverable : ''}`} onMouseEnter={() => enterSegment('bottomRight')} onMouseLeave={() => leaveSegment('bottomRight')} />
                 </div>
 
                 {renderDropdown('bottomLeft', undefined, 32, bottomLeft, undefined, `${styles.dropdownPanelBottom} ${styles.dropdownBottom}`)}

@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run check:limits && tsc && vite build",
+    "build": "npm run test && tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest",
-    "check:limits": "vitest run __tests__/dataLimit.test.ts"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -80,7 +80,7 @@ export const ScopeResults: React.FC = () => {
                             : 'N/A'
 
                         const canaryStatus = plugin?.evaluator.canaryCheck
-                            ? plugin.evaluator.canaryCheck(diagramData.answer, question.prompt)
+                            ? plugin.evaluator.canaryCheck(diagramData.answer, diagramData.step.parentQuestion)
                             : 'n/a'
 
                         return (

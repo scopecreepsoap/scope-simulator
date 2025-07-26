@@ -1,18 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import styles from './QuadrantSelectorDiagram.module.css'
 import HighlightAltIcon from '@mui/icons-material/HighlightAlt'
+import type { DiagramProps } from '../../../types/plugin'
 
 interface Position {
     x: number
     y: number
 }
 
-export const QuadrantSelectorDiagram: React.FC = () => {
+const QUADRANT_MAP: Record<number, string> = {
+    0: 'top-left',
+    1: 'top-right',
+    2: 'bottom-left',
+    3: 'bottom-right',
+    4: 'center',
+};
+
+const NAME_TO_INDEX_MAP: Record<string, number> = {
+    'top-left': 0,
+    'top-right': 1,
+    'bottom-left': 2,
+    'bottom-right': 3,
+    'center': 4,
+};
+
+export const QuadrantSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange }) => {
     const [hovered, setHovered] = useState<number | null>(null)
     const [hoverPos, setHoverPos] = useState<Position>({ x: 50, y: 50 })
     const [selected, setSelected] = useState<number | null>(null)
     const [iconPos, setIconPos] = useState<Position | null>(null)
+
+    useEffect(() => {
+        const selectedQuadrantName = initialValue?.quadrant
+        if (selectedQuadrantName && typeof selectedQuadrantName === 'string') {
+            setSelected(NAME_TO_INDEX_MAP[selectedQuadrantName] ?? null)
+            setIconPos(initialValue?.pos ?? null)
+        } else {
+            setSelected(null)
+            setIconPos(null)
+        }
+    }, [initialValue])
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
         const rect = e.currentTarget.getBoundingClientRect()
@@ -24,51 +52,19 @@ export const QuadrantSelectorDiagram: React.FC = () => {
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
         const rect = e.currentTarget.getBoundingClientRect()
-        const rawX = e.clientX - rect.left
-        const rawY = e.clientY - rect.top
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
 
-        const iconHalfSize = 42
-        const buffer = 2
+        const newQuadrantName = QUADRANT_MAP[index]
 
-        const leftClamp = iconHalfSize + buffer
-        const topClamp = iconHalfSize + buffer
-        const rightClamp = rect.width - iconHalfSize - buffer
-        const bottomClamp = rect.height - iconHalfSize - buffer
-
-        let x = rawX
-        let y = rawY
-
-        if (index === 4) {
-            const radiusX = rect.width / 2 - iconHalfSize - buffer
-            const radiusY = rect.height / 2 - iconHalfSize - buffer
-            const centerX = rect.width / 2
-            const centerY = rect.height / 2
-
-            const dx = rawX - centerX
-            const dy = rawY - centerY
-            const angle = Math.atan2(dy, dx)
-
-            const clampedX = Math.min(Math.abs(dx), radiusX)
-            const clampedY = Math.min(Math.abs(dy), radiusY)
-
-            x = centerX + clampedX * Math.cos(angle)
-            y = centerY + clampedY * Math.sin(angle)
-        } else {
-            x = Math.max(leftClamp, Math.min(rightClamp, rawX))
-            y = Math.max(topClamp, Math.min(bottomClamp, rawY))
-        }
-
-        if (
-            selected === index &&
-            iconPos &&
-            Math.abs(iconPos.x - rawX) < 40 &&
-            Math.abs(iconPos.y - rawY) < 40
-        ) {
+        if (selected === index) {
             setSelected(null)
             setIconPos(null)
+            onAnswerChange(null)
         } else {
             setSelected(index)
             setIconPos({ x, y })
+            onAnswerChange({ quadrant: newQuadrantName, pos: { x, y } })
         }
     }
 
@@ -109,12 +105,6 @@ export const QuadrantSelectorDiagram: React.FC = () => {
                                 style={{
                                     left: `${iconPos.x}px`,
                                     top: `${iconPos.y}px`,
-                                    position: 'absolute',
-                                    zIndex: 2,
-                                    fontSize: '84px',
-                                    color: '#0070ff',
-                                    pointerEvents: 'none',
-                                    transform: 'translate(-50%, -50%)',
                                 }}
                             >
                                 <HighlightAltIcon fontSize="inherit" />
