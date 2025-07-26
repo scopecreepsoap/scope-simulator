@@ -265,6 +265,7 @@ function App() {
                             <DiagramRenderer
                                 diagramKeys={[currentStep.diagramKey]}
                                 index={currentStep.questionIndex}
+                                context={currentStep.parentQuestion.context}
                             />
                         ) : (
                             <QuestionArea

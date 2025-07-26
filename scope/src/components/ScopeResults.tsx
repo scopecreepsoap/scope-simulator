@@ -94,6 +94,7 @@ export const ScopeResults: React.FC = () => {
                                             initialValue={diagramData.answer}
                                             onAnswerChange={() => {}}
                                             mode="display"
+                                            context={diagramData.step.parentQuestion.context}
                                         />
                                     </div>
                                 </div>

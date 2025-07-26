@@ -8,9 +8,10 @@ import type { Answer } from '../types/plugin'
 interface DiagramRendererProps {
     diagramKeys?: string[]
     index?: number
+    context?: any[]
 }
 
-export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, index }) => {
+export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, index, context }) => {
     const { recordAnswer, results, currentIndex } = useScopeStore()
 
     const renderDiagram = (key: string) => {
@@ -32,6 +33,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramKeys, i
                 mode="interactive"  // Show instruction and controller
                 initialValue={currentAnswer}
                 onAnswerChange={handleAnswerChange}
+                context={context}
             />
         )
     }

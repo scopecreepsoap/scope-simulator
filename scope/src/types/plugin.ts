@@ -13,6 +13,7 @@ export interface DiagramProps {
     mode: 'interactive' | 'display'
     initialValue: Answer
     onAnswerChange: (answer: Answer) => void
+    context?: any[]
 }
 
 export interface DiagramPlugin {
