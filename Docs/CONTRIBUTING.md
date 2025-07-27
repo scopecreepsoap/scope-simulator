@@ -290,6 +290,8 @@ To enable this, the `QuestionConfig` allows an optional `context` property.
     }
     ```
 
+*Card-sorting example provided by David Garcia.*
+
 #### Contributor Responsibilities
 
 Because Level 3 questions are custom and powerful, they come with a higher degree of responsibility for the contributor.
