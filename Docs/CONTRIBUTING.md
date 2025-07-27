@@ -126,9 +126,14 @@ export const QuadrantSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, 
         // The `mode` prop is used to disable interactions on the results page.
         if (mode === 'display') return;
 
-        const rect = e.currentTarget.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
+        // This component contains complex internal logic to calculate the icon's
+        // position and ensure it is not cut off by the container edges.
+        const rect = e.currentTarget.getBoundingClientRect();
+        const rawX = e.clientX - rect.left;
+        const rawY = e.clientY - rect.top;
+        const iconHalfSize = 42;
+        let x = rawX;
+        let y = rawY;
 
         const newQuadrantName = QUADRANT_MAP[index]
 

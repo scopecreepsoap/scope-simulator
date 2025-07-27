@@ -25,11 +25,13 @@ const NAME_TO_INDEX_MAP: Record<string, number> = {
     'center': 4,
 };
 
-export const QuadrantSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange }) => {
+export const QuadrantSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange, mode }) => {
     const [hovered, setHovered] = useState<number | null>(null)
     const [hoverPos, setHoverPos] = useState<Position>({ x: 50, y: 50 })
     const [selected, setSelected] = useState<number | null>(null)
     const [iconPos, setIconPos] = useState<Position | null>(null)
+
+    const isInteractive = mode === 'interactive'
 
     useEffect(() => {
         const selectedQuadrantName = initialValue?.quadrant
@@ -43,6 +45,7 @@ export const QuadrantSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, 
     }, [initialValue])
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+        if (!isInteractive) return
         const rect = e.currentTarget.getBoundingClientRect()
         const x = ((e.clientX - rect.left) / rect.width) * 100
         const y = ((e.clientY - rect.top) / rect.height) * 100
@@ -51,13 +54,46 @@ export const QuadrantSelectorDiagram: React.FC<DiagramProps> = ({ initialValue, 
     }
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+        if (!isInteractive) return
+
+        // Ensure icon is not cut off by the container edges
         const rect = e.currentTarget.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
+        const rawX = e.clientX - rect.left
+        const rawY = e.clientY - rect.top
+        const iconHalfSize = 42
+        const buffer = 2
+        const leftClamp = iconHalfSize + buffer
+        const topClamp = iconHalfSize + buffer
+        const rightClamp = rect.width - iconHalfSize - buffer
+        const bottomClamp = rect.height - iconHalfSize - buffer
+        let x = rawX
+        let y = rawY
+
+        if (index === 4) {
+            const radiusX = rect.width / 2 - iconHalfSize - buffer
+            const radiusY = rect.height / 2 - iconHalfSize - buffer
+            const centerX = rect.width / 2
+            const centerY = rect.height / 2
+            const dx = rawX - centerX
+            const dy = rawY - centerY
+            const angle = Math.atan2(dy, dx)
+            const clampedX = Math.min(Math.abs(dx), radiusX)
+            const clampedY = Math.min(Math.abs(dy), radiusY)
+            x = centerX + clampedX * Math.cos(angle)
+            y = centerY + clampedY * Math.sin(angle)
+        } else {
+            x = Math.max(leftClamp, Math.min(rightClamp, rawX))
+            y = Math.max(topClamp, Math.min(bottomClamp, rawY))
+        }
 
         const newQuadrantName = QUADRANT_MAP[index]
 
-        if (selected === index) {
+        if (
+            selected === index &&
+            iconPos &&
+            Math.abs(iconPos.x - rawX) < 40 &&
+            Math.abs(iconPos.y - rawY) < 40
+        ) {
             setSelected(null)
             setIconPos(null)
             onAnswerChange(null)
