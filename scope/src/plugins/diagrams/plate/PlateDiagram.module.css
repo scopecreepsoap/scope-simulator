@@ -1,0 +1,58 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.backgroundArea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 600px;
+    background: #ffffff;
+    border-radius: 8px;
+}
+
+.plate {
+    position: relative;
+    width: 400px;
+    height: 250px;
+    background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 102, 255, 0.2);
+}
+
+.plate:hover {
+    transform: scale(1.02);
+}
+
+.hoverIndicator {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.clickIndicator {
+    position: absolute;
+    color: #ffffff;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

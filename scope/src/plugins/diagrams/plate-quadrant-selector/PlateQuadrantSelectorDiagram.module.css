@@ -1,0 +1,163 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.dialogBox {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background: #d1ecf8;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    overflow: hidden;
+}
+
+.quadrant {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.q0 { grid-area: 1 / 1; }
+.q1 { grid-area: 1 / 2; }
+.q2 { grid-area: 2 / 1; }
+.q3 { grid-area: 2 / 2; }
+
+.q4 {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.hovered::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+            circle at var(--x, 50%) var(--y, 50%),
+            rgba(144, 255, 204, 0.35) 0%,
+            rgba(144, 255, 204, 0.25) 40%,
+            rgba(255, 202, 239, 0.25) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border-radius: 0;
+}
+
+.selected::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(144, 255, 204, 0.5) 0%, rgba(0, 200, 255, 0.15) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.icon {
+    position: absolute;
+    z-index: 10;
+    font-size: 84px !important;
+    color: #0070ff;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.ovalContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.ovalLarge,
+.ovalMedium,
+.ovalSmall {
+    position: absolute;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.ovalLarge {
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(
+            ellipse at center,
+            rgba(200, 240, 255, 0.2),
+            rgba(0, 80, 255, 0.05)
+    );
+}
+
+.ovalMedium {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+            ellipse at center,
+            rgba(180, 235, 255, 0.25),
+            rgba(0, 60, 200, 0.08)
+    );
+}
+
+.ovalSmall {
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(
+            ellipse at center,
+            rgba(160, 230, 255, 0.3),
+            rgba(0, 40, 150, 0.05)
+    );
+}
+
+.quadrantGrid {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+            linear-gradient(to right, rgba(0, 80, 130, 0.08) 50%, rgba(0, 80, 130, 0.12) 50%),
+            linear-gradient(to bottom, rgba(0, 80, 130, 0.08) 50%, rgba(0, 80, 130, 0.12) 50%);
+    mix-blend-mode: screen;
+}
+
+/* Selected plate styles */
+.selectedPlateContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.selectedPlate {
+    width: 200px;
+    height: 100px;
+    background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3);
+}

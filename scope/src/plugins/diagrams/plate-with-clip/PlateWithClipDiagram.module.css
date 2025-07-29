@@ -1,0 +1,129 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.dialogBox {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background: #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.plateContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 250px;
+}
+
+.plate {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 102, 255, 0.2);
+    pointer-events: none;
+}
+
+/* Clip styling */
+.clip {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff6b00 0%, #ffaa00 100%);
+    border-radius: 8px;
+    top: 50%;
+    left: 66.67%; /* 2/3 position */
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 10px rgba(255, 107, 0, 0.3);
+    z-index: 2;
+}
+
+/* Dimension line styling */
+.dimensionLine {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: calc(66.67% - 30px); /* Stop at left edge of clip */
+    height: 1px;
+    background: #333;
+    z-index: 3;
+}
+
+.dimensionLine::before,
+.dimensionLine::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 10px;
+    background: #333;
+    top: -5px;
+}
+
+.dimensionLine::before {
+    left: 0;
+}
+
+.dimensionLine::after {
+    right: 0;
+}
+
+.dimensionArrowLeft,
+.dimensionArrowRight {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    top: -3px;
+}
+
+.dimensionArrowLeft {
+    left: 0;
+    border-width: 4px 8px 4px 0;
+    border-color: transparent #333 transparent transparent;
+}
+
+.dimensionArrowRight {
+    right: 0;
+    border-width: 4px 0 4px 8px;
+    border-color: transparent transparent transparent #333;
+}
+
+/* Hover overlay - similar to quadrant selector */
+.hoverOverlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(144, 255, 204, 0.35) 0%,
+        rgba(144, 255, 204, 0.25) 40%,
+        rgba(255, 202, 239, 0.25) 100%
+    );
+    z-index: 10;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.icon {
+    position: absolute;
+    z-index: 11;
+    font-size: 84px !important;
+    color: #0070ff;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
