@@ -16,10 +16,10 @@ This document outlines the future direction and planned enhancements for the SCO
 * **User Value:** This will accelerate the analysis phase of research by providing an initial, objective summary of user interactions, which the researcher can then refine.
 * **Implementation Notes:** The UI for this feature is already present but disabled in the results view footer.
 
-### 2. 📂 Custom Test Loading ("Load SCOPE")
-* **Concept:** Allow users to load a complete SCOPE test configuration from an external source, such as an uploaded JSON file or a URL.
-* **User Value:** This decouples test creation from the core application, enabling researchers to create, host, and share their own tests. This could also enable tests that use high-fidelity images (like application screenshots) instead of abstract diagrams, allowing for more specific usability testing.
-* **Implementation Notes:** The UI entry point is disabled in the main navigation on the home screen. This is a significant architectural enhancement that will require careful consideration of data security and component rendering logic.
+### 2. 📈 Results Dashboard ("Load SCOPE")
+* **Concept:** Allow a user to upload a previously downloaded `scope-results.json` file to view a detailed analysis dashboard of that test session.
+* **User Value:** This creates a powerful, self-contained analysis loop. Researchers can conduct a test, download the results, and then load them back into the application for an in-depth review at any time. It also enables easy sharing of specific test findings with colleagues or the broader UX community by simply sharing the JSON file.
+* **Implementation Notes:** The UI entry point remains the disabled "Load SCOPE" button. The primary effort will be creating a new dashboard view that can parse the results file and present the data in a more comprehensive format than the standard end-of-test review screen.
 
 ### 3. 📊 Opt-in Research Data Collection
 * **Concept:** Implement a framework to anonymously collect interaction data (e.g., answer selections, time-on-task, interaction paths) from willing participants.
