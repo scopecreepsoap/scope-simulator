@@ -22,7 +22,7 @@ interface ProcessedQuestion {
 }
 
 export const ScopeResults: React.FC = () => {
-    const { testSteps, results, returnToHome, recordAnswer } = useScopeStore()
+    const { testSteps, results, returnToHome, recordAnswer, userName, completionDate, downloadJson } = useScopeStore()
 
     const processedQuestions = useMemo(() => {
         const grouped = new Map<number, ProcessedQuestion>()
@@ -57,16 +57,11 @@ export const ScopeResults: React.FC = () => {
         }
     };
 
-    // TODO: Implement download
-    const handleDownload = () => { console.log("Downloaded Results!"); }
-
-
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                {/* TODO: Add name here or 'SCOPE Results' if no name filled in */}
-                <span>SCOPE Results</span>
-                <span>{new Date().toLocaleDateString()}</span>
+                <span>{userName ? `${userName}'s SCOPE` : 'SCOPE Results'}</span>
+                <span>{completionDate ? new Date(completionDate).toLocaleDateString() : ''}</span>
             </div>
 
             {processedQuestions.map((question) => (
@@ -144,7 +139,7 @@ export const ScopeResults: React.FC = () => {
                     <div className={scopeHomeStyles.option}>
                         <div
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`}
-                            onClick={handleDownload}
+                            onClick={downloadJson}
                         >
                             <DownloadIcon sx={{ fontSize: 60, color: '#163AC2' }} />
                         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from '../styles/InfoPage.module.css'
 import menuOverlayStyles from '../styles/MenuOverlay.module.css'
 import menuInfoStyles from '../styles/MenuInfo.module.css'
@@ -9,32 +9,18 @@ import DownloadIcon from '@mui/icons-material/Download'
 import LaunchIcon from '@mui/icons-material/Launch'
 import ScopeTooltip from './ScopeTooltip'
 import strings from "../data/strings";
+import { useScopeStore } from '../stores/scopeStore'
 
 interface InfoPageProps {
     onBack: () => void
 }
 
 export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
-    const [name, setName] = useState('')
-    const [platforms, setPlatforms] = useState({
-        desktop: false,
-        web: false,
-        mobile: false,
-        ar: false,
-    })
+    const { userName, setUserName, platforms, setPlatforms, resetUserInfo, downloadJson, viewResults } = useScopeStore()
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = event.target
-        setPlatforms((prev) => ({ ...prev, [name]: checked }))
-    }
-
-    const handleClear = () => {
-        setName('')
-        setPlatforms({ desktop: false, web: false, mobile: false, ar: false })
-    }
-
-    const handleSave = () => {
-        console.log('Saving data:', { name, platforms })
+        setPlatforms({ ...platforms, [name]: checked })
     }
 
     return (
@@ -54,8 +40,8 @@ export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
                     <input
                         type="text"
                         className={styles.input}
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
                     />
                 </div>
 
@@ -84,7 +70,9 @@ export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
                 <div className={styles.section}>
                     <div className={styles.resultsRow}>
                         <label className={styles.label}>{strings.infoPage.questionsAnswered}</label>
-                        <a href="#">{strings.common.viewResults} <LaunchIcon sx={{ fontSize: 24, verticalAlign: 'text-bottom', marginLeft: '4px' }}/></a>
+                        <a href="#" onClick={(e) => { e.preventDefault(); viewResults(); }}>
+                            {strings.common.viewResults} <LaunchIcon sx={{ fontSize: 24, verticalAlign: 'text-bottom', marginLeft: '4px' }}/>
+                        </a>
                     </div>
                 </div>
 
@@ -93,14 +81,14 @@ export const InfoPage: React.FC<InfoPageProps> = ({ onBack }) => {
                 <div className={styles.buttonRow}>
                     <ScopeTooltip title={strings.infoPage.resetDataTooltip}>
                         <div className={scopeHomeStyles.option}>
-                            <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`} onClick={handleClear}>
+                            <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`} onClick={resetUserInfo}>
                                 <DeleteIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                             </div>
                         </div>
                     </ScopeTooltip>
                     <ScopeTooltip title={strings.infoPage.downloadResultsTooltip}>
                         <div className={scopeHomeStyles.option}>
-                            <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`} onClick={handleSave}>
+                            <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.durationCard}`} onClick={downloadJson}>
                                 <DownloadIcon sx={{ fontSize: 60, color: '#163AC2' }} />
                             </div>
                         </div>

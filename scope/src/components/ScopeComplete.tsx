@@ -10,10 +10,7 @@ import { useScopeStore } from '../stores/scopeStore'
 import strings from "../data/strings";
 
 export const ScopeComplete: React.FC = () => {
-    const { returnToHome, viewResults } = useScopeStore()
-
-    // TODO: Implement save
-    const handleSave = () => console.log('Save Results clicked!')
+    const { returnToHome, viewResults, downloadJson } = useScopeStore()
 
     return (
         <motion.div
@@ -47,7 +44,7 @@ export const ScopeComplete: React.FC = () => {
                     <div className={scopeHomeStyles.option}>
                         <div
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
-                            onClick={handleSave}
+                            onClick={downloadJson}
                         >
                             <DownloadIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                         </div>

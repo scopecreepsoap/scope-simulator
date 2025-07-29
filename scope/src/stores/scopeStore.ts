@@ -1,6 +1,16 @@
 import { create } from 'zustand'
 import type { QuestionConfig } from '../types/QuestionConfig'
 import type { Answer } from '../types/plugin'
+import {downloadFile} from "../utils/download";
+import diagramRegistry from "../plugins/registry";
+
+const initialSessionState = {
+    userName: '',
+    platforms: { desktop: false, web: false, mobile: false, ar: false },
+    completionDate: null,
+    testSteps: [],
+    results: [],
+};
 
 export type TestStep =
     | { type: 'prompt'; data: QuestionConfig; questionIndex: number }
@@ -9,6 +19,13 @@ export type TestStep =
     diagramKey: string
     parentQuestion: QuestionConfig
     questionIndex: number
+}
+
+interface PlatformSelection {
+    desktop: boolean;
+    web: boolean;
+    mobile: boolean;
+    ar: boolean;
 }
 
 interface ScopeState {
@@ -23,6 +40,9 @@ interface ScopeState {
     startTime: number
     timeLimit: number
     fullscreenDisabled: boolean
+    userName: string
+    platforms: PlatformSelection;
+    completionDate: number | null
 }
 
 interface ScopeActions {
@@ -38,6 +58,10 @@ interface ScopeActions {
     toggleFullscreenDisabled: () => void
     recordAnswer: (stepIndex: number, answer: Answer) => void
     viewResults: () => void
+    setUserName: (name: string) => void
+    setPlatforms: (platforms: PlatformSelection) => void;
+    resetUserInfo: () => void;
+    downloadJson: () => void
 }
 
 const ESTIMATED_TIMES: { [key: number]: number } = {
@@ -52,12 +76,11 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     questionsLoading: false,
     selectedTime: null,
     selectedLevel: null,
-    testSteps: [],
-    results: [],
     currentIndex: 0,
     startTime: 0,
     timeLimit: 0,
     fullscreenDisabled: false,
+    ...initialSessionState,
 
     loadQuestions: async () => {
         if (get().allQuestions.length > 0 || get().questionsLoading) return
@@ -74,6 +97,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
         }
     },
 
+    setPlatforms: (platforms) => set({ platforms }),
     setSelectedTime: (time) => set({ selectedTime: time }),
     setSelectedLevel: (level) => set({ selectedLevel: level }),
 
@@ -163,7 +187,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
         if (currentIndex < testSteps.length - 1) {
             set({ currentIndex: currentIndex + 1 })
         } else {
-            set({ appStatus: 'finished' })
+            set({ appStatus: 'finished', completionDate: Date.now() })
         }
     },
     endTest: () => set({ appStatus: 'finished' }),
@@ -172,11 +196,10 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             document.exitFullscreen()
         }
         set({
+            ...initialSessionState,
             appStatus: 'configuring',
             selectedTime: null,
             selectedLevel: null,
-            testSteps: [],
-            results: [],
         })
     },
 
@@ -193,5 +216,64 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     },
 
     viewResults: () => set({ appStatus: 'review' }),
+
+    setUserName: (name) => set({ userName: name }),
+
+    downloadJson: () => {
+        const { userName, completionDate, platforms, results, testSteps } = get()
+
+        const groupedQuestions = new Map<number, any>()
+
+        testSteps.forEach((step, index) => {
+            const questionIndex = step.questionIndex
+
+            // Initialize question object if it's the first time we've seen it
+            if (!groupedQuestions.has(questionIndex)) {
+                const questionData = step.type === 'prompt' ? step.data : step.parentQuestion
+                groupedQuestions.set(questionIndex, {
+                    questionIndex: questionIndex,
+                    prompt: questionData.prompt,
+                    level: questionData.level,
+                    canary: questionData.canary,
+                    canaryIntent: questionData.canaryIntent,
+                    diagramResults: [],
+                })
+            }
+
+            // If step is a diagram, calculate its results and add it to parent question
+            if (step.type === 'diagram') {
+                const result = results[index]
+                let canaryStatus = 'n/a'
+
+                if (step.parentQuestion.canary) {
+                    const plugin = diagramRegistry.get(step.diagramKey)
+                    if (plugin?.evaluator.canaryCheck) {
+                        canaryStatus = plugin.evaluator.canaryCheck(result, step.parentQuestion)
+                    }
+                }
+
+                groupedQuestions.get(questionIndex)?.diagramResults.push({
+                    diagramKey: step.diagramKey,
+                    result,
+                    canaryStatus,
+                })
+            }
+        })
+
+        const testData = Array.from(groupedQuestions.values())
+
+        const dataToSave = {
+            userName,
+            completionDate,
+            platforms,
+            testData,
+        };
+        const content = JSON.stringify(dataToSave, null, 2)
+        downloadFile('scope-results.json', content, 'application/json')
+    },
+
+    resetUserInfo: () => {
+        set(initialSessionState)
+    },
 
 }))
