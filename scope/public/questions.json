@@ -42,6 +42,12 @@
   },
   {
     "level": 3,
+    "prompt": "Where would you click to sign up for the service?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
     "prompt": "Where would you click to contact the company?",
     "diagram": ["homepage-diagram"],
     "context": []
@@ -54,8 +60,88 @@
   },
   {
     "level": 3,
+    "prompt": "Where would you click to see job opportunities?",
+    "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 3,
     "prompt": "Where would you click if you want to log in?",
     "diagram": ["homepage-diagram"],
+    "context": []
+  },
+  {
+    "level": 1,
+    "prompt": "Where do you expect to find the button to get a quote?",
+    "diagram": ["homepage-diagram"]
+  },
+  {
+    "level": 2,
+    "prompt": "Which area of the interface do you expect to find the part list?",
+    "diagram": ["quadrant-selector"]
+  },
+  {
+    "level": 3,
+    "prompt": "On a building editor, where would you expect to find controls for the building size?",
+    "diagram": ["3d-building"],
+    "context": []
+  },
+  {
+    "level": 2,
+    "prompt": "Where would you drag on this plate to make it wider?",
+    "diagram": ["plate"]
+  },
+  {
+    "level": 1,
+    "prompt": "Where would you click and drag to move a plate?",
+    "diagram": ["plate"]
+  },
+  {
+    "level": 3,
+    "prompt": "Where do you expect to find the properties to change the selected plate such as thickness or color?",
+    "diagram": ["plate-quadrant-selector"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click to duplicate the clip?",
+    "diagram": ["plate-with-clip"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "Where would you click to add another rollup door?",
+    "diagram": ["3d-building"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "On a building editor, where would you expect to find controls for the gutter?",
+    "diagram": ["3d-building"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "On a building editor, where would you expect to find controls for the inset bay?",
+    "diagram": ["3d-building"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "On a building editor, where would you expect to find controls for the wainscot?",
+    "diagram": ["3d-building"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "On a building editor, where would you expect to find controls for the roof pitch?",
+    "diagram": ["3d-building"],
+    "context": []
+  },
+  {
+    "level": 3,
+    "prompt": "On a building editor, where would you expect to find controls for the building size?",
+    "diagram": ["3d-building"],
     "context": []
   }
 ]
