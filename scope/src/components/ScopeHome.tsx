@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TimerIcon from '@mui/icons-material/Timer'
 import WatchIcon from '@mui/icons-material/Watch'
 import HourglassTopIcon from '@mui/icons-material/HourglassTop'
@@ -12,8 +12,13 @@ import ScopeTooltip from './ScopeTooltip'
 import strings from '../data/strings'
 import { DifficultyInfo } from './DifficultyInfo'
 import { useScopeStore } from '../stores/scopeStore'
+import About from './About'
+import type { NavView } from '../types/navigation'
+import { InfoPage } from './InfoPage'
 
 export const ScopeHome: React.FC = () => {
+    const [currentView, setCurrentView] = useState<NavView>('Choose')
+    const [isInfoPageVisible, setIsInfoPageVisible] = useState(false)
     const {
         selectedTime,
         selectedLevel,
@@ -46,28 +51,13 @@ export const ScopeHome: React.FC = () => {
         return totalAvailableSec >= requiredSec
     }
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.contentWrapper}>
+    const renderContent = () => {
+        if (currentView === 'About') {
+            return <About />
+        }
 
-                {/* NAVIGATION */}
-                <nav className={styles.nav}>
-                    <span className={styles.activeNavItem}>
-                        {strings.labels.chooseScope}
-                    </span>
-                    <span className={styles.disabledNavItem}>
-                        {strings.labels.loadScope}
-                    </span>
-                    <span className={styles.disabledNavItem}>
-                        {strings.labels.about}
-                    </span>
-                    <img
-                        src={scopeIcon}
-                        className={styles.scopeIcon}
-                        alt={`${strings.labels.chooseScope} Logo`}
-                    />
-                </nav>
-
+        return (
+            <>
                 {/* DURATION */}
                 <div className={styles.section}>
                     <div className={styles.sectionLabel}>
@@ -219,6 +209,63 @@ export const ScopeHome: React.FC = () => {
                         })}
                     </div>
                 </div>
+            </>
+        )
+    }
+
+    // Show Info from menu above SCOPE home page
+    if (isInfoPageVisible) {
+        return <InfoPage onBack={() => setIsInfoPageVisible(false)} />
+    }
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.contentWrapper}>
+                {/* NAVIGATION */}
+                <nav className={styles.nav}>
+
+                    {/* CHOOSE SCOPE */}
+                    <span
+                        className={
+                            currentView === 'Choose'
+                                ? styles.activeNavItem
+                                : styles.navItem
+                        }
+                        onClick={() => setCurrentView('Choose')}
+                    >
+                        {strings.labels.chooseScope}
+                    </span>
+
+                    {/* LOAD SCOPE */}
+                    <span className={styles.disabledNavItem}>
+                        {strings.labels.loadScope}
+                    </span>
+
+                    {/* ABOUT */}
+                    <span
+                        className={
+                            currentView === 'About'
+                                ? styles.activeNavItem
+                                : styles.navItem
+                        }
+                        onClick={() => setCurrentView('About')}
+                    >
+                        {strings.labels.about}
+                    </span>
+
+                    {/* MY INFO */}
+                    <ScopeTooltip title={strings.tooltips.myInfo}>
+                        <img
+                            src={scopeIcon}
+                            className={styles.scopeIcon}
+                            alt={`${strings.labels.chooseScope} Logo`}
+                            onClick={() => setIsInfoPageVisible(true)}
+                            style={{ cursor: 'pointer' }}
+                        />
+                    </ScopeTooltip>
+                </nav>
+
+                {renderContent()}
             </div>
         </div>
     )

@@ -23,6 +23,11 @@ const strings = {
         interpretive:'Interpretive',
         contextual:  'Contextual',
     },
+    aboutDetails: {
+        title: 'S.C.O.P.E: Simulation for Cognitive Observation of Perception & Experience',
+        p1:    'The SCOPE Simulator is an interactive, web-based tool designed to explore and test fundamental principles of User Experience (UX), particularly focusing on user intuition, visual perception of layouts, and interaction patterns.',
+        p2:    'Inspired by a desire to provide empirical, interactive insights to the UX community, SCOPE aims to create a dynamic environment where researchers, designers, and developers can observe and analyze how users interact with and interpret various interface challenges.',
+    },
     menu: {
         title: 'Menu',
         keyboard: 'Keyboard',
