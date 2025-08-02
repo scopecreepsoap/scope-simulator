@@ -1,6 +1,7 @@
 // All application strings
 const strings = {
     tooltips: {
+        myInfo: 'My Info',
         noDuration:                 'Not enough questions available',
         noDifficulty:               'No questions available',
         difficultyInfo: `
