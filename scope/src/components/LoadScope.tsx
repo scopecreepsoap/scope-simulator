@@ -1,14 +1,18 @@
 import React, { useState, useRef, useCallback } from 'react'
+import { toast } from 'react-hot-toast'
+import { motion } from 'framer-motion'
 import styles from '../styles/LoadScope.module.css'
 import scopeHomeStyles from '../styles/ScopeHome.module.css'
 import strings from '../data/strings'
 import { useScopeStore } from '../stores/scopeStore'
-import HomeIcon from '@mui/icons-material/Home'
+import MenuIcon from '@mui/icons-material/Menu'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
-import InsightsIcon from '@mui/icons-material/Insights'
+import AnalyticsIcon from '@mui/icons-material/Analytics'
 import GradingIcon from '@mui/icons-material/Grading'
-import SmartToyIcon from '@mui/icons-material/SmartToy'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import { InfoTooltipIcon } from './InfoTooltipIcon'
+import ScopeTooltip from "./ScopeTooltip";
 
 type FileType = 'questions' | 'results' | null
 
@@ -20,8 +24,8 @@ export const LoadScope: React.FC = () => {
     const {
         loadQuestionsFromFile,
         loadResultsFromFile,
+        openMenu,
         beginTest,
-        returnToHome,
         toggleFullscreenDisabled,
         fullscreenDisabled,
         viewResults,
@@ -33,7 +37,10 @@ export const LoadScope: React.FC = () => {
             reader.onload = (e) => {
                 try {
                     const content = e.target?.result
-                    if (typeof content !== 'string') return
+                    if (typeof content !== 'string') {
+                        toast(strings.notifications.invalidScopeFile)
+                        throw new Error('File could not be read.')
+                    }
                     const json = JSON.parse(content)
 
                     // Simple check to differentiate between file types
@@ -44,11 +51,13 @@ export const LoadScope: React.FC = () => {
                         setFileType('results')
                         loadResultsFromFile(json)
                     } else {
-                        setFileType(null)
+                        toast(strings.notifications.invalidScopeFile)
+                        throw new Error('Invalid SCOPE file format.')
                     }
                 } catch (error) {
                     console.error('Error parsing JSON file:', error)
                     setFileType(null)
+                    setFile(null)
                 }
             }
             reader.readAsText(loadedFile)
@@ -87,17 +96,15 @@ export const LoadScope: React.FC = () => {
     }
 
     const renderOptions = () => {
-        if (!fileType) return null
-
         if (fileType === 'questions') {
             return (
-                <div className={scopeHomeStyles.optionsRow}>
+                <>
                     <div className={scopeHomeStyles.option}>
                         <div
                             className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
-                            onClick={returnToHome}
+                            onClick={openMenu}
                         >
-                            <HomeIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
+                            <MenuIcon sx={{ fontSize: 60, color: '#21D1EB' }} />
                         </div>
                         <div className={scopeHomeStyles.cardLabel}>
                             {strings.labels.viewMenu}
@@ -136,37 +143,33 @@ export const LoadScope: React.FC = () => {
                             {strings.beginScope.beginScope}
                         </div>
                     </div>
-                </div>
+                </>
             )
         }
 
         if (fileType === 'results') {
             return (
-                <div className={scopeHomeStyles.optionsRow}>
-                    <div
-                        className={`${scopeHomeStyles.option} ${scopeHomeStyles.disabled}`}
-                    >
-                        <div
-                            className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
-                        >
-                            <SmartToyIcon
-                                sx={{ fontSize: 60, color: '#21D1EB' }}
-                            />
-                        </div>
+                <>
+                    <div className={`${scopeHomeStyles.option} ${scopeHomeStyles.disabled}`}>
+                        <ScopeTooltip title={strings.tooltips.comingSoon}>
+                            <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}>
+                                <AutoAwesomeIcon
+                                    sx={{ fontSize: 60, color: '#21D1EB' }}
+                                />
+                            </div>
+                        </ScopeTooltip>
                         <div className={scopeHomeStyles.cardLabel}>
                             {strings.scopeComplete.aiSummary}
                         </div>
                     </div>
-                    <div
-                        className={`${scopeHomeStyles.option} ${scopeHomeStyles.disabled}`}
-                    >
-                        <div
-                            className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}
-                        >
-                            <InsightsIcon
-                                sx={{ fontSize: 60, color: '#21D1EB' }}
-                            />
-                        </div>
+                    <div className={`${scopeHomeStyles.option} ${scopeHomeStyles.disabled}`}>
+                        <ScopeTooltip title={strings.tooltips.comingSoon}>
+                            <div className={`${scopeHomeStyles.card} ${scopeHomeStyles.difficultyCard}`}>
+                                <AnalyticsIcon
+                                    sx={{ fontSize: 60, color: '#21D1EB' }}
+                                />
+                            </div>
+                        </ScopeTooltip>
                         <div className={scopeHomeStyles.cardLabel}>
                             {strings.labels.scopeAnalytics}
                         </div>
@@ -184,9 +187,18 @@ export const LoadScope: React.FC = () => {
                             {strings.common.viewResults}
                         </div>
                     </div>
-                </div>
+                </>
             )
         }
+
+        // Placeholder buttons
+        return Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className={scopeHomeStyles.option}>
+                <div
+                    className={`${styles.card} ${scopeHomeStyles.difficultyCard} ${styles.placeholderCard}`}
+                />
+            </div>
+        ))
     }
 
     return (
@@ -212,22 +224,25 @@ export const LoadScope: React.FC = () => {
                         accept=".json"
                         className={styles.fileInput}
                     />
-                    <p>
-                        {file
-                            ? file.name
-                            : strings.labels.dragOrClick}
-                    </p>
+                    <p>{file ? file.name : strings.labels.dragOrClick}</p>
                 </div>
             </div>
 
-            {fileType && (
-                <div className={styles.section}>
-                    <div className={scopeHomeStyles.sectionLabel}>
-                        {strings.labels.options}
-                    </div>
-                    {renderOptions()}
+            <div className={styles.section}>
+                <div className={scopeHomeStyles.sectionLabel}>
+                    {strings.labels.options}
+                    <InfoTooltipIcon tooltipText={strings.tooltips.optionsInfo} />
                 </div>
-            )}
+                <motion.div
+                    key={fileType || 'placeholders'}
+                    className={scopeHomeStyles.optionsRow}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {renderOptions()}
+                </motion.div>
+            </div>
         </div>
     )
 }

@@ -29,7 +29,8 @@ interface PlatformSelection {
 }
 
 interface ScopeState {
-    appStatus: 'configuring' | 'ready' | 'running' | 'finished' | 'review'
+    appStatus: 'configuring' | 'ready' | 'running' | 'finished' | 'review' | 'loaded'
+    isMenuVisible: boolean
     allQuestions: QuestionConfig[]
     questionsLoading: boolean
     selectedTime: number | null
@@ -51,6 +52,8 @@ interface ScopeActions {
     loadResultsFromFile: (data: any) => void
     setSelectedTime: (time: number | null) => void
     setSelectedLevel: (level: number | null) => void
+    openMenu: () => void
+    closeMenu: () => void
     prepareTest: () => void
     beginTest: () => void
     previousQuestion: () => void
@@ -74,6 +77,7 @@ const ESTIMATED_TIMES: { [key: number]: number } = {
 
 export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     appStatus: 'configuring',
+    isMenuVisible: false,
     allQuestions: [],
     questionsLoading: false,
     selectedTime: null,
@@ -120,6 +124,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             }
         })
         set({
+            appStatus: 'loaded',
             allQuestions: questions,
             testSteps: finalTestSteps,
             results: Array(finalTestSteps.length).fill(null),
@@ -173,6 +178,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
         })
 
         set({
+            appStatus: 'loaded',
             userName,
             completionDate,
             platforms,
@@ -251,6 +257,9 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
         })
     },
 
+    openMenu: () => set({ isMenuVisible: true }),
+    closeMenu: () => set({ isMenuVisible: false }),
+
     /**
      * Starts the test timer and transitions the app to the 'running' state.
      */
@@ -284,6 +293,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             appStatus: 'configuring',
             selectedTime: null,
             selectedLevel: null,
+            isMenuVisible: false,
         })
     },
 

@@ -9,11 +9,12 @@ const strings = {
             Level 2 (Interpretive): Moderate questions that inform personal interpretation
             Level 3 (Contextual): Deeper questions that involve context analysis and reasoning
         `,
-        optionsInfo: 'Options will become available based on type of JSON file loaded (e.g., SCOPE Questions or SCOPE Results)',
+        optionsInfo: 'Available options based on type of SCOPE file loaded (e.g. Questions, Results)',
         comingSoon: 'Coming Soon',
     },
     notifications: {
         pressSpace: 'Press Spacebar to view Menu',
+        invalidScopeFile: 'Invalid SCOPE file (JSON required)',
     },
     labels: {
         chooseScope: 'Choose SCOPE',
