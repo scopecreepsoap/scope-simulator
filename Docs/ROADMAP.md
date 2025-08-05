@@ -11,20 +11,15 @@ This document outlines the future direction and planned enhancements for the SCO
 
 ## 🚀 Planned Features
 
-### 1. 🤖 AI-Powered Results Summary
-* **Concept:** Integrate an AI assistant on the results page that can analyze the collected answers and automatically generate draft observational notes.
+### 1. 📈 Results Dashboard & Analytics
+* **Concept:** Allow a user to upload previously downloaded `scope-results.json` files to view a detailed analysis dashboard of collected test sessions. This dashboard will include visualizations and key metrics about the performance and interaction patterns of surveyed users.
+* **User Value:** This creates a powerful, self-contained analysis loop. Researchers can conduct a test, download the results, and then load them back into the application for an in-depth review with rich analytics at any time. It also enables easy sharing of aggregate test findings with colleagues.
+* **Implementation Notes:** The UI entry point is the "Load SCOPE" view. The primary effort will be creating a new dashboard view that can parse the results file and present the data in a more comprehensive format than the standard end-of-test review screen, incorporating charts and metrics.
+
+### 2. 🤖 AI-Powered Results Summary
+* **Concept:** Integrate an AI on the results page that can analyze the collected answers and automatically generate draft observational notes.
 * **User Value:** This will accelerate the analysis phase of research by providing an initial, objective summary of user interactions, which the researcher can then refine.
 * **Implementation Notes:** The UI for this feature is already present but disabled in the results view footer.
-
-### 2. 📈 Results Dashboard ("Load SCOPE")
-* **Concept:** Allow a user to upload a previously downloaded `scope-results.json` file to view a detailed analysis dashboard of that test session.
-* **User Value:** This creates a powerful, self-contained analysis loop. Researchers can conduct a test, download the results, and then load them back into the application for an in-depth review at any time. It also enables easy sharing of specific test findings with colleagues or the broader UX community by simply sharing the JSON file.
-* **Implementation Notes:** The UI entry point remains the disabled "Load SCOPE" button. The primary effort will be creating a new dashboard view that can parse the results file and present the data in a more comprehensive format than the standard end-of-test review screen.
-
-### 3. 📊 Opt-in Research Data Collection
-* **Concept:** Implement a framework to anonymously collect interaction data (e.g., answer selections, time-on-task, interaction paths) from willing participants.
-* **User Value:** Aggregated, anonymous data can be used to conduct large-scale studies on UX patterns, providing valuable insights to the entire community.
-* **Implementation Notes:** This requires a robust, secure backend service and a clear, unambiguous user consent flow before any test begins.
 
 ---
 
