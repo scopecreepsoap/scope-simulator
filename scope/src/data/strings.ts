@@ -9,6 +9,7 @@ const strings = {
             Level 2 (Interpretive): Moderate questions that inform personal interpretation
             Level 3 (Contextual): Deeper questions that involve context analysis and reasoning
         `,
+        optionsInfo: 'Options will become available based on type of JSON file loaded (e.g., SCOPE Questions or SCOPE Results)',
         comingSoon: 'Coming Soon',
     },
     notifications: {
@@ -23,6 +24,11 @@ const strings = {
         natural:     'Natural',
         interpretive:'Interpretive',
         contextual:  'Contextual',
+        openFile: 'Open File',
+        dragOrClick: 'Drag & drop a file here or click to select a file',
+        options: 'Options',
+        viewMenu: 'View Menu',
+        scopeAnalytics: 'SCOPE Analytics',
     },
     aboutDetails: {
         title: 'Simulation for Cognitive Observation of Perception & Experience — SCOPE',

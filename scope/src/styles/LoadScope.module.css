@@ -1,0 +1,32 @@
+.container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.dropzone {
+    border: 2px dashed #1c2a7c;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-color: rgba(20, 34, 104, 0.5);
+}
+
+.dropzone:hover,
+.dropzone.dragging {
+    border-color: #21d4fd;
+    background-color: rgba(33, 212, 253, 0.1);
+}
+
+.fileInput {
+    display: none;
+}
+
+.dragging {
+    border-color: #21d4fd;
+}

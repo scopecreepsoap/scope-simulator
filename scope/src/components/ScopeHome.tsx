@@ -15,6 +15,7 @@ import { useScopeStore } from '../stores/scopeStore'
 import About from './About'
 import type { NavView } from '../types/navigation'
 import { InfoPage } from './InfoPage'
+import { LoadScope } from './LoadScope'
 
 export const ScopeHome: React.FC = () => {
     const [currentView, setCurrentView] = useState<NavView>('Choose')
@@ -52,165 +53,184 @@ export const ScopeHome: React.FC = () => {
     }
 
     const renderContent = () => {
-        if (currentView === 'About') {
-            return <About />
+        switch (currentView) {
+            case 'Choose':
+                return (
+                    <>
+                        {/* DURATION */}
+                        <div className={styles.section}>
+                            <div className={styles.sectionLabel}>
+                                {strings.labels.duration}
+                            </div>
+                            <div className={styles.optionsRow}>
+                                {[1, 2, 3].map((min) => {
+                                    const canUse = canSupportTime(
+                                        min,
+                                        allQuestions
+                                    )
+                                    const disabled = !canUse
+                                    const tooltipTitle = disabled
+                                        ? strings.tooltips.noDuration
+                                        : ''
+
+                                    return (
+                                        <div key={min} className={styles.option}>
+                                            <ScopeTooltip
+                                                title={tooltipTitle}
+                                                disableHoverListener={!disabled}
+                                            >
+                                                <div
+                                                    className={[
+                                                        styles.card,
+                                                        styles.durationCard,
+                                                        selectedTime === min &&
+                                                        styles.selected,
+                                                        disabled &&
+                                                        styles.disabled,
+                                                    ]
+                                                        .filter(Boolean)
+                                                        .join(' ')}
+                                                    onClick={() => {
+                                                        if (!disabled) {
+                                                            setSelectedTime(
+                                                                selectedTime ===
+                                                                min
+                                                                    ? null
+                                                                    : min
+                                                            )
+                                                        }
+                                                    }}
+                                                >
+                                                    {min === 1 && (
+                                                        <TimerIcon
+                                                            sx={{
+                                                                fontSize: 60,
+                                                                color: '#163AC2',
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {min === 2 && (
+                                                        <WatchIcon
+                                                            sx={{
+                                                                fontSize: 60,
+                                                                color: '#163AC2',
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {min === 3 && (
+                                                        <HourglassTopIcon
+                                                            sx={{
+                                                                fontSize: 60,
+                                                                color: '#163AC2',
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </ScopeTooltip>
+                                            <div
+                                                className={styles.cardLabel}
+                                            >
+                                                {min} min
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+
+                        {/* DIFFICULTY */}
+                        <div className={styles.section}>
+                            <div className={styles.sectionLabel}>
+                                {strings.labels.difficulty}
+                                <DifficultyInfo />
+                            </div>
+                            <div className={styles.optionsRow}>
+                                {[1, 2, 3].map((lvl) => {
+                                    const hasLevelQuestions =
+                                        allQuestions.some((q) => q.level === lvl)
+                                    const disabled = !hasLevelQuestions
+                                    const tooltipTitle = disabled
+                                        ? strings.tooltips.noDifficulty
+                                        : ''
+                                    const isSelected = selectedLevel === lvl
+
+                                    return (
+                                        <div key={lvl} className={styles.option}>
+                                            <ScopeTooltip
+                                                title={tooltipTitle}
+                                                disableHoverListener={!disabled}
+                                            >
+                                                <div
+                                                    className={[
+                                                        styles.card,
+                                                        styles.difficultyCard,
+                                                        isSelected &&
+                                                        styles.selectedDifficulty,
+                                                        disabled &&
+                                                        styles.disabled,
+                                                    ]
+                                                        .filter(Boolean)
+                                                        .join(' ')}
+                                                    onClick={() => {
+                                                        if (!disabled) {
+                                                            setSelectedLevel(
+                                                                isSelected
+                                                                    ? null
+                                                                    : lvl
+                                                            )
+                                                        }
+                                                    }}
+                                                >
+                                                    {lvl === 1 && (
+                                                        <LooksOneIcon
+                                                            sx={{
+                                                                fontSize: 60,
+                                                                color: '#21D1EB',
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {lvl === 2 && (
+                                                        <LooksTwoIcon
+                                                            sx={{
+                                                                fontSize: 60,
+                                                                color: '#21D1EB',
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {lvl === 3 && (
+                                                        <Looks3Icon
+                                                            sx={{
+                                                                fontSize: 60,
+                                                                color: '#21D1EB',
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </ScopeTooltip>
+                                            <div
+                                                className={styles.cardLabel}
+                                            >
+                                                {lvl === 1 &&
+                                                    strings.labels.natural}
+                                                {lvl === 2 &&
+                                                    strings.labels.interpretive}
+                                                {lvl === 3 &&
+                                                    strings.labels.contextual}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </>
+                )
+            case 'Load':
+                return <LoadScope />
+            case 'About':
+                return <About />
+            default:
+                return null
         }
-
-        return (
-            <>
-                {/* DURATION */}
-                <div className={styles.section}>
-                    <div className={styles.sectionLabel}>
-                        {strings.labels.duration}
-                    </div>
-                    <div className={styles.optionsRow}>
-                        {[1, 2, 3].map((min) => {
-                            const canUse = canSupportTime(min, allQuestions)
-                            const disabled = !canUse
-                            const tooltipTitle = disabled
-                                ? strings.tooltips.noDuration
-                                : ''
-
-                            return (
-                                <div key={min} className={styles.option}>
-                                    <ScopeTooltip
-                                        title={tooltipTitle}
-                                        disableHoverListener={!disabled}
-                                    >
-                                        <div
-                                            className={[
-                                                styles.card,
-                                                styles.durationCard,
-                                                selectedTime === min &&
-                                                styles.selected,
-                                                disabled && styles.disabled,
-                                            ]
-                                                .filter(Boolean)
-                                                .join(' ')}
-                                            onClick={() => {
-                                                if (!disabled) {
-                                                    setSelectedTime(
-                                                        selectedTime === min
-                                                            ? null
-                                                            : min
-                                                    )
-                                                }
-                                            }}
-                                        >
-                                            {min === 1 && (
-                                                <TimerIcon
-                                                    sx={{
-                                                        fontSize: 60,
-                                                        color: '#163AC2',
-                                                    }}
-                                                />
-                                            )}
-                                            {min === 2 && (
-                                                <WatchIcon
-                                                    sx={{
-                                                        fontSize: 60,
-                                                        color: '#163AC2',
-                                                    }}
-                                                />
-                                            )}
-                                            {min === 3 && (
-                                                <HourglassTopIcon
-                                                    sx={{
-                                                        fontSize: 60,
-                                                        color: '#163AC2',
-                                                    }}
-                                                />
-                                            )}
-                                        </div>
-                                    </ScopeTooltip>
-                                    <div className={styles.cardLabel}>
-                                        {min} min
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-
-                {/* DIFFICULTY */}
-                <div className={styles.section}>
-                    <div className={styles.sectionLabel}>
-                        {strings.labels.difficulty}
-                        <DifficultyInfo />
-                    </div>
-                    <div className={styles.optionsRow}>
-                        {[1, 2, 3].map((lvl) => {
-                            const hasLevelQuestions = allQuestions.some(
-                                (q) => q.level === lvl
-                            )
-                            const disabled = !hasLevelQuestions
-                            const tooltipTitle = disabled
-                                ? strings.tooltips.noDifficulty
-                                : ''
-                            const isSelected = selectedLevel === lvl
-
-                            return (
-                                <div key={lvl} className={styles.option}>
-                                    <ScopeTooltip
-                                        title={tooltipTitle}
-                                        disableHoverListener={!disabled}
-                                    >
-                                        <div
-                                            className={[
-                                                styles.card,
-                                                styles.difficultyCard,
-                                                isSelected &&
-                                                styles.selectedDifficulty,
-                                                disabled && styles.disabled,
-                                            ]
-                                                .filter(Boolean)
-                                                .join(' ')}
-                                            onClick={() => {
-                                                if (!disabled) {
-                                                    setSelectedLevel(
-                                                        isSelected ? null : lvl
-                                                    )
-                                                }
-                                            }}
-                                        >
-                                            {lvl === 1 && (
-                                                <LooksOneIcon
-                                                    sx={{
-                                                        fontSize: 60,
-                                                        color: '#21D1EB',
-                                                    }}
-                                                />
-                                            )}
-                                            {lvl === 2 && (
-                                                <LooksTwoIcon
-                                                    sx={{
-                                                        fontSize: 60,
-                                                        color: '#21D1EB',
-                                                    }}
-                                                />
-                                            )}
-                                            {lvl === 3 && (
-                                                <Looks3Icon
-                                                    sx={{
-                                                        fontSize: 60,
-                                                        color: '#21D1EB',
-                                                    }}
-                                                />
-                                            )}
-                                        </div>
-                                    </ScopeTooltip>
-                                    <div className={styles.cardLabel}>
-                                        {lvl === 1 && strings.labels.natural}
-                                        {lvl === 2 && strings.labels.interpretive}
-                                        {lvl === 3 && strings.labels.contextual}
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-            </>
-        )
     }
 
     // Show Info from menu above SCOPE home page
@@ -237,7 +257,14 @@ export const ScopeHome: React.FC = () => {
                     </span>
 
                     {/* LOAD SCOPE */}
-                    <span className={styles.disabledNavItem}>
+                    <span
+                        className={
+                            currentView === 'Load'
+                                ? styles.activeNavItem
+                                : styles.navItem
+                        }
+                        onClick={() => setCurrentView('Load')}
+                    >
                         {strings.labels.loadScope}
                     </span>
 
