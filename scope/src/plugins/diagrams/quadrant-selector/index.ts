@@ -20,6 +20,7 @@ const quadrantSelectorPlugin: DiagramPlugin = {
                     return 'fail'
                 case 'back':
                     if (quadrant === 'top-left') return 'pass'
+                    if (quadrant === 'top-right') return 'unsure'
                     return 'fail'
                 default:
                     return 'n/a'
