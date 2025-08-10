@@ -52,31 +52,37 @@
   {
     "level": 3,
     "prompt": "Where would you click on the home page to sign up for the service?",
-    "diagram": ["homepage-diagram"]
+    "diagram": ["homepage-diagram"],
+    "context": []
   },
   {
     "level": 3,
     "prompt": "Where would you click on the home page to contact the company?",
-    "diagram": ["homepage-diagram"]
+    "diagram": ["homepage-diagram"],
+    "context": []
   },
   {
     "level": 3,
     "prompt": "Where would you click to learn more about pricing?",
-    "diagram": ["homepage-diagram"]
+    "diagram": ["homepage-diagram"],
+    "context": []
   },
   {
     "level": 3,
     "prompt": "Where would you click to learn more about the company?",
-    "diagram": ["homepage-diagram"]
+    "diagram": ["homepage-diagram"],
+    "context": []
   },
   {
     "level": 3,
     "prompt": "Where would you click to see job opportunities?",
-    "diagram": ["homepage-diagram"]
+    "diagram": ["homepage-diagram"],
+    "context": []
   },
   {
     "level": 3,
     "prompt": "Where would you click if you're already a customer wanting to log in?",
-    "diagram": ["homepage-diagram"]
+    "diagram": ["homepage-diagram"],
+    "context": []
   }
 ]

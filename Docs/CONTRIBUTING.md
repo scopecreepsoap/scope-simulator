@@ -298,7 +298,7 @@ Because Level 3 questions are custom and powerful, they come with a higher degre
 
 1.  **Custom Data & Component**: You are responsible for both designing the data structure inside the `context` array and building a diagram component that can correctly receive and render that specific data.
 2.  **Robust Implementation**: Your diagram must handle the `context` prop gracefully. It should not break if the `context` array is empty or malformed, as the core SCOPE application does not have a global error state.
-3.  **Mandatory Testing**: A new unit test for your Level 3 diagram is **required**. This test must be added to the `src/__tests__/level3.test.ts`. This file contains examples for testing contextual diagrams. Your test should render your diagram with mock `context` data and assert that it displays correctly and that user interactions are handled as expected. Refer to the existing suites in that file for a concrete example.
+3.  **Mandatory Testing**: A new unit test for your Level 3 diagram is **required**. This test must be added to the `src/__tests__/level3.test.tsx`. This file contains examples for testing contextual diagrams. Your test should render your diagram with mock `context` data and assert that it displays correctly and that user interactions are handled as expected. Refer to the existing suites in that file for a concrete example.
 
 Understood. Here is a new section for your `CONTRIBUTING.md` file that incorporates the design principles from the provided mockups.
 

@@ -1,4 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+import { render, fireEvent } from '@testing-library/react';
+import type { DiagramProps } from '../types/plugin';
+
+import { HomepageDiagram } from '../plugins/diagrams/homepage-diagram/HomepageDiagram';
 
 // This placeholder test suite is here to prevent the test runner from failing
 describe('Level 3 Test Template', () => {
@@ -14,9 +18,7 @@ describe('Level 3 Test Template', () => {
 
 /*
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import type { DiagramProps } from '../types/plugin';
 
 // 🛑 This is a placeholder for an actual component import.
 // You would import your real diagram component like this:
@@ -80,3 +82,59 @@ describe('Level 3 Diagram: Card Sorter', () => {
 });
 
 */
+
+//
+// 🧪 Test suite for the Homepage Diagram.
+//
+describe('Level 3 Diagram: Homepage', () => {
+    it('should call onAnswerChange with coordinates when clicked in interactive mode', () => {
+        const mockOnAnswerChange = vi.fn();
+
+        const mockProps: DiagramProps = {
+            initialValue: null,
+            onAnswerChange: mockOnAnswerChange,
+            mode: 'interactive',
+            context: [],
+        };
+
+        const { getByTestId } = render(<HomepageDiagram {...mockProps} />);
+
+        // Find main clickable element using test ID
+        const diagramElement = getByTestId('homepage-diagram');
+
+        // Simulate user click
+        fireEvent.click(diagramElement, { clientX: 100, clientY: 200 });
+
+        // Assert callback was called w/ expected data structure
+        expect(mockOnAnswerChange).toHaveBeenCalledTimes(1);
+        expect(mockOnAnswerChange).toHaveBeenCalledWith(
+            expect.objectContaining({
+                pos: expect.objectContaining({
+                    x: expect.any(Number),
+                    y: expect.any(Number),
+                }),
+            })
+        );
+    });
+
+    it('should not call onAnswerChange when clicked in display mode', () => {
+        const mockOnAnswerChange = vi.fn();
+
+        const mockProps: DiagramProps = {
+            initialValue: { pos: { x: 100, y: 200 } },
+            onAnswerChange: mockOnAnswerChange,
+            mode: 'display',
+            context: [],
+        };
+
+        const { getByTestId } = render(<HomepageDiagram {...mockProps} />);
+
+        const diagramElement = getByTestId('homepage-diagram');
+
+        // Attempt to click
+        fireEvent.click(diagramElement, { clientX: 150, clientY: 250 });
+
+        // Assert nothing happened
+        expect(mockOnAnswerChange).not.toHaveBeenCalled();
+    });
+});
