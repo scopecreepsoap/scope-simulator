@@ -29,7 +29,8 @@ interface PlatformSelection {
 }
 
 interface ScopeState {
-    appStatus: 'configuring' | 'ready' | 'running' | 'finished' | 'review'
+    appStatus: 'configuring' | 'ready' | 'running' | 'finished' | 'review' | 'loaded'
+    isMenuVisible: boolean
     allQuestions: QuestionConfig[]
     questionsLoading: boolean
     selectedTime: number | null
@@ -47,8 +48,12 @@ interface ScopeState {
 
 interface ScopeActions {
     loadQuestions: () => Promise<void>
+    loadQuestionsFromFile: (questions: QuestionConfig[]) => void
+    loadResultsFromFile: (data: any) => void
     setSelectedTime: (time: number | null) => void
     setSelectedLevel: (level: number | null) => void
+    openMenu: () => void
+    closeMenu: () => void
     prepareTest: () => void
     beginTest: () => void
     previousQuestion: () => void
@@ -72,6 +77,7 @@ const ESTIMATED_TIMES: { [key: number]: number } = {
 
 export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
     appStatus: 'configuring',
+    isMenuVisible: false,
     allQuestions: [],
     questionsLoading: false,
     selectedTime: null,
@@ -95,6 +101,90 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             console.error('Could not fetch or parse questions:', error)
             set({ questionsLoading: false })
         }
+    },
+
+    loadQuestionsFromFile: (questions) => {
+        const finalTestSteps: TestStep[] = []
+        questions.forEach((question, questionIndex) => {
+            finalTestSteps.push({
+                type: 'prompt',
+                data: question,
+                questionIndex: questionIndex,
+            })
+
+            if (question.diagram && question.diagram.length > 0) {
+                for (const diagramKey of question.diagram) {
+                    finalTestSteps.push({
+                        type: 'diagram',
+                        diagramKey: diagramKey,
+                        parentQuestion: question,
+                        questionIndex: questionIndex,
+                    })
+                }
+            }
+        })
+        set({
+            appStatus: 'loaded',
+            allQuestions: questions,
+            testSteps: finalTestSteps,
+            results: Array(finalTestSteps.length).fill(null),
+            timeLimit: 0,
+            currentIndex: 0,
+        })
+    },
+
+    loadResultsFromFile: (data) => {
+        const { userName, completionDate, platforms, testData } = data
+
+        const testSteps: TestStep[] = []
+        const results: Answer[] = []
+
+        const questionMap = new Map<number, QuestionConfig>()
+
+        testData.forEach((question: any) => {
+            if (!questionMap.has(question.questionIndex)) {
+                questionMap.set(question.questionIndex, {
+                    prompt: question.prompt,
+                    level: question.level,
+                    canary: question.canary,
+                    canaryIntent: question.canaryIntent,
+                    diagram: question.diagramResults.map(
+                        (d: any) => d.diagramKey
+                    ),
+                })
+            }
+        })
+
+        testData.forEach((question: any) => {
+            const questionConfig = questionMap.get(question.questionIndex)!
+            testSteps.push({
+                type: 'prompt',
+                data: questionConfig,
+                questionIndex: question.questionIndex,
+            })
+
+            const promptResult = question.promptResult || null
+            results.push(promptResult)
+
+            question.diagramResults.forEach((diagResult: any) => {
+                testSteps.push({
+                    type: 'diagram',
+                    diagramKey: diagResult.diagramKey,
+                    parentQuestion: questionConfig,
+                    questionIndex: question.questionIndex,
+                })
+                results.push(diagResult.result)
+            })
+        })
+
+        set({
+            appStatus: 'loaded',
+            userName,
+            completionDate,
+            platforms,
+            testSteps,
+            results,
+        })
     },
 
     setPlatforms: (platforms) => set({ platforms }),
@@ -167,6 +257,9 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
         })
     },
 
+    openMenu: () => set({ isMenuVisible: true }),
+    closeMenu: () => set({ isMenuVisible: false }),
+
     /**
      * Starts the test timer and transitions the app to the 'running' state.
      */
@@ -200,6 +293,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
             appStatus: 'configuring',
             selectedTime: null,
             selectedLevel: null,
+            isMenuVisible: false,
         })
     },
 

@@ -1,6 +1,7 @@
 // All application strings
 const strings = {
     tooltips: {
+        myInfo: 'My Info',
         noDuration:                 'Not enough questions available',
         noDifficulty:               'No questions available',
         difficultyInfo: `
@@ -8,10 +9,12 @@ const strings = {
             Level 2 (Interpretive): Moderate questions that inform personal interpretation
             Level 3 (Contextual): Deeper questions that involve context analysis and reasoning
         `,
+        optionsInfo: 'Available options based on type of SCOPE file loaded (e.g. Questions, Results)',
         comingSoon: 'Coming Soon',
     },
     notifications: {
         pressSpace: 'Press Spacebar to view Menu',
+        invalidScopeFile: 'Invalid SCOPE file (JSON required)',
     },
     labels: {
         chooseScope: 'Choose SCOPE',
@@ -22,6 +25,16 @@ const strings = {
         natural:     'Natural',
         interpretive:'Interpretive',
         contextual:  'Contextual',
+        openFile: 'Open File',
+        dragOrClick: 'Drag & drop a file here or click to select a file',
+        options: 'Options',
+        viewMenu: 'View Menu',
+        scopeAnalytics: 'SCOPE Analytics',
+    },
+    aboutDetails: {
+        title: 'Simulation for Cognitive Observation of Perception & Experience — SCOPE',
+        p1:    'The SCOPE Simulator is an interactive, web-based tool designed to explore and test fundamental principles of User Experience (UX), particularly focusing on user intuition, visual perception of layouts, and interaction patterns.',
+        p2:    'Inspired by a desire to provide empirical, interactive insights to the UX community, SCOPE aims to create a dynamic environment where researchers, designers, and developers can observe and analyze how users interact with and interpret various interface challenges.',
     },
     menu: {
         title: 'Menu',

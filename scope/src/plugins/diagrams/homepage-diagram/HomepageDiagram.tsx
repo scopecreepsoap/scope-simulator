@@ -4,7 +4,7 @@ import styles from './HomepageDiagram.module.css'
 import TouchAppIcon from '@mui/icons-material/TouchApp'
 import type { DiagramProps } from '../../../types/plugin'
 
-export const HomepageDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange, mode }) => {
+export const HomepageDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswerChange, mode, context: _context }) => {
   const [clickPos, setClickPos] = useState<{x: number, y: number} | null>(null)
   const [hoverPos, setHoverPos] = useState<{x: number, y: number} | null>(null)
   const isInteractive = mode === 'interactive'
@@ -53,6 +53,7 @@ export const HomepageDiagram: React.FC<DiagramProps> = ({ initialValue, onAnswer
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ cursor: isInteractive ? 'pointer' : 'default' }}
+        data-testid="homepage-diagram"
       >
         {/* Header section */}
         <div className={styles.header}>

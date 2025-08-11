@@ -26,7 +26,8 @@ In the realm of UX, understanding how layout, content density, and interactive e
 * **JSON-Based Question Configuration:** Test questions, diagrams, and contextual data are all defined in `public/questions.json`, making it simple to modify, add, or reorder test flows.
 * **Abstract Design Philosophy:** Utilizes simplified, abstract shapes and layouts in its diagrams to isolate and test core UX principles without the distraction of realistic content.
 * **Immersive Interface:** A full-screen, dark-themed UI minimizes distractions and focuses the user on the interactive challenge.
-* **Future Roadmap:** Key planned enhancements include an AI-powered results summary, a system for loading external test configurations, and opt-in research data collection. For a complete overview of future features and project direction, please see the [`ROADMAP.md`](ROADMAP.md) file.
+* **Future Roadmap:** Key planned enhancements include a results analytics dashboard and an AI-powered summary. For a complete overview of future features and project direction, please see the [`ROADMAP.md`](ROADMAP.md) file.
+
 ## 🚀 Getting Started
 
 To get the SCOPE Simulator up and running on your local machine:

@@ -14,7 +14,6 @@ import {ScopeResults} from "./components/ScopeResults";
 
 function App() {
     const [manualOpenTime, setManualOpenTime] = useState(0)
-    const [menuVisible, setMenuVisible] = useState(false)
     const [isInfoVisible, setIsInfoVisible] = useState(false)
     const hasShownToast = useRef(false)
     const {
@@ -24,6 +23,9 @@ function App() {
         nextQuestion,
         previousQuestion,
         returnToHome,
+        isMenuVisible,
+        openMenu,
+        closeMenu,
     } = useScopeStore()
 
 
@@ -44,7 +46,10 @@ function App() {
         nextQuestion()
     }, [nextQuestion])
 
-    const handleExit = () => returnToHome()
+    const handleExit = () => {
+        closeMenu()
+        returnToHome()
+    }
 
 
     /**
@@ -58,15 +63,18 @@ function App() {
         if (appStatus === 'running') {
             const { startTime, timeLimit, endTest } = useScopeStore.getState()
 
-            timerInterval = window.setInterval(() => {
-                const elapsedTime = (Date.now() - startTime) / 1000
-                const newRemainingTime = Math.max(timeLimit - elapsedTime, 0)
+            // 🟢 Only run timer if time limit specified
+            if (timeLimit > 0) {
+                timerInterval = window.setInterval(() => {
+                    const elapsedTime = (Date.now() - startTime) / 1000
+                    const newRemainingTime = Math.max(timeLimit - elapsedTime, 0)
 
-                if (newRemainingTime <= 0) {
-                    clearInterval(timerInterval)
-                    endTest()
-                }
-            }, 1000)
+                    if (newRemainingTime <= 0) {
+                        clearInterval(timerInterval)
+                        endTest()
+                    }
+                }, 1000)
+            }
         }
 
         return () => {
@@ -98,10 +106,10 @@ function App() {
 
             if (event.code === 'Space') {
                 event.preventDefault()
-                if (menuVisible) {
-                    setMenuVisible(false)
-                } else if (appStatus === 'running' || appStatus === 'ready') {
-                    setMenuVisible(true)
+                if (isMenuVisible) { // 🟢
+                    closeMenu()
+                } else if (appStatus === 'running' || appStatus === 'ready' || appStatus === 'loaded') {
+                    openMenu()
                     setManualOpenTime(Date.now())
                 }
             }
@@ -116,7 +124,7 @@ function App() {
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [menuVisible, setMenuVisible, handleBack, handleNext, appStatus, setManualOpenTime])
+    }, [isMenuVisible, closeMenu, openMenu, handleBack, handleNext, appStatus, setManualOpenTime])
 
     // Show menu if mouse moves to corners of page
     // Hide menu if mouse moves to center of page
@@ -146,21 +154,22 @@ function App() {
                 (x < cornerZoneSize && y > innerHeight - cornerZoneSize) ||
                 (x > innerWidth - cornerZoneSize && y > innerHeight - cornerZoneSize)
 
-            if (inCenterZone && menuVisible) {
+            if (inCenterZone && isMenuVisible) {
                 if (Date.now() - manualOpenTime > 1000) {
-                    setMenuVisible(false)
+                    closeMenu()
                 }
             }
 
-            if (inCornerZone && !menuVisible && (appStatus === 'running' || appStatus === 'ready')) {
-                setMenuVisible(true)
+            if (inCornerZone && !isMenuVisible &&
+                    (appStatus === 'running' || appStatus === 'ready' || appStatus === 'loaded')) {
+                openMenu()
                 setManualOpenTime(Date.now())
             }
         }
 
         window.addEventListener('mousemove', handleMouseMove)
         return () => window.removeEventListener('mousemove', handleMouseMove)
-    }, [menuVisible, setMenuVisible, isInfoVisible, appStatus, manualOpenTime, setManualOpenTime])
+    }, [isMenuVisible, closeMenu, openMenu, isInfoVisible, appStatus, manualOpenTime, setManualOpenTime])
 
     // Notification -> 'Press Spacebar for Menu'
     useEffect(() => {
@@ -222,8 +231,8 @@ function App() {
                         appStatus === 'ready' || appStatus === 'finished'
                             ? 'blur(10px)'
                             : 'blur(0px)',
-                    opacity: appStatus === 'configuring' ? 1 : 0,
-                    pointerEvents: appStatus === 'configuring' ? 'auto' : 'none',
+                    opacity: appStatus === 'configuring' || appStatus === 'loaded' ? 1 : 0,
+                    pointerEvents: appStatus === 'configuring' || appStatus === 'loaded' ? 'auto' : 'none',
                 }}
                 transition={{ duration: 0.3 }}
             >
@@ -305,7 +314,7 @@ function App() {
 
             {/* MENU OVERLAY */}
             <AnimatePresence>
-                {menuVisible && (
+                {isMenuVisible && (
                     <motion.div
                         className={styles.menuOverlay}
                         initial={{ opacity: 0 }}
