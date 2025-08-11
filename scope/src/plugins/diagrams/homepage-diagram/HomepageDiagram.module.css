@@ -8,12 +8,16 @@
 
 .homepage {
   position: relative;
-  width: 900px;
-  height: 600px;
+  /* Base font size for em calculations (1em = 10px in original design) */
+  /* New font size scales the component down: 10px * (600/900) = 6.67px */
+  font-size: 6.67px;
+  /* New dimensions in ems (90em * 6.67px = 600px) */
+  width: 90em;
+  height: 60em;
   background: linear-gradient(to bottom, #f5f7fa 0%, #e9ecef 100%);
-  border-radius: 20px;
+  border-radius: 2em;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1em 4em rgba(0, 0, 0, 0.1);
 }
 
 /* Header */
@@ -21,36 +25,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 2em 4em;
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(1em);
 }
 
 .logo {
-  width: 120px;
-  height: 35px;
+  width: 12em;
+  height: 3.5em;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 8px;
+  border-radius: 0.8em;
 }
 
 .nav {
   display: flex;
-  gap: 30px;
+  gap: 3em;
 }
 
 .navItem {
-  width: 80px;
-  height: 12px;
+  width: 8em;
+  height: 1.2em;
   background: #dee2e6;
-  border-radius: 6px;
+  border-radius: 0.6em;
 }
 
 /* Hero section */
 .hero {
   display: flex;
   align-items: center;
-  padding: 60px 40px;
-  gap: 60px;
+  padding: 6em 4em;
+  gap: 6em;
 }
 
 .heroContent {
@@ -58,47 +62,47 @@
 }
 
 .heroTitle {
-  width: 300px;
-  height: 40px;
+  width: 30em;
+  height: 4em;
   background: #495057;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 0.8em;
+  margin-bottom: 2em;
 }
 
 .heroSubtitle {
-  width: 250px;
-  height: 20px;
+  width: 25em;
+  height: 2em;
   background: #adb5bd;
-  border-radius: 6px;
-  margin-bottom: 40px;
+  border-radius: 0.6em;
+  margin-bottom: 4em;
 }
 
 .heroButtons {
   display: flex;
-  gap: 20px;
+  gap: 2em;
 }
 
 .primaryButton {
-  width: 140px;
-  height: 45px;
+  width: 14em;
+  height: 4.5em;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 25px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-radius: 2.5em;
+  box-shadow: 0 0.4em 1.5em rgba(102, 126, 234, 0.3);
 }
 
 .secondaryButton {
-  width: 140px;
-  height: 45px;
+  width: 14em;
+  height: 4.5em;
   background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #dee2e6;
-  border-radius: 25px;
+  border: 0.2em solid #dee2e6;
+  border-radius: 2.5em;
 }
 
 .heroImage {
-  width: 300px;
-  height: 200px;
+  width: 30em;
+  height: 20em;
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  border-radius: 15px;
+  border-radius: 1.5em;
   opacity: 0.8;
 }
 
@@ -106,8 +110,8 @@
 .features {
   display: flex;
   justify-content: space-around;
-  padding: 40px;
-  gap: 30px;
+  padding: 4em;
+  gap: 3em;
 }
 
 .feature {
@@ -116,26 +120,26 @@
 }
 
 .featureIcon {
-  width: 60px;
-  height: 60px;
+  width: 6em;
+  height: 6em;
   background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
   border-radius: 50%;
-  margin: 0 auto 20px;
+  margin: 0 auto 2em;
 }
 
 .featureTitle {
-  width: 120px;
-  height: 20px;
+  width: 12em;
+  height: 2em;
   background: #6c757d;
-  border-radius: 6px;
-  margin: 0 auto 15px;
+  border-radius: 0.6em;
+  margin: 0 auto 1.5em;
 }
 
 .featureText {
-  width: 150px;
-  height: 40px;
+  width: 15em;
+  height: 4em;
   background: #ced4da;
-  border-radius: 8px;
+  border-radius: 0.8em;
   margin: 0 auto;
 }
 
@@ -146,7 +150,7 @@
   left: 0;
   right: 0;
   background: rgba(52, 58, 64, 0.9);
-  padding: 30px 40px;
+  padding: 3em 4em;
 }
 
 .footerContent {
@@ -155,10 +159,10 @@
 }
 
 .footerColumn {
-  width: 150px;
-  height: 60px;
+  width: 15em;
+  height: 6em;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 0.8em;
 }
 
 /* Hover overlay */
@@ -166,11 +170,11 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at var(--x, 50%) var(--y, 50%),
-    rgba(102, 126, 234, 0.2) 0%,
-    rgba(102, 126, 234, 0.1) 30%,
-    rgba(118, 75, 162, 0.05) 60%,
-    transparent 100%
+          circle at var(--x, 50%) var(--y, 50%),
+          rgba(102, 126, 234, 0.2) 0%,
+          rgba(102, 126, 234, 0.1) 30%,
+          rgba(118, 75, 162, 0.05) 60%,
+          transparent 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -182,17 +186,18 @@
   z-index: 10;
   color: #5568e8;
   pointer-events: none;
-  filter: drop-shadow(0 4px 12px rgba(255, 107, 107, 0.4));
+  filter: drop-shadow(0 0.4em 1.2em rgba(255, 107, 107, 0.4));
   animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
-    filter: drop-shadow(0 4px 12px rgba(255, 107, 107, 0.4));
+    filter: drop-shadow(0 0.4em 1.2em rgba(255, 107, 107, 0.4));
   }
   50% {
     transform: scale(1.05);
-    filter: drop-shadow(0 6px 20px rgba(255, 107, 107, 0.6));
+    filter: drop-shadow(0 0.6em 2em rgba(255, 107, 107, 0.6));
   }
 }
