@@ -34,6 +34,9 @@ export const ChooseScope: React.FC = () => {
     }, [loadQuestions])
 
     function canSupportTime(minutes: number, questions: QuestionConfig[]) {
+        // Always allow 1-minute option regardless of available questions
+        if (minutes === 1) return true
+        
         const totalAvailableSec = questions.reduce((sum, q) => {
             const maxSec = q.level === 1 ? 10 : q.level === 2 ? 20 : 30
             return sum + maxSec
