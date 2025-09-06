@@ -71,7 +71,7 @@ This work was shaped by early research collaborations and insightful contributio
 - **Gustavo Chavez** – initial white paper collaborator and co-lead on the internal research direction
 - **Dr. Katelyn Fry-Hilderbrand** – for introducing the MATB-II framework and discussions on cognitive load
 - **Dr. Gopika Ajaykumar** – for expert guidance in UX and cognitive load theory throughout development
-
+- **David Garcia** – providing UI/UX feedback, testing, and level 3 question contributions
 ---
 
 ## 🤝 Contributing
