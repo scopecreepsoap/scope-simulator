@@ -36,18 +36,9 @@
   },
   {
     "level": 1,
-    "prompt": "Nulla laoreet urna nec ipsum eleifend feugiat?",
-    "diagram": ["no-diagram-found"]
-  },
-  {
-    "level": 2,
-    "prompt": "Duis aute irure dolor in reprehenderit?",
-    "diagram": ["no-diagram-found"]
-  },
-  {
-    "level": 2,
-    "prompt": "Excepteur sint occaecat cupidatat non proident?",
-    "diagram": ["no-diagram-found"]
+    "prompt": "This question has no diagram.",
+    "diagram": ["no-diagram-found"],
+    "instruction": "Please continue ahead"
   },
   {
     "level": 3,
