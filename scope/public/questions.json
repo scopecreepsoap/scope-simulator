@@ -1,11 +1,5 @@
 [
   {
-    "level": 2,
-    "prompt": "When does this layout become most readable?",
-    "diagram": ["text-density"],
-    "instruction": "Drag slider up or down"
-  },
-  {
     "level": 1,
     "prompt": "Where would you click to close this dialog?",
     "diagram": ["quadrant-selector"],
@@ -79,12 +73,6 @@
     "level": 2,
     "prompt": "Which area of the interface do you expect to find the part list?",
     "diagram": ["quadrant-selector"]
-  },
-  {
-    "level": 3,
-    "prompt": "On a building editor, where would you expect to find controls for the building size?",
-    "diagram": ["3d-building"],
-    "context": []
   },
   {
     "level": 2,
