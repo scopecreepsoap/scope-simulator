@@ -93,7 +93,7 @@ export const useScopeStore = create<ScopeState & ScopeActions>((set, get) => ({
 
         set({ questionsLoading: true })
         try {
-            const response = await fetch('/questions.json')
+            const response = await fetch(`${import.meta.env.BASE_URL}questions.json`)
             if (!response.ok) throw new Error('Failed to load questions.json')
             const questions = await response.json()
             set({ allQuestions: questions, questionsLoading: false })
