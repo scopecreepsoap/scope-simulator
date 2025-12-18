@@ -1,6 +1,6 @@
 # SCOPE Simulator
 
-**S.C.O.P.E.:** **S**imulation for **C**ognitive **O**bservation of **P**erception & **E**xperience
+**S.C.O.P.E.:** **S**imulation for **C**ognitive **O**bservation of **P**erception & **E**xperience - 🔗 [SCOPE Simulator – Live Demo](https://scopecreepsoap.github.io/scope-simulator/)
 
 <img src="./scope/src/assets/target-window.png" alt="SCOPE Target Window" width="85%"/>
 
@@ -126,7 +126,7 @@ This work was shaped by early research collaborations and insightful contributio
 
 Contributions are highly encouraged. The project's plugin architecture is designed to make it easy for developers to add new diagrams and test scenarios.
 
-Before you begin, please review the detailed **[`CONTRIBUTING.md`](CONTRIBUTING.md)** file for guidelines on the development process, coding standards, and plugin structure. For specific instructions on how to structure question objects in the JSON file, see the **[`README.md` in the `public` directory](public/README.md)**.
+Before you begin, please review the detailed **[`CONTRIBUTING.md`](CONTRIBUTING.md)** file for guidelines on the development process, coding standards, and plugin structure. For specific instructions on how to structure question objects in the JSON file, see the **[`README.md` in the `public` directory](scope/public/README.md)**.
 
 ---
 
